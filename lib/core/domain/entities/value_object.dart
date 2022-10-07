@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:template/core/domain/failures/errors.dart';
-import 'package:template/core/domain/failures/value_failure.codegen.dart';
+import 'package:wisatabumnag/core/domain/failures/errors.dart';
+import 'package:wisatabumnag/core/domain/failures/value_failure.codegen.dart';
 
 // ignore: one_member_abstracts
 abstract class IValidatable {

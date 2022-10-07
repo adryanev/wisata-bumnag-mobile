@@ -1,5 +1,5 @@
 import 'package:formz/formz.dart';
-import 'package:template/l10n/l10n.dart';
+import 'package:wisatabumnag/l10n/l10n.dart';
 
 enum PasswordValidationError { invalid }
 

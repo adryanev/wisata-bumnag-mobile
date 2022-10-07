@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:template/shared/domain/formz/password_input.dart';
+import 'package:wisatabumnag/shared/domain/formz/password_input.dart';
 
 void main() {
   group('PasswordInput Pure', () {

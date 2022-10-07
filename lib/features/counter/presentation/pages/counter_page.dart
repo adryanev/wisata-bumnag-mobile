@@ -7,10 +7,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/core/extensions/context_extensions.dart';
-import 'package:template/core/presentation/mixins/failure_message_handler.dart';
-import 'package:template/features/counter/counter.dart';
-import 'package:template/l10n/l10n.dart';
+import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
+import 'package:wisatabumnag/features/counter/counter.dart';
+import 'package:wisatabumnag/l10n/l10n.dart';
 
 class CounterPage extends StatelessWidget with FailureMessageHandler {
   const CounterPage({super.key});

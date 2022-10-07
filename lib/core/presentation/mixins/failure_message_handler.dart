@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:template/core/domain/failures/failure.codegen.dart';
-import 'package:template/core/extensions/context_extensions.dart';
-// import 'package:template/l10n/l10n.dart';
+import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
+import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+// import 'package:wisatabumnag/l10n/l10n.dart';
 
 mixin FailureMessageHandler {
   void handleFailure(BuildContext context, Failure failure) {

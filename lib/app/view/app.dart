@@ -10,12 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:template/app/router/app_router.dart';
-import 'package:template/core/extensions/context_extensions.dart';
-import 'package:template/core/utils/constants.dart';
-import 'package:template/injector.dart';
-import 'package:template/l10n/l10n.dart';
-import 'package:template/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/l10n/l10n.dart';
+import 'package:wisatabumnag/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -49,13 +49,11 @@ class App extends StatelessWidget {
             return MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
               theme: ThemeData(
-                appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-                colorScheme: ColorScheme.fromSwatch(
-                  accentColor: const Color(0xFF13B9FF),
-                ),
+                appBarTheme: const AppBarTheme(color: Colors.blue),
+                primarySwatch: Colors.blue,
                 fontFamily: GoogleFonts.poppins().fontFamily,
                 textTheme:
-                    Typography.englishLike2021.apply(fontSizeFactor: 1.sp),
+                    Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               ),
               localizationsDelegates: const [
                 AppLocalizations.delegate,

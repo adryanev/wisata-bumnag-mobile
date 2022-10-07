@@ -1,4 +1,4 @@
-package dev.adryanev.template
+package dev.bumnag.wisata
 
 import io.flutter.embedding.android.FlutterActivity
 

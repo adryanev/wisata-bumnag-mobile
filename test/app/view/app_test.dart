@@ -7,8 +7,8 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:template/app/app.dart';
-import 'package:template/features/counter/counter.dart';
+import 'package:wisatabumnag/app/app.dart';
+import 'package:wisatabumnag/features/counter/counter.dart';
 
 import '../../helpers/helpers.dart';
 

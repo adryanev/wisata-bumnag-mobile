@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:template/core/domain/entities/value_object.dart';
-import 'package:template/core/domain/entities/value_validators.dart';
-import 'package:template/core/domain/failures/value_failure.codegen.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wisatabumnag/core/domain/entities/value_object.dart';
+import 'package:wisatabumnag/core/domain/entities/value_validators.dart';
+import 'package:wisatabumnag/core/domain/failures/value_failure.codegen.dart';
 
 class UniqueId extends ValueObject<String> {
   factory UniqueId(String input) {
