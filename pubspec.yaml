@@ -12,6 +12,7 @@ dependencies:
   change_case: ^1.0.2
   crypto: ^3.0.2
   dartz: ^0.10.1
+  device_info_plus: ^5.0.5
   equatable: ^2.0.3
   flutter:
     sdk: flutter
@@ -26,7 +27,8 @@ dependencies:
   google_fonts: ^3.0.1
   injectable: ^1.5.3
   intl: ^0.17.0
-  json_annotation: ^4.6.0
+  json_annotation: ^4.7.0
+  mac_address: ^1.0.0
   rxdart: ^0.27.5
   shared_preferences: ^2.0.15
   uuid: ^3.0.6

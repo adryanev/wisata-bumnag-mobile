@@ -18,4 +18,20 @@ class ValueFailure<T> with _$ValueFailure<T> {
   const factory ValueFailure.invalidUniqueId({
     required T failedValue,
   }) = ValueInvalidUniqueId<T>;
+
+  const factory ValueFailure.invalidEmailAddress({
+    required T failedValue,
+  }) = ValueInvalidEmailAddress<T>;
+
+  const factory ValueFailure.invalidPassword({
+    required T failedValue,
+  }) = ValueInvalidPassword<T>;
+
+  const factory ValueFailure.invalidNik({
+    required T failedValue,
+  }) = ValueInvalidNik<T>;
+
+  const factory ValueFailure.invalidPhoneNumber({
+    required T failedValue,
+  }) = ValueInvalidPhoneNumber<T>;
 }
