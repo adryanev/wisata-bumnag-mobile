@@ -7,8 +7,8 @@ part 'user.entity.freezed.dart';
 class User with _$User {
   const factory User({
     required EmailAddress emailAddress,
-    required Nik nik,
-    required PhoneNumber phoneNumber,
+    required Nik? nik,
+    required PhoneNumber? phoneNumber,
     required StringSingleLine name,
   }) = _User;
 }

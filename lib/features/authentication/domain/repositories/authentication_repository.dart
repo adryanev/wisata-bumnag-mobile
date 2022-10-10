@@ -6,5 +6,7 @@ import 'package:wisatabumnag/features/authentication/domain/entities/user.entity
 
 abstract class AuthenticationRepository {
   Future<Either<Failure, User>> loginUser(LoginForm loginForm);
-  Future<Either<Failure, User>> registerUser(RegisterForm registerForm);
+  Future<Either<Failure, Unit>> registerUser(RegisterForm registerForm);
+  Future<Either<Failure, Unit>> logout();
+  Future<Either<Failure, User?>> getLoggedInUser();
 }
