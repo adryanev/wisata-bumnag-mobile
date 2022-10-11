@@ -19,6 +19,7 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 class DateTimeFormat {
+  const DateTimeFormat._();
   static DateFormat get dayString => DateFormat.EEEE();
   static DateFormat get monthAbbrWithDate => DateFormat.MMMMd();
   static DateFormat get hourMinutes => DateFormat.Hm();
@@ -29,4 +30,12 @@ enum MessageType {
   warning,
   success,
   danger,
+}
+
+class LocalStorageKey {
+  const LocalStorageKey._();
+  static const apiKeyKey = 'apiKey';
+  static const userKey = 'user';
+  static const accessTokenKey = 'access-token';
+  static const refreshTokenKey = 'refresh-token';
 }
