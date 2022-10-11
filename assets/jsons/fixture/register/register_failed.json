@@ -1,0 +1,14 @@
+{
+  "error": {
+    "email": [
+      "EMAIL_TAKEN",
+      "EMAIL_INVALID"
+    ],
+    "password": [
+      "PASSWORD_INVALID"
+    ],
+    "confirm_password": [
+      "CONFIRM_PASSWORD_NOT_MATCH"
+    ]
+  }
+}

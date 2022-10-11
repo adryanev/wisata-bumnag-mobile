@@ -17,6 +17,8 @@ abstract class LocalStorage {
 
   Future<String?> getRefreshToken();
   Future<void> setRefreshToken(String refreshToken);
+
+  Future<void> logoutUser();
 }
 
 @LazySingleton(as: LocalStorage)
@@ -77,5 +79,14 @@ class LocalStorageImpl implements LocalStorage {
   @override
   Future<void> setRefreshToken(String refreshToken) async {
     await _storage.setString(LocalStorageKey.refreshTokenKey, refreshToken);
+  }
+
+  @override
+  Future<void> logoutUser() async {
+    await Future.wait([
+      _storage.remove(LocalStorageKey.accessTokenKey),
+      _storage.remove(LocalStorageKey.refreshTokenKey),
+      _storage.remove(LocalStorageKey.userKey),
+    ]);
   }
 }

@@ -7,7 +7,7 @@ final getIt = GetIt.instance;
 const development = Environment(env.Environment.development);
 const production = Environment(env.Environment.staging);
 const staging = Environment(env.Environment.staging);
-const test = Environment(env.Environment.test);
+const testing = Environment(env.Environment.test);
 
 @InjectableInit(generateForDir: ['lib', 'test'])
 Future<void> configureDependencies({required String environment}) async =>
