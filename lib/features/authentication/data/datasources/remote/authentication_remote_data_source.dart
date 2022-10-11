@@ -43,10 +43,10 @@ class FakeAuthenticationRemoteDataSource
           );
           return right(response);
         }
-        return left(const Failure.serverFailure(message: ''));
+        return left(const Failure.serverFailure(code: 400, message: ''));
       },
       exceptionCallBack: () {
-        return left(const Failure.serverFailure(message: ''));
+        return left(const Failure.serverFailure(code: 400, message: ''));
       },
     );
   }
