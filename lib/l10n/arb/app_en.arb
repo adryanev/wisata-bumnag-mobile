@@ -6,5 +6,19 @@
   },
   "invalidEmail": "Invalid Email Address",
   "invalidPassword": "Password must be at least 8 characters and contain at least one letter and number",
-  "confirmPasswordMismatch": "Password confirmation not match"
+  "confirmPasswordMismatch": "Password confirmation not match",
+  "yourLocation": "Your Location",
+  "home": "Home",
+  "explore": "Explore",
+  "history": "History",
+  "account": "Account",
+  "cannotBeEmpty": "{field} cannot be empty",
+  "@cannotBeEmpty": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "name": "Name"
 }

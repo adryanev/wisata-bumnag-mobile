@@ -18,8 +18,7 @@ class PasswordInput extends FormzInput<String, PasswordValidationError> {
   }
 }
 
-extension on PasswordValidationError {
-  // ignore: unused_element
+extension PasswordValidationErrorX on PasswordValidationError {
   String errorMessage(AppLocalizations i10n) {
     switch (this) {
       case PasswordValidationError.invalid:

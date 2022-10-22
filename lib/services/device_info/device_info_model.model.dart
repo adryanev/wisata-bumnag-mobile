@@ -8,7 +8,6 @@ class DeviceInfoModel with _$DeviceInfoModel {
     required String operatingSystem,
     required String operatingSystemVersion,
     required String deviceInfo,
-    required String macAddress,
   }) = _DeviceInfoModel;
 
   factory DeviceInfoModel.fromJson(Map<String, dynamic> json) =>

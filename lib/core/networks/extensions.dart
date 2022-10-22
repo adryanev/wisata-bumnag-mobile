@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/networks/middlewares/network_middleware.dart';
-import 'package:wisatabumnag/core/utils/utils.dart';
 
 Future<Either<Failure, T>> safeRemoteCall<T>({
   List<NetworkMiddleware>? middlewares,
@@ -40,8 +39,9 @@ Future<Either<Failure, T>> _executeRetrofitCall<T>({
 
 Failure _parseException(Object exception) {
   if (exception is DioError) {
-    if (exception.type == DioErrorType.response)
-      final response = exception.response;
+    if (exception.type == DioErrorType.response) {
+      // final response = exception.response;
+    }
   }
 
   return const Failure.unexpectedFailure(message: 'message');

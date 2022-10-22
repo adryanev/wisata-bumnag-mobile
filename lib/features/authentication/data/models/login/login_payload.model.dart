@@ -12,7 +12,6 @@ class LoginPayload with _$LoginPayload {
     @JsonKey(name: 'os') required String operatingSystem,
     @JsonKey(name: 'os_version') required String operatingSystemVersion,
     @JsonKey(name: 'device_info') required String deviceInfo,
-    @JsonKey(name: 'mac_address') required String macAddress,
   }) = _LoginPayload;
 
   factory LoginPayload.fromJson(Map<String, dynamic> json) =>
@@ -31,7 +30,6 @@ class LoginPayloadFactory {
       operatingSystem: deviceInfo.operatingSystem,
       operatingSystemVersion: deviceInfo.operatingSystemVersion,
       deviceInfo: deviceInfo.deviceInfo,
-      macAddress: deviceInfo.macAddress,
     );
   }
 }

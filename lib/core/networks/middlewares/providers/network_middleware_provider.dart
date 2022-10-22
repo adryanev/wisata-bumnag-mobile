@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/networks/middlewares/network_middleware.dart';
 
 abstract class MiddlewareProvider {

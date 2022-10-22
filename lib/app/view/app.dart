@@ -12,7 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/core/utils/utils.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
@@ -49,9 +51,20 @@ class App extends StatelessWidget {
             return MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
               theme: ThemeData(
-                appBarTheme: const AppBarTheme(color: Colors.blue),
-                primarySwatch: Colors.blue,
+                appBarTheme: const AppBarTheme(
+                  iconTheme: IconThemeData(
+                    color: AppColor.secondBlack,
+                  ),
+                  color: AppColor.white,
+                  elevation: 0,
+                  toolbarTextStyle: TextStyle(
+                    color: AppColor.secondBlack,
+                  ),
+                ),
+                primarySwatch: createMaterialColor(AppColor.primary),
+                scaffoldBackgroundColor: const Color(0xFFFFFFFF),
                 fontFamily: GoogleFonts.poppins().fontFamily,
+                cardTheme: const CardTheme(shadowColor: Color(0xFFDFDFDF)),
                 textTheme:
                     Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               ),
