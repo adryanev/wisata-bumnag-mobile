@@ -137,9 +137,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ),
           SizedBox(
             width: 1.sw,
-            child: WisataButton.primary(
-              onPressed: _onSubmitForm,
-              text: 'Masuk',
+            child: BlocBuilder<LoginBloc, LoginState>(
+              builder: (context, state) {
+                return state.status == LoginStatus.loading
+                    ? WisataButton.loading()
+                    : WisataButton.primary(
+                        onPressed: _onSubmitForm,
+                        text: 'Masuk',
+                      );
+              },
             ),
           ),
           SizedBox(

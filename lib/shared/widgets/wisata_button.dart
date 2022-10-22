@@ -14,7 +14,10 @@ class WisataButton extends StatelessWidget {
   }) =>
       WisataButton(onPressed: onPressed, text: text);
 
-  final VoidCallback onPressed;
+  factory WisataButton.loading() =>
+      const WisataButton(onPressed: null, text: '');
+
+  final VoidCallback? onPressed;
   final String text;
 
   @override
@@ -31,7 +34,11 @@ class WisataButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(text),
+      child: text.isEmpty
+          ? const CircularProgressIndicator.adaptive()
+          : Text(
+              text,
+            ),
     );
   }
 }

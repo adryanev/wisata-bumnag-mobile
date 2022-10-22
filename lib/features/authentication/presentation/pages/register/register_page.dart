@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/register/register_bloc.dart';
@@ -15,38 +16,49 @@ import 'package:wisatabumnag/shared/domain/formz/password_input.dart';
 import 'package:wisatabumnag/shared/widgets/checkbox_form_field.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget with FailureMessageHandler {
   const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<RegisterBloc>(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: Dimension.aroundPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Text(
-                    'Daftar Terlebih Dahulu',
-                    style: TextStyle(
-                      color: AppColor.black,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
+      child: BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          state.registerOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => context.pop(),
+            ),
+          );
+        },
+        child: Scaffold(
+          appBar: AppBar(),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: Dimension.aroundPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 24.h,
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  const RegisterFormWidget(),
-                ],
+                    Text(
+                      'Daftar Terlebih Dahulu',
+                      style: TextStyle(
+                        color: AppColor.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    const RegisterFormWidget(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -117,7 +129,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     super.dispose();
   }
 
-  Future<void> _onSubmit() async {
+  void _onSubmit() {
     if (!_registerFormKey.currentState!.validate()) return;
 
     context
@@ -253,7 +265,16 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           ),
           SizedBox(
             width: 1.sw,
-            child: WisataButton.primary(onPressed: _onSubmit, text: 'Daftar'),
+            child: BlocBuilder<RegisterBloc, RegisterState>(
+              builder: (context, state) {
+                return state.status == RegisterStatus.loading
+                    ? WisataButton.loading()
+                    : WisataButton.primary(
+                        onPressed: _onSubmit,
+                        text: 'Daftar',
+                      );
+              },
+            ),
           ),
           SizedBox(
             height: 20.h,
