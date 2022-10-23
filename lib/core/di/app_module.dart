@@ -19,7 +19,6 @@ abstract class AppModule {
       InternetConnectionChecker.createInstance();
 
   @lazySingleton
-  @preResolve
   MiddlewareProvider middlewareProvider(
     Connectivity connectivity,
     InternetConnectionChecker internetConnectionChecker,
