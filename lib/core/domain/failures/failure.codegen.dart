@@ -14,6 +14,9 @@ class Failure with _$Failure {
     required int code,
     required String message,
   }) = ServerFailure;
+  const factory Failure.remoteConfigFailure({
+    required String message,
+  }) = RemoteConfigFailure;
 
   const factory Failure.unexpectedFailure({
     required String message,

@@ -5,7 +5,7 @@ import 'package:wisatabumnag/injector.config.dart';
 
 final getIt = GetIt.instance;
 const development = Environment(env.Environment.development);
-const production = Environment(env.Environment.staging);
+const production = Environment(env.Environment.production);
 const staging = Environment(env.Environment.staging);
 const testing = Environment(env.Environment.test);
 

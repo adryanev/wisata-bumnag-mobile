@@ -17,6 +17,7 @@ class RemoteConfigServiceImpl implements RemoteConfigService {
   @override
   Future<String?> getApiKey() async => safeCall(
         tryCallback: () async {
+          await _remoteConfig.activate();
           return _remoteConfig.getString(RemoteConfigKey.apiKey);
         },
         exceptionCallBack: () {
@@ -26,7 +27,8 @@ class RemoteConfigServiceImpl implements RemoteConfigService {
 
   @override
   Future<String?> getBaseUrl() async => safeCall(
-        tryCallback: () {
+        tryCallback: () async {
+          await _remoteConfig.activate();
           return _remoteConfig.getString(RemoteConfigKey.apiUrl);
         },
         exceptionCallBack: () {
@@ -36,7 +38,8 @@ class RemoteConfigServiceImpl implements RemoteConfigService {
 
   @override
   Future<String?> getSalt() async => safeCall(
-        tryCallback: () {
+        tryCallback: () async {
+          await _remoteConfig.activate();
           return _remoteConfig.getString(RemoteConfigKey.salt);
         },
         exceptionCallBack: () {

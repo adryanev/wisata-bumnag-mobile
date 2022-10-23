@@ -1,18 +1,14 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/networks/extensions.dart';
 import 'package:wisatabumnag/core/networks/middlewares/providers/network_middleware_provider.dart';
-import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
-import 'package:wisatabumnag/core/utils/utils.dart';
+import 'package:wisatabumnag/core/utils/constants.dart';
+
 import 'package:wisatabumnag/features/authentication/data/datasources/remote/client/authentication_api_client.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_payload.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_response.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/register/register_payload.model.dart';
-import 'package:wisatabumnag/injector.dart';
 
 abstract class AuthenticationRemoteDataSource {
   Future<Either<Failure, Unit>> registerUser(
@@ -23,8 +19,6 @@ abstract class AuthenticationRemoteDataSource {
   );
 }
 
-@staging
-@production
 @LazySingleton(as: AuthenticationRemoteDataSource)
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {

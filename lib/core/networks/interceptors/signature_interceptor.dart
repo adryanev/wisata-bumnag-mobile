@@ -5,14 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:wisatabumnag/core/storages/local_storages.dart';
 
 class SignatureInterceptor extends Interceptor {
-  SignatureInterceptor(this.accessTime, this._preference);
-  final int accessTime;
+  SignatureInterceptor(this._preference);
   final LocalStorage _preference;
   @override
   Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    final accessTime = DateTime.now().millisecondsSinceEpoch / 1000;
     final apiKey = await _preference.getApiKey();
     final salt = await _preference.getSalt();
 
@@ -23,6 +23,7 @@ class SignatureInterceptor extends Interceptor {
       headers: {
         ...options.headers,
         'X-REQUEST-SIGNATURE': signature,
+        'X-ACCESS-TIME': accessTime,
       },
     );
 

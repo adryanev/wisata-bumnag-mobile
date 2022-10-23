@@ -7,14 +7,25 @@ class PasswordInput extends FormzInput<String, PasswordValidationError> {
   const PasswordInput.pure([super.value = '']) : super.pure();
   const PasswordInput.dirty([super.value = '']) : super.dirty();
 
-  static final _passwordRegex =
-      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
-
   @override
   PasswordValidationError? validator(String value) {
-    return _passwordRegex.hasMatch(value)
-        ? null
-        : PasswordValidationError.invalid;
+    const minLength = 8;
+
+    final hasUppercase = value.contains(RegExp('[A-Z]'));
+    final hasDigits = value.contains(RegExp('[0-9]'));
+    final hasLowercase = value.contains(RegExp('[a-z]'));
+    final hasSpecialCharacters =
+        value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final hasMinLength = value.length > minLength;
+
+    if (hasDigits &
+        hasUppercase &
+        hasLowercase &
+        hasSpecialCharacters &
+        hasMinLength) {
+      return null;
+    }
+    return PasswordValidationError.invalid;
   }
 }
 

@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wisatabumnag/features/authentication/domain/entities/user.entity.dart';
-import 'package:wisatabumnag/shared/domain/entities/value_objects.dart';
 part 'login_response.model.freezed.dart';
 part 'login_response.model.g.dart';
 

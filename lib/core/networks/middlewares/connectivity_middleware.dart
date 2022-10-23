@@ -10,7 +10,7 @@ class ConnectivityMiddleware extends NetworkMiddleware {
   @override
   Future<bool> isValid() async {
     final connectivity = await _connectivity.checkConnectivity();
-    if (connectivity != ConnectivityResult.mobile ||
+    if (connectivity != ConnectivityResult.mobile &&
         connectivity != ConnectivityResult.wifi) {
       return false;
     }

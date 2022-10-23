@@ -58,6 +58,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textInputAction: widget.textInputAction ?? TextInputAction.next,
           decoration: InputDecoration(
+            errorMaxLines: 3,
             contentPadding: EdgeInsets.all(10.r),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(

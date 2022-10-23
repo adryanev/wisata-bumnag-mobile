@@ -5,7 +5,7 @@
     "description": "Text shown in the AppBar of the Counter Page"
   },
   "invalidEmail": "Invalid Email Address",
-  "invalidPassword": "Password must be at least 8 characters and contain at least one letter and number",
+  "invalidPassword": "Password must be at least 8 characters and contain at least capital letter, one letter, number, and special character",
   "confirmPasswordMismatch": "Password confirmation not match",
   "yourLocation": "Your Location",
   "home": "Home",

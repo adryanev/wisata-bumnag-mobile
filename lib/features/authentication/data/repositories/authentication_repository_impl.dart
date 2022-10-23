@@ -5,7 +5,6 @@ import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/features/authentication/data/datasources/local/authentication_local_data_source.dart';
 import 'package:wisatabumnag/features/authentication/data/datasources/remote/authentication_remote_data_source.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_payload.model.dart';
-import 'package:wisatabumnag/features/authentication/data/models/login/login_response.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/register/register_payload.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/user_local_model.model.dart';
 import 'package:wisatabumnag/features/authentication/domain/entities/login/login_form.entity.dart';
@@ -21,7 +20,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     this._remoteDataSource,
     this._deviceInfoService,
   );
-  final AuthenticationLocalDataSourceImpl _localSource;
+  final AuthenticationLocalDataSource _localSource;
   final AuthenticationRemoteDataSource _remoteDataSource;
   final DeviceInfoService _deviceInfoService;
   @override

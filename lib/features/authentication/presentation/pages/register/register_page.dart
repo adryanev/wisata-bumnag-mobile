@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/core/extensions/context_extensions.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
@@ -29,7 +30,11 @@ class RegisterPage extends StatelessWidget with FailureMessageHandler {
             () => null,
             (either) => either.fold(
               (l) => handleFailure(context, l),
-              (r) => context.pop(),
+              (r) {
+                context
+                  ..displayFlash('Berhasil mendaftarkan akun')
+                  ..pop();
+              },
             ),
           );
         },

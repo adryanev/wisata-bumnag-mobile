@@ -9,8 +9,8 @@ import 'package:wisatabumnag/features/authentication/data/models/register/regist
 
 part 'authentication_api_client.g.dart';
 
-@lazySingleton
 @RestApi()
+@lazySingleton
 abstract class AuthenticationApiClient {
   @factoryMethod
   factory AuthenticationApiClient(

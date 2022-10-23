@@ -9,6 +9,7 @@ mixin FailureMessageHandler {
       serverFailure: (code, message) => context.displayFlash(message),
       networkMiddlewareFailure: (message) => context.displayFlash(message),
       unexpectedFailure: (message) => context.displayFlash(message),
+      remoteConfigFailure: (message) => context.displayFlash(message),
     );
   }
 }
