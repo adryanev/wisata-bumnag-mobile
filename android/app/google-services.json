@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "7735004694",
+    "project_id": "wisata-bumnag-prod",
+    "storage_bucket": "wisata-bumnag-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7735004694:android:8a2227677b8fe2c01f6f37",
+        "android_client_info": {
+          "package_name": "dev.bumnag.wisata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7735004694-aenom517hpm3c3v04uhrkk35fe998hoa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZoJQkw9vVEZYTYgrn4sZHWQr4TXFRjF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7735004694-aenom517hpm3c3v04uhrkk35fe998hoa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
