@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_returning_this
+
 import 'package:wisatabumnag/core/networks/middlewares/network_middleware.dart';
 
 abstract class MiddlewareProvider {
@@ -14,12 +16,12 @@ class _MiddlewareProviderImpl implements MiddlewareProvider {
 }
 
 class MiddlewareProviderBuilder {
-  MiddlewareProviderBuilder._();
-  List<NetworkMiddleware> middlewareList = [];
+  final List<NetworkMiddleware> _middlewareList = [];
 
-  void addMiddleware(NetworkMiddleware middleware) {
-    middlewareList.add(middleware);
+  MiddlewareProviderBuilder addMiddleware(NetworkMiddleware middleware) {
+    _middlewareList.add(middleware);
+    return this;
   }
 
-  MiddlewareProvider build() => _MiddlewareProviderImpl(middlewareList);
+  MiddlewareProvider build() => _MiddlewareProviderImpl(_middlewareList);
 }

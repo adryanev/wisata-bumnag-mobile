@@ -4,60 +4,23 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
+import 'package:wisatabumnag/core/networks/extensions.dart';
+import 'package:wisatabumnag/core/networks/middlewares/providers/network_middleware_provider.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
 import 'package:wisatabumnag/core/utils/utils.dart';
+import 'package:wisatabumnag/features/authentication/data/datasources/remote/client/authentication_api_client.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_payload.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_response.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/register/register_payload.model.dart';
 import 'package:wisatabumnag/injector.dart';
 
 abstract class AuthenticationRemoteDataSource {
-  Future<Either<Failure, BaseResponse<String>>> registerUser(
+  Future<Either<Failure, Unit>> registerUser(
     RegisterPayload payload,
   );
-  Future<Either<Failure, BaseResponse<LoginResponse>>> loginUser(
+  Future<Either<Failure, LoginResponse>> loginUser(
     LoginPayload payload,
   );
-}
-
-@development
-@testing
-@LazySingleton(as: AuthenticationRemoteDataSource)
-class FakeAuthenticationRemoteDataSource
-    implements AuthenticationRemoteDataSource {
-  @override
-  Future<Either<Failure, BaseResponse<LoginResponse>>> loginUser(
-    LoginPayload payload,
-  ) async {
-    return safeCall(
-      tryCallback: () async {
-        String? data;
-        if (payload.emailAddress == 'rywukafe@getnada.com') {
-          data = await rootBundle
-              .loadString('assets/jsons/fixture/login/login_success.json');
-          final response = BaseResponse<LoginResponse>.fromJson(
-            jsonDecode(data) as Map<String, dynamic>,
-            (json) => LoginResponse.fromJson(
-              json! as Map<String, dynamic>,
-            ),
-          );
-          return right(response);
-        }
-        return left(const Failure.serverFailure(code: 400, message: ''));
-      },
-      exceptionCallBack: () {
-        return left(const Failure.serverFailure(code: 400, message: ''));
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, BaseResponse<String>>> registerUser(
-    RegisterPayload payload,
-  ) {
-    // TODO: implement registerUser
-    throw UnimplementedError();
-  }
 }
 
 @staging
@@ -65,19 +28,30 @@ class FakeAuthenticationRemoteDataSource
 @LazySingleton(as: AuthenticationRemoteDataSource)
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {
+  const AuthenticationRemoteDataSourceImpl(
+    this._middlewareProvider,
+    this._client,
+  );
+  final AuthenticationApiClient _client;
+  final MiddlewareProvider _middlewareProvider;
   @override
-  Future<Either<Failure, BaseResponse<LoginResponse>>> loginUser(
+  Future<Either<Failure, LoginResponse>> loginUser(
     LoginPayload payload,
-  ) {
-    // TODO: implement loginUser
-    throw UnimplementedError();
-  }
+  ) =>
+      safeRemoteCall(
+        middlewares: _middlewareProvider.getAll(),
+        retrofitCall: () async =>
+            _client.loginUser(payload).then((value) => value.data!),
+      );
 
   @override
-  Future<Either<Failure, BaseResponse<String>>> registerUser(
+  Future<Either<Failure, Unit>> registerUser(
     RegisterPayload payload,
-  ) {
-    // TODO: implement registerUser
-    throw UnimplementedError();
-  }
+  ) =>
+      safeRemoteCall(
+        middlewares: _middlewareProvider.getAll(),
+        retrofitCall: () async => _client.registerUser(payload).then(
+              (value) => unit,
+            ),
+      );
 }

@@ -40,7 +40,13 @@ Future<Either<Failure, T>> _executeRetrofitCall<T>({
 Failure _parseException(Object exception) {
   if (exception is DioError) {
     if (exception.type == DioErrorType.response) {
-      // final response = exception.response;
+      final response = exception.response;
+      if (response != null) {
+        return Failure.serverFailure(
+          code: response.statusCode!,
+          message: response.statusMessage!,
+        );
+      }
     }
   }
 

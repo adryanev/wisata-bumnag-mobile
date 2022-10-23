@@ -38,4 +38,11 @@ class LocalStorageKey {
   static const userKey = 'user';
   static const accessTokenKey = 'access-token';
   static const refreshTokenKey = 'refresh-token';
+  static const saltKey = 'salt';
+  static const baseUrlKey = 'base-url';
+}
+
+class InjectionConstants {
+  const InjectionConstants._();
+  static const publicDio = 'public_dio';
 }

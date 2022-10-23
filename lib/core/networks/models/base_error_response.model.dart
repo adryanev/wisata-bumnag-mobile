@@ -6,14 +6,16 @@ part 'base_error_response.model.g.dart';
   genericArgumentFactories: true,
 )
 class BaseErrorResponse<T> extends Equatable {
-  const BaseErrorResponse({required this.error});
+  const BaseErrorResponse({
+    required this.errors,
+  });
 
   factory BaseErrorResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
   ) =>
       _$BaseErrorResponseFromJson<T>(json, fromJsonT);
-  final T? error;
+  final T? errors;
 
   Map<String, dynamic> toJson(
     Map<String, dynamic> Function(T value) toJsonT,
@@ -22,5 +24,5 @@ class BaseErrorResponse<T> extends Equatable {
   }
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [errors];
 }
