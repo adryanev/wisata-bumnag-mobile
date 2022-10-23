@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -42,6 +43,11 @@ Failure _parseException(Object exception) {
     if (exception.type == DioErrorType.response) {
       final response = exception.response;
       if (response != null) {
+        if (response.statusCode == HttpStatus.unprocessableEntity) {
+          final casted = response.data as Map<String, dynamic>;
+          final error = casted['errors'] as Map<String, dynamic>;
+          return Failure.serverValidationFailure(errors: error);
+        }
         return Failure.serverFailure(
           code: response.statusCode!,
           message: response.statusMessage!,

@@ -17,6 +17,9 @@ class Failure with _$Failure {
   const factory Failure.remoteConfigFailure({
     required String message,
   }) = RemoteConfigFailure;
+  const factory Failure.serverValidationFailure({
+    required Map<String, dynamic> errors,
+  }) = ServerValidationFailure;
 
   const factory Failure.unexpectedFailure({
     required String message,
