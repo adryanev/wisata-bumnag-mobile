@@ -11,8 +11,6 @@ import 'package:wisatabumnag/features/home/presentation/pages/home_explore_page.
 import 'package:wisatabumnag/features/home/presentation/pages/home_front_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_history_order_page.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
-import 'package:wisatabumnag/injector.dart';
-import 'package:wisatabumnag/l10n/l10n.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
