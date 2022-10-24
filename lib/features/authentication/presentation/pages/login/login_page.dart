@@ -6,8 +6,10 @@ import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/login/login_bloc.dart';
 import 'package:wisatabumnag/features/authentication/presentation/widgets/auth_text_field.dart';
+import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/domain/formz/email_input.dart';
@@ -27,7 +29,16 @@ class LoginPage extends StatelessWidget with FailureMessageHandler {
             () => null,
             (either) => either.fold(
               (l) => handleFailure(context, l),
-              (r) => context.goNamed(AppRouter.home),
+              (r) {
+                context
+                  ..read<AuthenticationBloc>().add(
+                    const AuthenticationEvent.checkAuthenticationStatus(),
+                  )
+                  ..read<HomeBloc>().add(
+                    const HomeEvent.bottomNavigatonChanged(0),
+                  )
+                  ..goNamed(AppRouter.home);
+              },
             ),
           );
         },

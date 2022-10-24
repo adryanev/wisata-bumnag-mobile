@@ -15,6 +15,8 @@ import 'package:wisatabumnag/core/extensions/context_extensions.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/utils.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
@@ -28,6 +30,12 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => getIt<FlashCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<AuthenticationBloc>(),
+        ),
+        BlocProvider<HomeBloc>(
+          create: (_) => getIt<HomeBloc>(),
         ),
       ],
       child: MultiBlocListener(

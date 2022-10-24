@@ -88,7 +88,6 @@ class LocalStorageImpl implements LocalStorage {
   Future<void> logoutUser() async {
     await Future.wait([
       _storage.remove(LocalStorageKey.accessTokenKey),
-      _storage.remove(LocalStorageKey.baseUrlKey),
       _storage.remove(LocalStorageKey.userKey),
     ]);
   }

@@ -28,6 +28,7 @@ class AuthenticationBloc
     AuthenticationCheckAuthenticationStatus event,
     Emitter<AuthenticationState> emit,
   ) async {
+    emit(const AuthenticationState.initial());
     final result = await _getLoggedInUser(NoParams());
     result.fold((l) => emit(AuthenticationState.failed(l)), (r) {
       if (r == null) {
@@ -37,7 +38,6 @@ class AuthenticationBloc
           AuthenticationState.authenticated(r),
         );
       }
-      emit(const AuthenticationState.initial());
     });
   }
 

@@ -8,9 +8,9 @@ part 'home_bloc.freezed.dart';
 
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState.initial()) {
-    on<HomeEvent>((event, emit) {
-      // TODO: implement event handler
+  HomeBloc() : super(HomeState.initial()) {
+    on<HomeBottomNavigationChaged>((event, emit) {
+      emit(state.copyWith(navigationBarIndex: event.value));
     });
   }
 }

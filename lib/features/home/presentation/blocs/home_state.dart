@@ -2,5 +2,8 @@ part of 'home_bloc.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState.initial() = _Initial;
+  const factory HomeState({
+    required int navigationBarIndex,
+  }) = _Homestate;
+  factory HomeState.initial() => const HomeState(navigationBarIndex: 0);
 }

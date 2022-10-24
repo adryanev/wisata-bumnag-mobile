@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -50,7 +52,8 @@ Failure _parseException(Object exception) {
         }
         return Failure.serverFailure(
           code: response.statusCode!,
-          message: response.statusMessage!,
+          message:
+              (response.data?['message'] as String?) ?? response.statusMessage!,
         );
       }
     }

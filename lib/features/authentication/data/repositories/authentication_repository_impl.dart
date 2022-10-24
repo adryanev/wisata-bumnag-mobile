@@ -26,7 +26,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, User?>> getLoggedInUser() => _localSource
       .getLoggedInUser()
-      .then((value) => value.map((r) => r!.toDomain()));
+      .then((value) => value.map((r) => r?.toDomain()));
 
   @override
   Future<Either<Failure, User>> loginUser(LoginForm loginForm) async {
