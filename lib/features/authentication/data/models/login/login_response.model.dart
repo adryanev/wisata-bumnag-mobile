@@ -30,7 +30,7 @@ class UserDataResponse with _$UserDataResponse {
 @freezed
 class AuthorizationDataResponse with _$AuthorizationDataResponse {
   const factory AuthorizationDataResponse({
-    @JsonKey(name: 'access_token') required String? accessToken,
+    @JsonKey(name: 'token') required String? accessToken,
   }) = _AuthorizationDataResponse;
 
   factory AuthorizationDataResponse.fromJson(Map<String, dynamic> json) =>

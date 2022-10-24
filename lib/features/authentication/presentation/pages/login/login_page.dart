@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/login/login_bloc.dart';
@@ -13,46 +14,57 @@ import 'package:wisatabumnag/shared/domain/formz/email_input.dart';
 import 'package:wisatabumnag/shared/domain/formz/password_input.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatelessWidget with FailureMessageHandler {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<LoginBloc>(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: Padding(
-            padding: Dimension.aroundPadding,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Text(
-                    'Selamat Datang',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.black,
+      child: BlocListener<LoginBloc, LoginState>(
+        listener: (context, state) {
+          state.loginOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => context.goNamed(AppRouter.home),
+            ),
+          );
+        },
+        child: Scaffold(
+          appBar: AppBar(),
+          body: SafeArea(
+            child: Padding(
+              padding: Dimension.aroundPadding,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 24.h,
                     ),
-                  ),
-                  Text(
-                    'Silahkan Masuk',
-                    style: TextStyle(
-                      color: AppColor.black,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
+                    Text(
+                      'Selamat Datang',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.black,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  const LoginFormWidget()
-                ],
+                    Text(
+                      'Silahkan Masuk',
+                      style: TextStyle(
+                        color: AppColor.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    const LoginFormWidget()
+                  ],
+                ),
               ),
             ),
           ),

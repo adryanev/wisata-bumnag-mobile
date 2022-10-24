@@ -3,8 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/networks/extensions.dart';
 import 'package:wisatabumnag/core/networks/middlewares/providers/network_middleware_provider.dart';
-import 'package:wisatabumnag/core/utils/constants.dart';
-
 import 'package:wisatabumnag/features/authentication/data/datasources/remote/client/authentication_api_client.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_payload.model.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_response.model.dart';
