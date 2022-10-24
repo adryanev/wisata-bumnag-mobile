@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>7735004694-9rhe698j12o6gog6g5cu6mull68vd5kk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.7735004694-9rhe698j12o6gog6g5cu6mull68vd5kk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>7735004694-a3e0607g5e8pekfjnibu06hfpv0aujsf.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBFKdm47Ga7MPwvT0FKWp9VP5F1sBXcJ_Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>7735004694</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>dev.bumnag.wisata</string>
+	<key>PROJECT_ID</key>
+	<string>wisata-bumnag-prod</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wisata-bumnag-prod.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:7735004694:ios:5f7e85301fda2bb91f6f37</string>
+</dict>
+</plist>

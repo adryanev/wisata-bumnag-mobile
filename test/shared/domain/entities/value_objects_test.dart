@@ -94,4 +94,76 @@ void main() {
       },
     );
   });
+
+  group('EmailAddress', () {
+    test(
+      'should contains ValueFailure when inputted with wrong format',
+      () async {
+        // arrange
+        const input = 'this is multi line text';
+        // act
+        final singleLine = EmailAddress(input);
+        final output = singleLine.value.getRight();
+        final failure = singleLine.value.getLeft();
+
+        // assert
+        expect(singleLine.isValid(), isFalse);
+        expect(output, isNull);
+        expect(failure, isA<ValueInvalidEmailAddress<String>>());
+      },
+    );
+
+    test(
+      'should contains String when valid ',
+      () async {
+        // arrange
+        const input = 'email@example.com';
+        // act
+        final singleLine = EmailAddress(input);
+        final output = singleLine.value.getRight();
+        final failure = singleLine.value.getLeft();
+        // assert
+        expect(singleLine.isValid(), isTrue);
+        expect(output, isA<String>());
+        expect(output, equals(input));
+        expect(failure, isNull);
+      },
+    );
+  });
+
+  group('Password', () {
+    test(
+      'should contains ValueFailure when inputted with wrong format',
+      () async {
+        // arrange
+        const input = '12345678';
+        // act
+        final singleLine = Password(input);
+        final output = singleLine.value.getRight();
+        final failure = singleLine.value.getLeft();
+
+        // assert
+        expect(singleLine.isValid(), isFalse);
+        expect(output, isNull);
+        expect(failure, isA<ValueInvalidPassword<String>>());
+      },
+    );
+
+    test(
+      'should contains String when valid ',
+      () async {
+        // arrange
+        const input = 'Qeuert142@kkkal;';
+        // act
+        final singleLine = Password(input);
+        final output = singleLine.value.getRight();
+        final failure = singleLine.value.getLeft();
+        // assert
+        expect(singleLine.isValid(), isTrue);
+        expect(output, isA<String>());
+        expect(output, equals(input));
+        expect(failure, isNull);
+      },
+    );
+  });
 }
