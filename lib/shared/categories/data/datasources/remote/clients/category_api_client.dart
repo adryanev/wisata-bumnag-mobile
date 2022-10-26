@@ -14,6 +14,7 @@ abstract class CategoryApiClient {
   factory CategoryApiClient(@Named(InjectionConstants.publicDio) Dio dio) =
       _CategoryApiClient;
 
+  @GET('v1/categories/child')
   Future<BaseResponse<List<CategoryModel>>> getChildrenCategoryById(
     @Query('parent') int parent,
   );
