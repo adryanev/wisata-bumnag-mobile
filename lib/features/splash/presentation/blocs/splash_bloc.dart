@@ -23,6 +23,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<SplashSaveApiKey>(_saveApiKey);
     on<SplashFetchSalt>(_fetchSalt);
     on<SplashSaveSalt>(_saveSalt);
+    on<SplashFetchMapApiKey>(_fetchMapApiKey);
+    on<SplashSaveMapApiKey>(_saveMapApiKey);
   }
 
   final FetchRemoteConfig _fetchRemoteConfig;
@@ -161,6 +163,52 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     emit(
       state.copyWith(
         saveSaltOrFailureOption: none(),
+      ),
+    );
+  }
+
+  FutureOr<void> _fetchMapApiKey(
+    SplashFetchMapApiKey event,
+    Emitter<SplashState> emit,
+  ) async {
+    final result = await _fetchRemoteConfig(
+      const FetchRemoteConfigParams(
+        remoteConfigType: RemoteConfigType.mapApiKey,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        mapApiKeyOrFailureOption: optionOf(result),
+      ),
+    );
+    emit(
+      state.copyWith(
+        mapApiKeyOrFailureOption: none(),
+      ),
+    );
+  }
+
+  FutureOr<void> _saveMapApiKey(
+    SplashSaveMapApiKey event,
+    Emitter<SplashState> emit,
+  ) async {
+    final result = await _saveRemoteConfig(
+      SaveRemoteConfigParams(
+        config: event.config,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        saveMapApiKeyOrFailureOption: optionOf(
+          result,
+        ),
+      ),
+    );
+    emit(
+      state.copyWith(
+        saveMapApiKeyOrFailureOption: none(),
       ),
     );
   }

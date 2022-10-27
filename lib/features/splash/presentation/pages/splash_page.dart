@@ -70,6 +70,25 @@ class SplashPage extends StatelessWidget with FailureMessageHandler {
             () => null,
             (either) => either.fold(
               (l) => handleFailure(context, l),
+              (r) => context.read<SplashBloc>().add(
+                    const SplashEvent.fetchMapApiKey(),
+                  ),
+            ),
+          );
+          state.mapApiKeyOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => context.read<SplashBloc>().add(
+                    SplashEvent.saveMapApiKey(r),
+                  ),
+            ),
+          );
+
+          state.saveMapApiKeyOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
               (r) => context.goNamed(AppRouter.home),
             ),
           );

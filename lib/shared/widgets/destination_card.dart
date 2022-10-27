@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
 class DestinationCard extends StatelessWidget {
-  const DestinationCard({super.key});
-
+  const DestinationCard({super.key, required this.destination});
+  final Destination destination;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -17,8 +19,10 @@ class DestinationCard extends StatelessWidget {
             SizedBox(
               width: 175.w,
               height: 110.h,
-              child:
-                  Assets.images.destinationPlaceholder.image(fit: BoxFit.fill),
+              child: CachedNetworkImage(
+                imageUrl: destination.media[0],
+                fit: BoxFit.fill,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
@@ -26,7 +30,7 @@ class DestinationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pulau Sultan',
+                    destination.name,
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w500,
@@ -43,7 +47,7 @@ class DestinationCard extends StatelessWidget {
                               .svg(color: AppColor.darkGrey),
                         ),
                         TextSpan(
-                          text: ' Pesisir Selatan, Sumatera Barat',
+                          text: ' ${destination.address}',
                           style: TextStyle(
                             fontSize: 9.sp,
                             color: AppColor.darkGrey,

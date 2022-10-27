@@ -7,6 +7,7 @@ abstract class RemoteConfigService {
   Future<String?> getBaseUrl();
   Future<String?> getApiKey();
   Future<String?> getSalt();
+  Future<String?> getMapApiKey();
 }
 
 @LazySingleton(as: RemoteConfigService)
@@ -45,5 +46,14 @@ class RemoteConfigServiceImpl implements RemoteConfigService {
         exceptionCallBack: () {
           return null;
         },
+      );
+
+  @override
+  Future<String?> getMapApiKey() async => safeCall(
+        tryCallback: () async {
+          await _remoteConfig.activate();
+          return _remoteConfig.getString(RemoteConfigKey.mapApiKey);
+        },
+        exceptionCallBack: () => null,
       );
 }

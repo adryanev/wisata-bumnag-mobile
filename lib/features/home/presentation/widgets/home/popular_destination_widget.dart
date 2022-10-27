@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wisatabumnag/features/home/domain/entities/recommendation.entity.dart';
+import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
 
 class PopularDestinationWidget extends StatelessWidget {
@@ -26,12 +29,25 @@ class PopularDestinationWidget extends StatelessWidget {
           SizedBox(
             height: 190.h,
             width: 1.sw,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return const DestinationCard();
+            child: BlocSelector<HomeFrontCubit, HomeFrontState,
+                List<Recommendation>?>(
+              selector: (state) {
+                return state.recommendations;
+              },
+              builder: (context, state) {
+                if (state == null) {
+                  return const SizedBox();
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return DestinationCard(
+                      destination: state[index].destination,
+                    );
+                  },
+                );
               },
             ),
           ),

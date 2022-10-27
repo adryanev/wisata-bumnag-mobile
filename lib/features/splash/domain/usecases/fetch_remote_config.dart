@@ -22,6 +22,8 @@ class FetchRemoteConfig
         return _repository.fetchApiUrl();
       case RemoteConfigType.salt:
         return _repository.fetchSalt();
+      case RemoteConfigType.mapApiKey:
+        return _repository.fetchMapApiKey();
     }
   }
 }
@@ -36,4 +38,4 @@ class FetchRemoteConfigParams extends Equatable {
   List<Object?> get props => [remoteConfigType];
 }
 
-enum RemoteConfigType { apiKey, apiUrl, salt }
+enum RemoteConfigType { apiKey, apiUrl, salt, mapApiKey }

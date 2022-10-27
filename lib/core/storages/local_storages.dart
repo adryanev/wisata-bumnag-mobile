@@ -21,6 +21,9 @@ abstract class LocalStorage {
   Future<String?> getBaseUrl();
   Future<void> setBaseUrl(String baseUrl);
 
+  Future<String?> getMapApiKey();
+  Future<void> setMapApiKey(String mapApiKey);
+
   Future<void> logoutUser();
 }
 
@@ -37,10 +40,8 @@ class LocalStorageImpl implements LocalStorage {
   }
 
   @override
-  Future<void> setApiKey(String apiKey) async {
-    await Future.value(
-      _storage.setString(LocalStorageKey.apiKeyKey, apiKey),
-    );
+  Future<void> setApiKey(String apiKey) {
+    return _storage.setString(LocalStorageKey.apiKeyKey, apiKey);
   }
 
   @override
@@ -69,8 +70,8 @@ class LocalStorageImpl implements LocalStorage {
   }
 
   @override
-  Future<void> setAccessToken(String accessToken) async {
-    await _storage.setString(LocalStorageKey.accessTokenKey, accessToken);
+  Future<void> setAccessToken(String accessToken) {
+    return _storage.setString(LocalStorageKey.accessTokenKey, accessToken);
   }
 
   @override
@@ -80,8 +81,8 @@ class LocalStorageImpl implements LocalStorage {
   }
 
   @override
-  Future<void> setBaseUrl(String baseUrl) async {
-    await _storage.setString(LocalStorageKey.baseUrlKey, baseUrl);
+  Future<void> setBaseUrl(String baseUrl) {
+    return _storage.setString(LocalStorageKey.baseUrlKey, baseUrl);
   }
 
   @override
@@ -100,9 +101,17 @@ class LocalStorageImpl implements LocalStorage {
   }
 
   @override
-  Future<void> setSalt(String salt) async {
-    await Future.value(
-      _storage.setString(LocalStorageKey.saltKey, salt),
-    );
+  Future<void> setSalt(String salt) {
+    return _storage.setString(LocalStorageKey.saltKey, salt);
+  }
+
+  @override
+  Future<String?> getMapApiKey() {
+    return Future.value(_storage.getString(LocalStorageKey.mapApiKey));
+  }
+
+  @override
+  Future<void> setMapApiKey(String mapApiKey) {
+    return _storage.setString(LocalStorageKey.mapApiKey, mapApiKey);
   }
 }

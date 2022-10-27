@@ -34,12 +34,13 @@ enum MessageType {
 
 class LocalStorageKey {
   const LocalStorageKey._();
-  static const apiKeyKey = 'apiKey';
+  static const apiKeyKey = 'api_key';
   static const userKey = 'user';
-  static const accessTokenKey = 'access-token';
-  static const refreshTokenKey = 'refresh-token';
+  static const accessTokenKey = 'access_token';
+  static const refreshTokenKey = 'refresh_token';
   static const saltKey = 'salt';
-  static const baseUrlKey = 'base-url';
+  static const baseUrlKey = 'base_url';
+  static const mapApiKey = 'map_api_key';
 }
 
 class InjectionConstants {

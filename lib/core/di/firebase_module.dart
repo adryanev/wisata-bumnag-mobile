@@ -18,6 +18,7 @@ abstract class FirebaseModule {
       RemoteConfigKey.apiKey: '',
       RemoteConfigKey.apiUrl: '',
       RemoteConfigKey.salt: '',
+      RemoteConfigKey.mapApiKey: '',
     });
     await instance.fetchAndActivate();
     return instance;

@@ -19,6 +19,7 @@ mixin FailureMessageHandler {
         });
         context.displayFlash(errorText.join('; '));
       },
+      locationFailure: (message) => context.displayFlash(message),
     );
   }
 }
