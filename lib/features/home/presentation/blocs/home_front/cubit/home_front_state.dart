@@ -10,10 +10,13 @@ class HomeFrontState with _$HomeFrontState {
     List<AdBanner>? adBanners,
     required Option<Either<Failure, Location>> locationOrFailureOption,
     Location? location,
+    required Option<Either<Failure, List<Category>>> categoryOrFailureOption,
+    List<Category>? category,
   }) = _HomeFrontState;
   factory HomeFrontState.initial() => HomeFrontState(
         recommendationsOrFailureOption: none(),
         adBannerOrFailureOption: none(),
         locationOrFailureOption: none(),
+        categoryOrFailureOption: none(),
       );
 }

@@ -24,7 +24,8 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
           create: (context) => getIt<HomeFrontCubit>()
             ..getCurrentLocation()
             ..getAdBanners()
-            ..getRecommendations(),
+            ..getRecommendations()
+            ..getMainCategories(),
         ),
       ],
       child: BlocListener<HomeFrontCubit, HomeFrontState>(
@@ -44,6 +45,13 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
             ),
           );
           state.recommendationsOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => null,
+            ),
+          );
+          state.categoryOrFailureOption.fold(
             () => null,
             (either) => either.fold(
               (l) => handleFailure(context, l),

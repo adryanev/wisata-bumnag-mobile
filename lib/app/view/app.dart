@@ -59,14 +59,16 @@ class App extends StatelessWidget {
             return MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
               theme: ThemeData(
-                appBarTheme: const AppBarTheme(
-                  iconTheme: IconThemeData(
+                appBarTheme: AppBarTheme(
+                  iconTheme: const IconThemeData(
                     color: AppColor.secondBlack,
                   ),
                   color: AppColor.white,
                   elevation: 0,
-                  toolbarTextStyle: TextStyle(
-                    color: AppColor.secondBlack,
+                  titleTextStyle: TextStyle(
+                    color: AppColor.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.sp,
                   ),
                 ),
                 primarySwatch: createMaterialColor(AppColor.primary),
