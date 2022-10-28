@@ -27,6 +27,7 @@ class AdsBannerWidget extends StatelessWidget {
                 child: state.adBanners != null
                     ? CachedNetworkImage(
                         imageUrl: state.adBanners![index].media,
+                        fit: BoxFit.fill,
                       )
                     : const SizedBox(),
               );
