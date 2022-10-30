@@ -46,3 +46,9 @@ EventTransformer<Event> skip<Event>(int count) =>
 /// to the bloc forward in time by that specified increment.
 EventTransformer<Event> delay<Event>(Duration duration) =>
     (events, mapper) => events.delay(duration).switchMap(mapper);
+
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttleTime(duration), mapper);
+  };
+}
