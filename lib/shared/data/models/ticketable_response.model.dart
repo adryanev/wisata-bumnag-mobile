@@ -1,0 +1,24 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'ticketable_response.model.freezed.dart';
+part 'ticketable_response.model.g.dart';
+
+@freezed
+class TicketableResponse with _$TicketableResponse {
+  const factory TicketableResponse({
+    required int id,
+    required String name,
+    required String price,
+    required bool isFree,
+    required String? termAndConditions,
+    required bool? isQuantityLimited,
+    required String? quantity,
+    required DateTime? createdAt,
+    required DateTime? updatedAt,
+    required String? description,
+    required String? ticketableType,
+    required String? ticketableId,
+  }) = _TicketableResponse;
+
+  factory TicketableResponse.fromJson(Map<String, dynamic> json) =>
+      _$TicketableResponseFromJson(json);
+}
