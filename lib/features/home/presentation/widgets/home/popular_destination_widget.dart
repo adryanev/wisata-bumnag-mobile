@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/features/home/domain/entities/recommendation.entity.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
@@ -43,8 +45,18 @@ class PopularDestinationWidget extends StatelessWidget {
                   itemCount: state.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return DestinationCard(
-                      destination: state[index].destination,
+                    return InkWell(
+                      onTap: () {
+                        context.pushNamed(
+                          AppRouter.destinationDetail,
+                          queryParams: {
+                            'id': state[index].destination.id.toString(),
+                          },
+                        );
+                      },
+                      child: DestinationCard(
+                        destination: state[index].destination,
+                      ),
                     );
                   },
                 );

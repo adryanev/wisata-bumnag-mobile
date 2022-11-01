@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/login/login_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/register/register_page.dart';
+import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
@@ -14,6 +15,7 @@ class AppRouter {
   static const login = 'login';
   static const register = 'register';
   static const destination = 'destination';
+  static const destinationDetail = 'destination-detail';
 }
 
 final appRouter = GoRouter(
@@ -47,6 +49,16 @@ final appRouter = GoRouter(
 
         return DestinationListPage(category: category);
       },
+      routes: [
+        GoRoute(
+          path: 'detail',
+          name: AppRouter.destinationDetail,
+          builder: (context, state) {
+            final id = state.queryParams['id'];
+            return DestinationDetailPage(destinationId: id);
+          },
+        ),
+      ],
     )
   ],
 );

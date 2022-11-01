@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_result/destination_result_bloc.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
@@ -64,8 +66,18 @@ class _DestinationResultListState extends State<DestinationResultList> {
                 crossAxisCount: 2,
               ),
               shrinkWrap: true,
-              itemBuilder: (context, index) => DestinationCard(
-                destination: state.destinations[index],
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  context.pushNamed(
+                    AppRouter.destinationDetail,
+                    queryParams: {
+                      'id': state.destinations[index].id.toString(),
+                    },
+                  );
+                },
+                child: DestinationCard(
+                  destination: state.destinations[index],
+                ),
               ),
               itemCount: state.destinations.length,
               controller: _scrollController,
