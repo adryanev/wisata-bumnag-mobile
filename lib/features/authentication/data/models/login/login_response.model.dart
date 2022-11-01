@@ -1,4 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/features/authentication/domain/entities/user.entity.dart';
+import 'package:wisatabumnag/features/authentication/domain/entities/value_objects.dart';
+import 'package:wisatabumnag/shared/domain/entities/value_objects.dart';
 part 'login_response.model.freezed.dart';
 part 'login_response.model.g.dart';
 
@@ -25,6 +28,15 @@ class UserDataResponse with _$UserDataResponse {
 
   factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
       _$UserDataResponseFromJson(json);
+}
+
+extension UserDataResponseX on UserDataResponse {
+  User toDomain() => User(
+        emailAddress: EmailAddress(email!),
+        nik: nik == null ? null : Nik(nik!),
+        phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
+        name: StringSingleLine(name!),
+      );
 }
 
 @freezed

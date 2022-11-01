@@ -5,6 +5,7 @@ import 'package:wisatabumnag/core/networks/extensions.dart';
 import 'package:wisatabumnag/core/networks/middlewares/providers/network_middleware_provider.dart';
 import 'package:wisatabumnag/core/networks/models/base_pagination_response.model.dart';
 import 'package:wisatabumnag/features/destination/data/datasources/remote/client/destination_api_client.dart';
+import 'package:wisatabumnag/features/destination/data/models/destination_detail_response.model.dart';
 import 'package:wisatabumnag/features/destination/data/models/destination_response.model.dart';
 
 abstract class DestinationRemoteDataSource {
@@ -12,6 +13,9 @@ abstract class DestinationRemoteDataSource {
       getDestination({
     required int categoryId,
     required int page,
+  });
+  Future<Either<Failure, DestinationDetailResponse>> getDestinationDetail({
+    required String destinationId,
   });
 }
 
@@ -27,4 +31,15 @@ class DestinationRemoteDataSourceImpl implements DestinationRemoteDataSource {
             middlewares: _provider.getAll(),
             retrofitCall: () => _client.getDestination(categoryId, page),
           );
+
+  @override
+  Future<Either<Failure, DestinationDetailResponse>> getDestinationDetail({
+    required String destinationId,
+  }) =>
+      safeRemoteCall(
+        middlewares: _provider.getAll(),
+        retrofitCall: () => _client
+            .getDestinationDetail(destinationId)
+            .then((value) => value.data!),
+      );
 }
