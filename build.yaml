@@ -10,7 +10,7 @@ targets:
           - lib/**.codegen.dart
           - lib/**.model.dart
         options:
-          # field_rename: snake
+          field_rename: snake
       freezed:freezed:
         generate_for:
           - lib/**/blocs/**.dart

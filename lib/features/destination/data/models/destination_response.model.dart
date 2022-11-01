@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/shared/categories/data/model/category.model.dart';
 import 'package:wisatabumnag/shared/data/models/review_aggregate_response.model.dart';
+import 'package:wisatabumnag/shared/data/models/ticketable_response.model.dart';
 
 part 'destination_response.model.freezed.dart';
 part 'destination_response.model.g.dart';
@@ -25,6 +26,7 @@ class DestinationResponse with _$DestinationResponse {
     required List<CategoryModel> categories,
     required List<String> media,
     @JsonKey(name: 'reviews') required ReviewAggregateResponse reviews,
+    @JsonKey(name: 'tickets') required List<TicketableResponse> tickets,
   }) = _DestinationResponse;
 
   factory DestinationResponse.fromJson(Map<String, dynamic> json) =>
@@ -49,5 +51,6 @@ extension DestinationResponseX on DestinationResponse {
         categories: categories.map((e) => e.toDomain()).toList(),
         media: media,
         reviews: reviews.toDomain(),
+        tickets: tickets.map((e) => e.toDomain()).toList(),
       );
 }

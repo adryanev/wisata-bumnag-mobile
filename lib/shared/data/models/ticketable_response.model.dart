@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'ticketable_response.model.freezed.dart';
 part 'ticketable_response.model.g.dart';
 
@@ -7,7 +8,7 @@ class TicketableResponse with _$TicketableResponse {
   const factory TicketableResponse({
     required int id,
     required String name,
-    required String price,
+    required double price,
     required bool isFree,
     required String? termAndConditions,
     required bool? isQuantityLimited,
@@ -21,4 +22,21 @@ class TicketableResponse with _$TicketableResponse {
 
   factory TicketableResponse.fromJson(Map<String, dynamic> json) =>
       _$TicketableResponseFromJson(json);
+}
+
+extension TicketableResponseX on TicketableResponse {
+  Ticketable toDomain() => Ticketable(
+        id: id,
+        name: name,
+        price: price,
+        isFree: isFree,
+        termAndConditions: termAndConditions,
+        isQuantityLimited: isQuantityLimited,
+        quantity: quantity,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        description: description,
+        ticketableType: ticketableType,
+        ticketableId: ticketableId,
+      );
 }

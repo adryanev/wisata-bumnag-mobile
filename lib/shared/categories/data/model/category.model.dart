@@ -9,7 +9,7 @@ class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
     required int id,
     required String name,
-    required int? parentId,
+    required String? parentId,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
@@ -18,7 +18,7 @@ class CategoryModel with _$CategoryModel {
   factory CategoryModel.fromDomain(Category form) => CategoryModel(
         id: form.id,
         name: form.name,
-        parentId: form.parentId,
+        parentId: form.parentId.toString(),
       );
 }
 
@@ -26,6 +26,6 @@ extension CategoryModelX on CategoryModel {
   Category toDomain() => Category(
         id: id,
         name: name,
-        parentId: parentId,
+        parentId: parentId == null ? null : int.tryParse(parentId!),
       );
 }

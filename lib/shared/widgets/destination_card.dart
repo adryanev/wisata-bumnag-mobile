@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
@@ -65,12 +67,12 @@ class DestinationCard extends StatelessWidget {
                         size: 8.r,
                       ),
                       Text(
-                        ' 4.8',
+                        ' ${destination.reviews.rating ?? 0}',
                         style:
                             TextStyle(fontSize: 8.sp, color: AppColor.darkGrey),
                       ),
                       Text(
-                        '(120)',
+                        '(${destination.reviews.count})',
                         style:
                             TextStyle(fontSize: 8.sp, color: AppColor.darkGrey),
                       )
@@ -79,7 +81,9 @@ class DestinationCard extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
-                      'Rp 1.000.000',
+                      '${rupiahCurrency(
+                        destination.tickets.firstOrNull?.price,
+                      )}',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 11.sp,

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/review_aggregate.entity.dart';
+import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'destination.entity.freezed.dart';
 
 @freezed
@@ -22,5 +23,6 @@ class Destination with _$Destination {
     required List<Category> categories,
     required List<String> media,
     required ReviewAggregate reviews,
+    required List<Ticketable> tickets,
   }) = _Destination;
 }
