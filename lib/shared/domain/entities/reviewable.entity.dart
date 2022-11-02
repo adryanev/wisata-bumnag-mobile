@@ -6,7 +6,7 @@ part 'reviewable.entity.freezed.dart';
 class Reviewable with _$Reviewable {
   const factory Reviewable({
     required int count,
-    required int rating,
+    required int? rating,
     required List<Review> data,
   }) = _Reviewable;
 }
