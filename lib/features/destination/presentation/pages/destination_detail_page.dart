@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
@@ -12,6 +14,8 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_detail/destination_detail_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/shared/widgets/destination_card.dart';
+import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
@@ -97,24 +101,32 @@ class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
                           thickness: 8.h,
                           color: AppColor.grey,
                         ),
-                        DestinationDetailContentWidget(),
+                        DestinationDetailContentWidget(
+                          destinationDetail: destination,
+                        ),
                         Divider(
                           thickness: 8.h,
                           color: AppColor.grey,
                         ),
-                        DestinationDetailLocationWidget(),
+                        DestinationDetailLocationWidget(
+                          destinationDetail: destination,
+                        ),
                         Divider(
                           thickness: 8.h,
                           color: AppColor.grey,
                         ),
-                        DestinationDetailInformationWidget(),
+                        DestinationDetailInformationWidget(
+                          destinationDetail: destination,
+                        ),
                         Divider(
                           thickness: 8.h,
                           color: AppColor.grey,
                         ),
-                        DestinationDetailReviewAndRecommendationWidget(),
+                        DestinationDetailReviewAndRecommendationWidget(
+                          destinationDetail: destination,
+                        ),
                         SizedBox(
-                          height: 50.h,
+                          height: 100.h,
                         )
                       ],
                     ),
@@ -147,7 +159,9 @@ class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
                 child: Row(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Harga mulai dari',
@@ -335,37 +349,207 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
 }
 
 class DestinationDetailContentWidget extends StatelessWidget {
-  const DestinationDetailContentWidget({super.key});
-
+  const DestinationDetailContentWidget({
+    super.key,
+    required this.destinationDetail,
+  });
+  final DestinationDetail destinationDetail;
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Deskripsi',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            destinationDetail.description,
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class DestinationDetailLocationWidget extends StatelessWidget {
-  const DestinationDetailLocationWidget({super.key});
+  const DestinationDetailLocationWidget({
+    super.key,
+    required this.destinationDetail,
+  });
+  final DestinationDetail destinationDetail;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Lokasi',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            destinationDetail.address,
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+          SizedBox(height: 8.h),
+          if (destinationDetail.latitude == null ||
+              destinationDetail.longitude == null) ...[
+            Text('Peta tidak tersedia'),
+          ] else ...[
+            SizedBox(
+              width: 1.sw,
+              height: 160.h,
+              child: DestinationGoogleMaps(
+                latitude: double.parse(destinationDetail.latitude!),
+                longitude: double.parse(
+                  destinationDetail.longitude!,
+                ),
+              ),
+            )
+          ]
+        ],
+      ),
+    );
   }
 }
 
 class DestinationDetailInformationWidget extends StatelessWidget {
-  const DestinationDetailInformationWidget({super.key});
+  const DestinationDetailInformationWidget({
+    super.key,
+    required this.destinationDetail,
+  });
+  final DestinationDetail destinationDetail;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Info Penting',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            destinationDetail.description,
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
-  const DestinationDetailReviewAndRecommendationWidget({super.key});
-
+  const DestinationDetailReviewAndRecommendationWidget({
+    super.key,
+    required this.destinationDetail,
+  });
+  final DestinationDetail destinationDetail;
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Review',
+                style: TextStyle(
+                  color: AppColor.black,
+                  fontSize: 16.sp,
+                ),
+              ),
+              const Spacer(),
+              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+            ],
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            destinationDetail.description,
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+          SizedBox(
+            height: 16.h,
+          ),
+          Text(
+            'Mungkin kamu suka',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 16.h,
+          ),
+          SizedBox(
+            width: 1.sw,
+            height: 190.h,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: destinationDetail.recommendations.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    context.pushNamed(
+                      AppRouter.destinationDetail,
+                      queryParams: {
+                        'id': destinationDetail.recommendations[index].id
+                            .toString(),
+                      },
+                    );
+                  },
+                  child: DestinationCard(
+                    destination: destinationDetail.recommendations[index],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
