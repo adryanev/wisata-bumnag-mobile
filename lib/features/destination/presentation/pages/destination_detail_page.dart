@@ -190,7 +190,12 @@ class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
                     SizedBox(
                       width: 120.w,
                       child: WisataButton.primary(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed(
+                            AppRouter.destinationOrder,
+                            extra: state.destinationDetail,
+                          );
+                        },
                         text: 'Beli Tiket',
                       ),
                     )
