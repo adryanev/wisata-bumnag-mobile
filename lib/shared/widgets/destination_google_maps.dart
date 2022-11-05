@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -26,7 +24,7 @@ class _DestinationGoogleMapsState extends State<DestinationGoogleMaps> {
       ),
       markers: {
         Marker(
-          markerId: MarkerId('poi'),
+          markerId: const MarkerId('poi'),
           position: LatLng(widget.latitude, widget.longitude),
         ),
       },

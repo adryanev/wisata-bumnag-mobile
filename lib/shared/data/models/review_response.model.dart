@@ -12,7 +12,9 @@ class ReviewResponse with _$ReviewResponse {
     required String? description,
     required String reviewableId,
     required String reviewableType,
+    required List<String> media,
     required UserDataResponse user,
+    required String rating,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _ReviewResponse;
@@ -28,7 +30,9 @@ extension ReviewResponseX on ReviewResponse {
         description: description,
         reviewableId: reviewableId,
         reviewableType: reviewableType,
+        media: media,
         user: user.toDomain(),
+        rating: rating,
         createdAt: createdAt,
         updatedAt: updatedAt,
       );

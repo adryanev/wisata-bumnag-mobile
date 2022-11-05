@@ -97,7 +97,7 @@ class _CustomTabsState extends State<CustomTabView>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.itemCount < 1) return widget.stub ?? SizedBox();
+    if (widget.itemCount < 1) return widget.stub ?? const SizedBox();
 
     return Column(
       mainAxisSize: MainAxisSize.min,

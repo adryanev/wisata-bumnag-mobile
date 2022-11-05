@@ -9,5 +9,7 @@ class DestinationState with _$DestinationState {
   }) = _DestinationState;
 
   factory DestinationState.initial() => DestinationState(
-      isCategoryLoading: false, categoriesOrFailureOption: none());
+        isCategoryLoading: false,
+        categoriesOrFailureOption: none(),
+      );
 }

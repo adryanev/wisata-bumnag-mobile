@@ -23,6 +23,7 @@ class DateTimeFormat {
   static DateFormat get dayString => DateFormat.EEEE();
   static DateFormat get monthAbbrWithDate => DateFormat.MMMMd();
   static DateFormat get hourMinutes => DateFormat.Hm();
+  static DateFormat get standard => DateFormat('dd MMM yyyy');
 }
 
 enum MessageType {

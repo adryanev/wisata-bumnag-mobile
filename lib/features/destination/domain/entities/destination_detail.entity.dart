@@ -18,6 +18,7 @@ class DestinationDetail with _$DestinationDetail {
     required String? longitude,
     required String? openingHours,
     required String? closingHours,
+    required String? workingDay,
     required String? instagram,
     required String? website,
     required String? capacity,

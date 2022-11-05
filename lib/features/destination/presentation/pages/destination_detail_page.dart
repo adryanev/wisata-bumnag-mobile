@@ -16,6 +16,7 @@ import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
 import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
+import 'package:wisatabumnag/shared/widgets/reviewable_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
@@ -331,7 +332,7 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
             ),
           ),
           Text(
-            'Senin - Jumat '
+            '${destinationDetail.workingDay ?? '-'} '
             '\u2022 ${destinationDetail.openingHours ?? "-"} - '
             '${destinationDetail.closingHours ?? "-"}',
             style: const TextStyle(
@@ -418,7 +419,7 @@ class DestinationDetailLocationWidget extends StatelessWidget {
           SizedBox(height: 8.h),
           if (destinationDetail.latitude == null ||
               destinationDetail.longitude == null) ...[
-            Text('Peta tidak tersedia'),
+            const Text('Peta tidak tersedia'),
           ] else ...[
             SizedBox(
               width: 1.sw,
@@ -500,16 +501,67 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
               TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
-          SizedBox(
-            height: 8.h,
-          ),
-          Text(
-            destinationDetail.description,
-            style: TextStyle(
-              color: AppColor.secondBlack,
-              fontSize: 14.sp,
+          if (destinationDetail.reviews.count > 0) ...[
+            RichText(
+              text: TextSpan(
+                style: const TextStyle(color: AppColor.black),
+                children: [
+                  TextSpan(
+                    text: destinationDetail.reviews.rating.toString(),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '/5',
+                    style: TextStyle(
+                      color: AppColor.darkGrey,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                  WidgetSpan(
+                    child: SizedBox(
+                      width: 4.w,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Telah direview sebanyak '
+                        '${destinationDetail.reviews.count} kali.',
+                    style: TextStyle(
+                      color: AppColor.darkGrey,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            SizedBox(
+              height: 8.h,
+            ),
+            SizedBox(
+              width: 1.sw,
+              height: 120.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: destinationDetail.reviews.data.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ReviewableCard(
+                    review: destinationDetail.reviews.data[index],
+                  );
+                },
+              ),
+            ),
+          ] else
+            const Text(
+              'Belum ada ulasan',
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: AppColor.darkGrey,
+              ),
+            ),
           SizedBox(
             height: 16.h,
           ),
