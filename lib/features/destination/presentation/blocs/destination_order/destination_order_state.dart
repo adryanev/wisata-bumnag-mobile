@@ -4,12 +4,20 @@ part of 'destination_order_bloc.dart';
 class DestinationOrderState with _$DestinationOrderState {
   const factory DestinationOrderState({
     required bool isLoading,
-    required List<Ticketable>? tickets,
+    required List<Ticketable> tickets,
     required DestinationDetail? destinationDetail,
+    required Option<Either<Failure, List<Souvenir>>> souvenirsOrFailureOption,
+    required List<Souvenir> souvenirs,
+    required List<Orderable> cart,
+    required DateTime orderForDate,
   }) = _DestinationOrderState;
   factory DestinationOrderState.initial() => DestinationOrderState(
         isLoading: false,
-        tickets: null,
+        tickets: [],
         destinationDetail: null,
+        souvenirsOrFailureOption: none(),
+        souvenirs: [],
+        cart: [],
+        orderForDate: DateTime.now(),
       );
 }

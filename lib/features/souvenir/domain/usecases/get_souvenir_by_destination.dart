@@ -13,7 +13,8 @@ class GetSouvenirByDestination
   final SouvenirRepository _repo;
   @override
   Future<Either<Failure, List<Souvenir>>> call(
-          GetSouvenirByDestinationParams params) =>
+    GetSouvenirByDestinationParams params,
+  ) =>
       _repo.getSouvenirByDestination(
         params.destinationId,
       );

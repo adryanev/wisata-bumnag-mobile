@@ -24,6 +24,7 @@ class DateTimeFormat {
   static DateFormat get monthAbbrWithDate => DateFormat.MMMMd();
   static DateFormat get hourMinutes => DateFormat.Hm();
   static DateFormat get standard => DateFormat('dd MMM yyyy');
+  static DateFormat get completeDateWithDay => DateFormat.yMMMMEEEEd('id');
 }
 
 enum MessageType {
