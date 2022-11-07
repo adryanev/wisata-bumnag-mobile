@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
@@ -9,6 +8,7 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_order/destination_order_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class DestinationOrder extends StatelessWidget {
@@ -48,16 +48,34 @@ class DestinationOrder extends StatelessWidget {
                       thickness: 8.h,
                       color: AppColor.grey,
                     ),
-                    const DetailPesananTanggal(),
+                    const DetailPesananTanggalWidget(),
                     Divider(
                       thickness: 8.h,
                       color: AppColor.grey,
                     ),
-                    const DetailPesananTicket(),
+                    const DetailPesananTicketWidget(),
                     Divider(
                       thickness: 8.h,
                       color: AppColor.grey,
                     ),
+                    const DetailPesananSouvenirWidget(),
+                    Divider(
+                      thickness: 8.h,
+                      color: AppColor.grey,
+                    ),
+                    const DetailPesananSouvenirCartWidget(),
+                    Divider(
+                      thickness: 8.h,
+                      color: AppColor.grey,
+                    ),
+                    const DetailPesananRincianBiayaWidget(),
+                    Divider(
+                      thickness: 8.h,
+                      color: AppColor.grey,
+                    ),
+                    SizedBox(
+                      height: 100.h,
+                    )
                   ],
                 ),
               );
@@ -145,8 +163,8 @@ class DetailPesananWidget extends StatelessWidget {
   }
 }
 
-class DetailPesananTanggal extends StatelessWidget {
-  const DetailPesananTanggal({super.key});
+class DetailPesananTanggalWidget extends StatelessWidget {
+  const DetailPesananTanggalWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -205,8 +223,8 @@ class DetailPesananTanggal extends StatelessWidget {
   }
 }
 
-class DetailPesananTicket extends StatelessWidget {
-  const DetailPesananTicket({super.key});
+class DetailPesananTicketWidget extends StatelessWidget {
+  const DetailPesananTicketWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -236,19 +254,38 @@ class DetailPesananTicket extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                          width: 25.w,
-                          child: ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: Icon(Icons.remove),
-                              label: SizedBox())),
+                        width: 25.w,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColor.primary,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: const Icon(Icons.remove),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
                       Text('1'),
                       SizedBox(
-                          width: 25.w,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.add),
-                            color: AppColor.primary,
-                          )),
+                        width: 8.w,
+                      ),
+                      SizedBox(
+                        width: 25.w,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColor.primary,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -263,6 +300,129 @@ class DetailPesananTicket extends StatelessWidget {
           //     ],
           //   ),
           // ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPesananSouvenirWidget extends StatelessWidget {
+  const DetailPesananSouvenirWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Souvenir',
+                style: TextStyle(
+                  color: AppColor.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18.sp,
+                ),
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () {},
+                child: const Text('Lihat Semua'),
+              ),
+            ],
+          ),
+          const Text(
+            'Berwisata gak lengkap rasanya kalau belum belanja suvenir. '
+            'Tambahkan suvenir yang kamu sukai.',
+            style: TextStyle(
+              color: AppColor.darkGrey,
+            ),
+          ),
+          SizedBox(
+            height: 2.h,
+          ),
+          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+            builder: (context, state) {
+              if (state.souvenirs.isEmpty) {
+                return Text(
+                  'Sepertinya destinasi ini tidak ada souvenir.',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: AppColor.darkGrey,
+                  ),
+                );
+              }
+              return SizedBox(
+                height: 220.h,
+                width: 1.sw,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.souvenirs.length,
+                  itemBuilder: (context, index) {
+                    return SouvenirItemCard(
+                      souvenir: state.souvenirs[index],
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPesananSouvenirCartWidget extends StatelessWidget {
+  const DetailPesananSouvenirCartWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Keranjang Souvenir',
+            style: TextStyle(
+              color: AppColor.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+          ),
+          SizedBox(
+            height: 12.w,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPesananRincianBiayaWidget extends StatelessWidget {
+  const DetailPesananRincianBiayaWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Rincian Biaya',
+            style: TextStyle(
+              color: AppColor.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+          ),
+          SizedBox(
+            height: 12.w,
+          ),
         ],
       ),
     );

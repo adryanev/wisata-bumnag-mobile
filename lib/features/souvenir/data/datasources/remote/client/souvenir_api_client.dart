@@ -14,7 +14,7 @@ abstract class SouvenirApiClient {
   factory SouvenirApiClient(@Named(InjectionConstants.publicDio) Dio dio) =
       _SouvenirApiClient;
 
-  @GET('souvenirs/destination/{id}')
+  @GET('v1/souvenirs/destination/{id}')
   Future<BaseResponse<List<SouvenirResponse>>> getSouvenirByDestination(
     @Path('id') String id,
   );
