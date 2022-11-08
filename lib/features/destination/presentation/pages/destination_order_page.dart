@@ -1,15 +1,17 @@
 import 'dart:developer';
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination_detail.entity.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_order/destination_order_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/shared/orders/domain/orderable.entity.dart';
 import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
@@ -184,15 +186,19 @@ class DetailPesananTanggalWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
+              final bloc = context.read<DestinationOrderBloc>();
               final date = await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(
-                  Duration(days: 364),
+                  const Duration(days: 364),
                 ),
               );
               log(date.toString());
+              if (date != null) {
+                bloc.add(DestinationOrderEvent.orderForDateChanged(date));
+              }
             },
             child: Container(
               decoration: BoxDecoration(
@@ -256,61 +262,65 @@ class DetailPesananTicketWidget extends StatelessWidget {
           SizedBox(
             height: 8.h,
           ),
-          ...[1, 2, 3, 4]
-              .map(
-                (e) => ListTile(
-                  title: Text('Anak-anak'),
-                  subtitle: Text('Rp15.000'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 25.w,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor: AppColor.primary,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.zero,
+          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+              builder: (context, state) {
+            return Column(
+              children: [
+                ...state.tickets.map(
+                  (e) {
+                    final currentTicketsInCart = state.cart.firstWhereOrNull(
+                      (element) =>
+                          element.id == e.id &&
+                          element.type == OrderableType.ticket,
+                    );
+                    final quantity = currentTicketsInCart?.quantity ?? 0;
+                    return ListTile(
+                      title: Text(e.name),
+                      subtitle: Text('${rupiahCurrency(e.price)}'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 25.w,
+                            child: ElevatedButton(
+                              onPressed: quantity == 0 ? null : () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColor.primary,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: const Icon(Icons.remove),
+                            ),
                           ),
-                          child: const Icon(Icons.remove),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Text('1'),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      SizedBox(
-                        width: 25.w,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor: AppColor.primary,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.zero,
+                          SizedBox(
+                            width: 8.w,
                           ),
-                          child: const Icon(Icons.add),
-                        ),
+                          Text('$quantity'),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          SizedBox(
+                            width: 25.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColor.primary,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: const Icon(Icons.add),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )
-              .toList()
-          // Flexible(
-          //   child: ListView(
-          //     children: [
-          //       ListTile(
-          //         title: Text('Anak-anak'),
-          //       )
-          //     ],
-          //   ),
-          // ),
+                    );
+                  },
+                ).toList()
+              ],
+            );
+          }),
         ],
       ),
     );

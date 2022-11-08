@@ -22,6 +22,7 @@ class DestinationOrderBloc
   DestinationOrderBloc(this._getSouvenirByDestination)
       : super(DestinationOrderState.initial()) {
     on<_DestinationOrderStarted>(_onStarted);
+    on<_DestinationOrderForDateChanged>(_onDateChanged);
   }
 
   final GetSouvenirByDestination _getSouvenirByDestination;
@@ -50,5 +51,12 @@ class DestinationOrderBloc
     );
 
     emit(state.copyWith(isLoading: false, souvenirsOrFailureOption: none()));
+  }
+
+  FutureOr<void> _onDateChanged(
+    _DestinationOrderForDateChanged event,
+    Emitter<DestinationOrderState> emit,
+  ) {
+    emit(state.copyWith(orderForDate: event.dateTime));
   }
 }
