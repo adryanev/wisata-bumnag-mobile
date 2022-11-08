@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,10 +71,6 @@ class DestinationOrder extends StatelessWidget {
                       color: AppColor.grey,
                     ),
                     const DetailPesananRincianBiayaWidget(),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
                     SizedBox(
                       height: 100.h,
                     )
@@ -184,37 +182,50 @@ class DetailPesananTanggalWidget extends StatelessWidget {
           SizedBox(
             height: 8.h,
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColor.borderStroke,
+          InkWell(
+            onTap: () async {
+              final date = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(
+                  Duration(days: 364),
+                ),
+              );
+              log(date.toString());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColor.borderStroke,
+                ),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            padding: Dimension.aroundPadding,
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Icon(
-                    Icons.calendar_month,
-                    color: AppColor.borderStroke,
+              padding: Dimension.aroundPadding,
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Icon(
+                      Icons.calendar_month,
+                      color: AppColor.borderStroke,
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 8,
-                  child: BlocSelector<DestinationOrderBloc,
-                      DestinationOrderState, DateTime>(
-                    selector: (state) {
-                      return state.orderForDate;
-                    },
-                    builder: (context, state) {
-                      return Text(
-                        DateTimeFormat.completeDateWithDay.format(state),
-                      );
-                    },
+                  Expanded(
+                    flex: 8,
+                    child: BlocSelector<DestinationOrderBloc,
+                        DestinationOrderState, DateTime>(
+                      selector: (state) {
+                        return state.orderForDate;
+                      },
+                      builder: (context, state) {
+                        return Text(
+                          DateTimeFormat.completeDateWithDay.format(state),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
         ],
@@ -396,6 +407,67 @@ class DetailPesananSouvenirCartWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
+          ...[1, 2, 3, 4]
+              .map(
+                (e) => ListTile(
+                  leading: Assets.images.destinationPlaceholder
+                      .image(fit: BoxFit.fill),
+                  title: Text('Anak-anak'),
+                  subtitle: Text('Rp15.000'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 24.w,
+                        child: IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(
+                            Icons.delete,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      SizedBox(
+                        width: 24.w,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColor.primary,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: const Icon(Icons.remove),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Text('1'),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      SizedBox(
+                        width: 24.w,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColor.primary,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+              .toList()
         ],
       ),
     );
@@ -423,6 +495,17 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
+          ...[1, 2, 3, 4]
+              .map((e) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(flex: 8, child: Text('Tiket Anak-anak')),
+                      Expanded(child: Text('1x')),
+                      Expanded(flex: 4, child: Text('1.000.000')),
+                      Expanded(flex: 4, child: Text('Rp1.000.000')),
+                    ],
+                  ))
+              .toList()
         ],
       ),
     );
