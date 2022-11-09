@@ -6,6 +6,7 @@ part 'order_form.entity.freezed.dart';
 class OrderForm with _$OrderForm {
   const factory OrderForm({
     required double totalPrice,
+    required DateTime orderDate,
     required List<Orderable> orderDetails,
   }) = _OrderForm;
 }

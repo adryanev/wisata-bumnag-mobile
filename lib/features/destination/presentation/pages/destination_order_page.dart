@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -520,8 +522,6 @@ class DetailPesananSouvenirCartWidget extends StatelessWidget {
                                   onPressed: e.quantity == 1
                                       ? null
                                       : () {
-                                          // ignore: lines_longer_than_80_chars
-
                                           context
                                               .read<DestinationOrderBloc>()
                                               .add(

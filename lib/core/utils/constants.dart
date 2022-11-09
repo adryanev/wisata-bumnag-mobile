@@ -48,4 +48,5 @@ class LocalStorageKey {
 class InjectionConstants {
   const InjectionConstants._();
   static const publicDio = 'public_dio';
+  static const privateDio = 'private_dio';
 }

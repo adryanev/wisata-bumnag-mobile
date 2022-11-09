@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/login/login_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/register/register_page.dart';
-import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination_detail.entity.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';

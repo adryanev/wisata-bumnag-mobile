@@ -22,3 +22,30 @@ class OrderableMapper {
         subtotal: souvenir.price * 1,
       );
 }
+
+class OrderableTypeMapper {
+  const OrderableTypeMapper._();
+
+  static OrderableType toOrderableType(String orderType) {
+    switch (orderType) {
+      case r'App\Models\Souvenir':
+        return OrderableType.souvenir;
+      case r'App\Models\Package':
+        return OrderableType.package;
+      case r'App\Models\Ticket':
+        return OrderableType.ticket;
+    }
+    throw UnimplementedError('Orderable type not implemented yet');
+  }
+
+  static String toStringType(OrderableType orderType) {
+    switch (orderType) {
+      case OrderableType.ticket:
+        return r'App\Models\Ticket';
+      case OrderableType.souvenir:
+        return r'App\Models\Souvenir';
+      case OrderableType.package:
+        return r'App\Models\Package';
+    }
+  }
+}
