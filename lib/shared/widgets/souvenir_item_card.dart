@@ -4,15 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
-import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirItemCard extends StatelessWidget {
   const SouvenirItemCard({
     super.key,
     required this.souvenir,
+    required this.onAddToCart,
   });
   final Souvenir souvenir;
+  final VoidCallback? onAddToCart;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -88,7 +89,7 @@ class SouvenirItemCard extends StatelessWidget {
                   SizedBox(
                     height: 25.w,
                     child: WisataButton.primary(
-                      onPressed: () {},
+                      onPressed: onAddToCart,
                       text: '+ Keranjang',
                     ),
                   )

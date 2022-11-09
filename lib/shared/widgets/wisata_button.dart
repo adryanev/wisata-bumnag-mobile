@@ -9,7 +9,7 @@ class WisataButton extends StatelessWidget {
   });
 
   factory WisataButton.primary({
-    required VoidCallback onPressed,
+    required VoidCallback? onPressed,
     required String text,
   }) =>
       WisataButton(onPressed: onPressed, text: text);

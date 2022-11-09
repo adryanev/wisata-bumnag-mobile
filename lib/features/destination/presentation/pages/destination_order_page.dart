@@ -97,9 +97,20 @@ class DestinationOrder extends StatelessWidget {
               ),
             ],
           ),
-          child: WisataButton.primary(
-            onPressed: () {},
-            text: 'Lanjut ke Pembayaran',
+          child: BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+            builder: (context, state) {
+              return WisataButton.primary(
+                onPressed: state.cart.isEmpty
+                    ? null
+                    : () {
+                        context.read<DestinationOrderBloc>().add(
+                              const DestinationOrderEvent
+                                  .proceedToPaymentButtonPressed(),
+                            );
+                      },
+                text: 'Lanjut ke Pembayaran',
+              );
+            },
           ),
         ),
       ),
@@ -263,64 +274,81 @@ class DetailPesananTicketWidget extends StatelessWidget {
             height: 8.h,
           ),
           BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
-              builder: (context, state) {
-            return Column(
-              children: [
-                ...state.tickets.map(
-                  (e) {
-                    final currentTicketsInCart = state.cart.firstWhereOrNull(
-                      (element) =>
-                          element.id == e.id &&
-                          element.type == OrderableType.ticket,
-                    );
-                    final quantity = currentTicketsInCart?.quantity ?? 0;
-                    return ListTile(
-                      title: Text(e.name),
-                      subtitle: Text('${rupiahCurrency(e.price)}'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width: 25.w,
-                            child: ElevatedButton(
-                              onPressed: quantity == 0 ? null : () {},
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                backgroundColor: AppColor.primary,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                padding: EdgeInsets.zero,
+            builder: (context, state) {
+              return Column(
+                children: [
+                  ...state.tickets.map(
+                    (e) {
+                      final currentTicketsInCart = state.cart.firstWhereOrNull(
+                        (element) =>
+                            element.id == e.id &&
+                            element.type == OrderableType.ticket,
+                      );
+                      final quantity = currentTicketsInCart?.quantity ?? 0;
+                      return ListTile(
+                        title: Text(e.name),
+                        subtitle: Text('${rupiahCurrency(e.price)}'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 25.w,
+                              child: ElevatedButton(
+                                onPressed: quantity == 0
+                                    ? null
+                                    : () {
+                                        context
+                                            .read<DestinationOrderBloc>()
+                                            .add(
+                                              DestinationOrderEvent
+                                                  .ticketRemoveButtonPressed(e),
+                                            );
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  backgroundColor: AppColor.primary,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Icon(Icons.remove),
                               ),
-                              child: const Icon(Icons.remove),
                             ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Text('$quantity'),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          SizedBox(
-                            width: 25.w,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                backgroundColor: AppColor.primary,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                padding: EdgeInsets.zero,
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Text('$quantity'),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            SizedBox(
+                              width: 25.w,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.read<DestinationOrderBloc>().add(
+                                        DestinationOrderEvent
+                                            .ticketAddButtonPressed(e),
+                                      );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  backgroundColor: AppColor.primary,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Icon(Icons.add),
                               ),
-                              child: const Icon(Icons.add),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ).toList()
-              ],
-            );
-          }),
+                          ],
+                        ),
+                      );
+                    },
+                  ).toList()
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -367,7 +395,7 @@ class DetailPesananSouvenirWidget extends StatelessWidget {
           BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
             builder: (context, state) {
               if (state.souvenirs.isEmpty) {
-                return Text(
+                return const Text(
                   'Sepertinya destinasi ini tidak ada souvenir.',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
@@ -384,6 +412,14 @@ class DetailPesananSouvenirWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return SouvenirItemCard(
                       souvenir: state.souvenirs[index],
+                      onAddToCart: () {
+                        context.read<DestinationOrderBloc>().add(
+                              DestinationOrderEvent
+                                  .souvenirAddCartButtonPressed(
+                                state.souvenirs[index],
+                              ),
+                            );
+                      },
                     );
                   },
                 ),
@@ -417,67 +453,114 @@ class DetailPesananSouvenirCartWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
-          ...[1, 2, 3, 4]
-              .map(
-                (e) => ListTile(
-                  leading: Assets.images.destinationPlaceholder
-                      .image(fit: BoxFit.fill),
-                  title: Text('Anak-anak'),
-                  subtitle: Text('Rp15.000'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 24.w,
-                        child: IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.zero,
-                          icon: const Icon(
-                            Icons.delete,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      SizedBox(
-                        width: 24.w,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor: AppColor.primary,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Icon(Icons.remove),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Text('1'),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      SizedBox(
-                        width: 24.w,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor: AppColor.primary,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Icon(Icons.add),
-                        ),
-                      ),
-                    ],
+          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+            builder: (context, state) {
+              final list = state.cart
+                  .where((element) => element.type == OrderableType.souvenir);
+              if (list.isEmpty) {
+                return Text(
+                  'Kamu belum memilih souvenir.',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontStyle: FontStyle.italic,
+                    color: AppColor.darkGrey,
                   ),
-                ),
-              )
-              .toList()
+                );
+              }
+              return Column(
+                children: [
+                  ...list
+                      .map(
+                        (e) => ListTile(
+                          leading: Assets.images.destinationPlaceholder
+                              .image(fit: BoxFit.fill),
+                          title: Text(e.name),
+                          subtitle: Text('${rupiahCurrency(e.price)}'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: 24.w,
+                                child: IconButton(
+                                  onPressed: () {
+                                    context.read<DestinationOrderBloc>().add(
+                                          DestinationOrderEvent
+                                              .souvenirCartDeleteButtonPressed(
+                                            e,
+                                          ),
+                                        );
+                                  },
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.delete,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              SizedBox(
+                                width: 24.w,
+                                child: ElevatedButton(
+                                  onPressed: e.quantity == 1
+                                      ? null
+                                      : () {
+                                          // ignore: lines_longer_than_80_chars
+
+                                          context
+                                              .read<DestinationOrderBloc>()
+                                              .add(
+                                                DestinationOrderEvent
+                                                    .souvenirCartRemoveButtonPressed(
+                                                  e,
+                                                ),
+                                              );
+                                        },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    backgroundColor: AppColor.primary,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                  child: const Icon(Icons.remove),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Text('${e.quantity}'),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              SizedBox(
+                                width: 24.w,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    context.read<DestinationOrderBloc>().add(
+                                          DestinationOrderEvent
+                                              .souvenirCartAddButtonPressed(e),
+                                        );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    backgroundColor: AppColor.primary,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                  child: const Icon(Icons.add),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList()
+                ],
+              );
+            },
+          )
         ],
       ),
     );
@@ -505,17 +588,86 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
-          ...[1, 2, 3, 4]
-              .map((e) => Row(
+          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+            builder: (context, state) {
+              if (state.cart.isEmpty) {
+                return Text(
+                  'Keranjang kamu masih kosong',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontStyle: FontStyle.italic,
+                    color: AppColor.darkGrey,
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  ...state.cart
+                      .map(
+                        (e) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: Text(
+                                e.name,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${e.quantity}x',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Text(
+                                '${rupiahCurrency(e.price)}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Text(
+                                '${rupiahCurrency(e.subtotal)}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(flex: 8, child: Text('Tiket Anak-anak')),
-                      Expanded(child: Text('1x')),
-                      Expanded(flex: 4, child: Text('1.000.000')),
-                      Expanded(flex: 4, child: Text('Rp1.000.000')),
+                      const Text(
+                        'Total Harga',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+                        builder: (context, state) {
+                          final total =
+                              state.cart.map((e) => e.subtotal).fold<double>(
+                                    0,
+                                    (previousValue, element) =>
+                                        previousValue + element,
+                                  );
+                          return Text(
+                            '${rupiahCurrency(total)}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          );
+                        },
+                      )
                     ],
-                  ))
-              .toList()
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
