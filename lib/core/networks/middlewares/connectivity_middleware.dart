@@ -11,7 +11,8 @@ class ConnectivityMiddleware extends NetworkMiddleware {
   Future<bool> isValid() async {
     final connectivity = await _connectivity.checkConnectivity();
     if (connectivity != ConnectivityResult.mobile &&
-        connectivity != ConnectivityResult.wifi) {
+        connectivity != ConnectivityResult.wifi &&
+        connectivity != ConnectivityResult.ethernet) {
       return false;
     }
     final internet = await _internet.hasConnection;

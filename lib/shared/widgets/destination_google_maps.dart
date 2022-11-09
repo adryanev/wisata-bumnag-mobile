@@ -20,7 +20,7 @@ class _DestinationGoogleMapsState extends State<DestinationGoogleMaps> {
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: LatLng(widget.latitude, widget.longitude),
-        zoom: 14.476,
+        zoom: 10,
       ),
       markers: {
         Marker(

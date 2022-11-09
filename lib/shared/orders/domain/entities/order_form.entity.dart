@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wisatabumnag/shared/orders/domain/orderable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
 part 'order_form.entity.freezed.dart';
 
 @freezed

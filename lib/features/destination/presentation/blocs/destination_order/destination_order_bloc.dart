@@ -11,8 +11,8 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/usecases/get_souvenir_by_destination.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
-import 'package:wisatabumnag/shared/orders/domain/orderable.entity.dart';
-import 'package:wisatabumnag/shared/orders/domain/orderable_mapper.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
 
 part 'destination_order_event.dart';
 part 'destination_order_state.dart';

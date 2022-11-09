@@ -1,6 +1,6 @@
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
-import 'package:wisatabumnag/shared/orders/domain/orderable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
 
 class OrderableMapper {
   const OrderableMapper._();

@@ -428,15 +428,44 @@ class DestinationDetailLocationWidget extends StatelessWidget {
           ] else ...[
             SizedBox(
               width: 1.sw,
-              height: 160.h,
+              height: 180.h,
               child: DestinationGoogleMaps(
                 latitude: double.parse(destinationDetail.latitude!),
                 longitude: double.parse(
                   destinationDetail.longitude!,
                 ),
               ),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Center(
+              child: SizedBox(
+                height: 35.h,
+                width: 180.w,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.near_me,
+                        size: 18.r,
+                      ),
+                      const Text('Petunjuk Arah'),
+                      Icon(
+                        Icons.navigate_next,
+                        size: 18.r,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             )
-          ]
+          ],
         ],
       ),
     );

@@ -11,7 +11,8 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_order/destination_order_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
-import 'package:wisatabumnag/shared/orders/domain/orderable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
+import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
@@ -103,10 +104,24 @@ class DestinationOrder extends StatelessWidget {
                 onPressed: state.cart.isEmpty
                     ? null
                     : () {
-                        context.read<DestinationOrderBloc>().add(
-                              const DestinationOrderEvent
-                                  .proceedToPaymentButtonPressed(),
-                            );
+                        showDialog<dynamic>(
+                          context: context,
+                          builder: (_) => ConfirmationDialog(
+                            title: 'Konfirmasi Pesanan',
+                            description: 'Apakah pesanan sudah benar? '
+                                'Jika sudah silahkan lanjut untuk melakukan '
+                                'pembayaran pesanan yang sudah dibuat',
+                            onDismiss: () {
+                              Navigator.pop(context);
+                            },
+                            onConfirm: () {
+                              context.read<DestinationOrderBloc>().add(
+                                    const DestinationOrderEvent
+                                        .proceedToPaymentButtonPressed(),
+                                  );
+                            },
+                          ),
+                        );
                       },
                 text: 'Lanjut ke Pembayaran',
               );
