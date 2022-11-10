@@ -7,9 +7,11 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_order_page.dart';
+import 'package:wisatabumnag/features/destination/presentation/pages/destination_payment_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -20,6 +22,7 @@ class AppRouter {
   static const destination = 'destination';
   static const destinationDetail = 'destination-detail';
   static const destinationOrder = 'destination-order';
+  static const destinationPayment = 'destination-payment';
 }
 
 final appRouter = GoRouter(
@@ -73,6 +76,18 @@ final appRouter = GoRouter(
             return DestinationOrder(destinationDetail: destination);
           },
         ),
+        GoRoute(
+          path: 'payment',
+          name: AppRouter.destinationPayment,
+          builder: (context, state) {
+            final order = state.extra as Order?;
+            if (order == null) {
+              return const SizedBox();
+            }
+
+            return DestinationPaymentPage(order: order);
+          },
+        )
       ],
     )
   ],

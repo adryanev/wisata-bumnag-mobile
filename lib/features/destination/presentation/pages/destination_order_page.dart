@@ -5,6 +5,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
@@ -18,7 +21,7 @@ import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class DestinationOrder extends StatelessWidget {
+class DestinationOrder extends StatelessWidget with FailureMessageHandler {
   const DestinationOrder({
     super.key,
     required this.destinationDetail,
@@ -38,51 +41,74 @@ class DestinationOrder extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Pesanan'),
         ),
-        body: SafeArea(
-          child: BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
+        body: BlocListener<DestinationOrderBloc, DestinationOrderState>(
+          listener: (context, state) {
+            state.souvenirsOrFailureOption.fold(
+              () => null,
+              (either) => either.fold(
+                (l) => handleFailure(context, l),
+                (r) => null,
+              ),
+            );
+
+            state.createOrderOfFailureOption.fold(
+              () => null,
+              (either) => either.fold(
+                (l) => handleFailure(context, l),
+                (r) {
+                  Navigator.pop(context);
+
+                  context.pushNamed(AppRouter.destinationPayment, extra: r);
+                },
+              ),
+            );
+          },
+          child: SafeArea(
+            child: BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      DetailPesananWidget(destinationDetail: destinationDetail),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
+                      const DetailPesananTanggalWidget(),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
+                      const DetailPesananTicketWidget(),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
+                      const DetailPesananSouvenirWidget(),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
+                      const DetailPesananSouvenirCartWidget(),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
+                      const DetailPesananRincianBiayaWidget(),
+                      SizedBox(
+                        height: 100.h,
+                      )
+                    ],
+                  ),
                 );
-              }
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    DetailPesananWidget(destinationDetail: destinationDetail),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
-                    const DetailPesananTanggalWidget(),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
-                    const DetailPesananTicketWidget(),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
-                    const DetailPesananSouvenirWidget(),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
-                    const DetailPesananSouvenirCartWidget(),
-                    Divider(
-                      thickness: 8.h,
-                      color: AppColor.grey,
-                    ),
-                    const DetailPesananRincianBiayaWidget(),
-                    SizedBox(
-                      height: 100.h,
-                    )
-                  ],
-                ),
-              );
-            },
+              },
+            ),
           ),
         ),
         bottomSheet: Container(
@@ -122,6 +148,8 @@ class DestinationOrder extends StatelessWidget {
                                         .proceedToPaymentButtonPressed(),
                                   );
                             },
+                            confirmText: 'Lanjut',
+                            dismissText: 'Batal',
                           ),
                         );
                       },

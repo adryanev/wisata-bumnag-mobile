@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' hide Order;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
@@ -11,8 +11,11 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/usecases/get_souvenir_by_destination.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/order_form.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
+import 'package:wisatabumnag/shared/orders/domain/usecases/create_order.dart';
 
 part 'destination_order_event.dart';
 part 'destination_order_state.dart';
@@ -21,7 +24,7 @@ part 'destination_order_bloc.freezed.dart';
 @injectable
 class DestinationOrderBloc
     extends Bloc<DestinationOrderEvent, DestinationOrderState> {
-  DestinationOrderBloc(this._getSouvenirByDestination)
+  DestinationOrderBloc(this._getSouvenirByDestination, this._createOrder)
       : super(DestinationOrderState.initial()) {
     on<_DestinationOrderStarted>(_onStarted);
     on<_DestinationOrderForDateChanged>(_onDateChanged);
@@ -47,6 +50,7 @@ class DestinationOrderBloc
   }
 
   final GetSouvenirByDestination _getSouvenirByDestination;
+  final CreateOrder _createOrder;
 
   FutureOr<void> _onStarted(
     _DestinationOrderStarted event,
@@ -262,5 +266,24 @@ class DestinationOrderBloc
   FutureOr<void> _onProceedToPaymentPressed(
     _DestinationOrderProceedToPaymentButtonPressed event,
     Emitter<DestinationOrderState> emit,
-  ) {}
+  ) async {
+    final cart = state.cart;
+    final form = OrderForm(
+      totalPrice: cart
+          .map((e) => e.subtotal)
+          .fold<double>(0, (previousValue, element) => previousValue + element),
+      orderDate: state.orderForDate,
+      orderDetails: cart,
+    );
+
+    emit(state.copyWith(isSubmitting: true));
+    final result = await _createOrder(
+      CreateOrderParams(form),
+    );
+
+    emit(state.copyWith(createOrderOfFailureOption: optionOf(result)));
+    emit(
+      state.copyWith(createOrderOfFailureOption: none(), isSubmitting: false),
+    );
+  }
 }

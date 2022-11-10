@@ -20,6 +20,7 @@ class TokenInterceptor extends Interceptor {
     }
     final newOption = options.copyWith(
       headers: {
+        ...options.headers,
         'Authorization': 'Bearer $token',
       },
     );

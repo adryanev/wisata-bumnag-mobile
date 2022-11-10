@@ -1,5 +1,6 @@
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
 
 class OrderableMapper {
@@ -47,5 +48,38 @@ class OrderableTypeMapper {
       case OrderableType.package:
         return r'App\Models\Package';
     }
+  }
+}
+
+class PaymentTypeMapper {
+  const PaymentTypeMapper._();
+
+  static String toText(PaymentType type) {
+    switch (type) {
+      case PaymentType.onsite:
+        return 'Bayar di tempat';
+      case PaymentType.online:
+        return 'Bayar Online';
+    }
+  }
+
+  static String toStringType(PaymentType type) {
+    switch (type) {
+      case PaymentType.onsite:
+        return 'onsite';
+      case PaymentType.online:
+        return 'online';
+    }
+  }
+
+  static PaymentType toPaymentType(String type) {
+    switch (type) {
+      case 'onsite':
+        return PaymentType.onsite;
+      case 'online':
+        return PaymentType.online;
+    }
+
+    throw UnimplementedError('invalid payment type string');
   }
 }

@@ -65,7 +65,7 @@ class App extends StatelessWidget {
                   ),
                   color: AppColor.white,
                   elevation: 0,
-                  titleTextStyle: TextStyle(
+                  titleTextStyle: GoogleFonts.poppins(
                     color: AppColor.black,
                     fontWeight: FontWeight.w600,
                     fontSize: 18.sp,

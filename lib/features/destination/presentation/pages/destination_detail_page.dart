@@ -10,40 +10,84 @@ import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.da
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination_detail.entity.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_detail/destination_detail_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
 import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
 import 'package:wisatabumnag/shared/widgets/reviewable_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
+class DestinationDetailPage extends StatefulWidget {
   const DestinationDetailPage({
     super.key,
     required this.destinationId,
   });
   final String? destinationId;
+
+  @override
+  State<DestinationDetailPage> createState() => _DestinationDetailPageState();
+}
+
+class _DestinationDetailPageState extends State<DestinationDetailPage>
+    with FailureMessageHandler {
+  DestinationDetail? _destinationDetail;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<DestinationDetailBloc>()
         ..add(
           DestinationDetailEvent.started(
-            destinationId,
+            widget.destinationId,
           ),
         ),
-      child: BlocListener<DestinationDetailBloc, DestinationDetailState>(
-        listener: (context, state) {
-          state.destinationDetailOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) => null,
-            ),
-          );
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<DestinationDetailBloc, DestinationDetailState>(
+            listener: (context, state) {
+              state.destinationDetailOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => setState(() {
+                    _destinationDetail = r;
+                  }),
+                ),
+              );
+            },
+          ),
+          BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                authenticated: (_) => context.pushNamed(
+                  AppRouter.destinationOrder,
+                  extra: _destinationDetail,
+                ),
+                unauthenticated: () => showDialog<void>(
+                  context: context,
+                  builder: (_) => ConfirmationDialog(
+                    title: 'Harus Masuk',
+                    description: 'Untuk memesan item ini anda harus masuk '
+                        'terlebih dahulu.',
+                    confirmText: 'Masuk',
+                    dismissText: 'Batal',
+                    onDismiss: () {
+                      Navigator.pop(context);
+                    },
+                    onConfirm: () {
+                      context.pushNamed(AppRouter.login);
+                    },
+                  ),
+                ),
+                failed: (failure) => handleFailure(context, failure),
+                orElse: () => null,
+              );
+            },
+          ),
+        ],
         child: Scaffold(
           appBar: AppBar(
             title: BlocBuilder<DestinationDetailBloc, DestinationDetailState>(
@@ -191,10 +235,10 @@ class DestinationDetailPage extends StatelessWidget with FailureMessageHandler {
                       width: 120.w,
                       child: WisataButton.primary(
                         onPressed: () {
-                          context.pushNamed(
-                            AppRouter.destinationOrder,
-                            extra: state.destinationDetail,
-                          );
+                          context.read<AuthenticationBloc>().add(
+                                const AuthenticationEvent
+                                    .checkAuthenticationStatus(),
+                              );
                         },
                         text: 'Beli Tiket',
                       ),

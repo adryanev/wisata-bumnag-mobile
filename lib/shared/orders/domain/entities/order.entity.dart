@@ -28,3 +28,5 @@ class OrderDetail with _$OrderDetail {
     required DateTime updatedAt,
   }) = _OrderDetail;
 }
+
+enum PaymentType { onsite, online }

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/storages/local_storages.dart';
 
+@lazySingleton
 class SignatureInterceptor extends Interceptor {
   SignatureInterceptor(this._preference);
   final LocalStorage _preference;

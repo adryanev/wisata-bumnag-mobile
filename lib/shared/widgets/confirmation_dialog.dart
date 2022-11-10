@@ -9,12 +9,16 @@ class ConfirmationDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
+    required this.confirmText,
+    required this.dismissText,
     required this.onDismiss,
     required this.onConfirm,
   });
 
   final String title;
   final String description;
+  final String confirmText;
+  final String dismissText;
   final VoidCallback onDismiss;
   final VoidCallback onConfirm;
   @override
@@ -58,9 +62,9 @@ class ConfirmationDialog extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: onDismiss,
-                    child: const Text(
-                      'Batal',
-                      style: TextStyle(
+                    child: Text(
+                      dismissText,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -68,7 +72,7 @@ class ConfirmationDialog extends StatelessWidget {
                   SizedBox(
                     width: 8.w,
                   ),
-                  WisataButton.primary(onPressed: () {}, text: 'Lanjut'),
+                  WisataButton.primary(onPressed: onConfirm, text: confirmText),
                 ],
               ),
             )

@@ -10,6 +10,8 @@ class DestinationOrderState with _$DestinationOrderState {
     required List<Souvenir> souvenirs,
     required List<Orderable> cart,
     required DateTime orderForDate,
+    required bool isSubmitting,
+    required Option<Either<Failure, Order>> createOrderOfFailureOption,
   }) = _DestinationOrderState;
   factory DestinationOrderState.initial() => DestinationOrderState(
         isLoading: false,
@@ -19,5 +21,7 @@ class DestinationOrderState with _$DestinationOrderState {
         souvenirs: [],
         cart: [],
         orderForDate: DateTime.now(),
+        isSubmitting: false,
+        createOrderOfFailureOption: none(),
       );
 }
