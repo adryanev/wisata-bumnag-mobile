@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -12,6 +13,7 @@ class OrderableMapper {
         name: ticketable.name,
         price: ticketable.price,
         quantity: 1,
+        media: null,
         subtotal: ticketable.price * 1,
       );
   static Orderable fromSouvenir(Souvenir souvenir) => Orderable(
@@ -19,6 +21,7 @@ class OrderableMapper {
         id: souvenir.id,
         name: souvenir.name,
         price: souvenir.price,
+        media: souvenir.media.firstOrNull,
         quantity: 1,
         subtotal: souvenir.price * 1,
       );

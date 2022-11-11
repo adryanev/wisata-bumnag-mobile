@@ -21,6 +21,9 @@ class PublicDio with DioMixin implements Dio {
   ) {
     final newOptions = BaseOptions(
       contentType: 'application/json',
+      headers: {
+        'Accept': 'application/json',
+      },
       connectTimeout: 120000,
       sendTimeout: 120000,
       receiveTimeout: 120001,

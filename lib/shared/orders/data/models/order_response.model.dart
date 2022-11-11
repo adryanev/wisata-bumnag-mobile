@@ -35,11 +35,11 @@ class OrderDetailResponse with _$OrderDetailResponse {
   const factory OrderDetailResponse({
     required int id,
     required String orderableType,
-    required String orderableId,
+    required int orderableId,
     required String orderableName,
-    required String orderablePrice,
-    required String quantity,
-    required String subtotal,
+    required double orderablePrice,
+    required int quantity,
+    required double subtotal,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _OrderDetailResponse;
@@ -52,11 +52,11 @@ extension OrderDetailResponseX on OrderDetailResponse {
   OrderDetail toDomain() => OrderDetail(
         id: id,
         orderableType: orderableType,
-        orderableId: int.parse(orderableId),
+        orderableId: orderableId,
         orderableName: orderableName,
-        orderablePrice: double.parse(orderablePrice),
-        quantity: int.parse(quantity),
-        subtotal: double.parse(subtotal),
+        orderablePrice: orderablePrice,
+        quantity: quantity,
+        subtotal: subtotal,
         createdAt: createdAt,
         updatedAt: updatedAt,
       );

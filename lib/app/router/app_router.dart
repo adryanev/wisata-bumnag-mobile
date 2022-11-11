@@ -12,6 +12,8 @@ import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
+import 'package:wisatabumnag/shared/widgets/online_payment_page.dart';
+import 'package:wisatabumnag/shared/widgets/payment_success_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -23,6 +25,8 @@ class AppRouter {
   static const destinationDetail = 'destination-detail';
   static const destinationOrder = 'destination-order';
   static const destinationPayment = 'destination-payment';
+  static const paymentDone = 'payment-done';
+  static const onlinePayment = 'online-payment';
 }
 
 final appRouter = GoRouter(
@@ -87,8 +91,30 @@ final appRouter = GoRouter(
 
             return DestinationPaymentPage(order: order);
           },
-        )
+        ),
       ],
+    ),
+    GoRoute(
+      path: '/payment-done',
+      name: AppRouter.paymentDone,
+      builder: (context, state) {
+        final status = state.extra as bool?;
+        if (status == null) return const SizedBox();
+        return PaymentSuccessPage(
+          status: status,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/online-payment',
+      name: AppRouter.onlinePayment,
+      builder: (context, state) {
+        final url = state.extra as String?;
+        if (url == null) return const SizedBox();
+        return OnlinePaymentPage(
+          url: url,
+        );
+      },
     )
   ],
 );

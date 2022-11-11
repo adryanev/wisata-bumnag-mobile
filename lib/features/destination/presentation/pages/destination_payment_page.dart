@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
@@ -10,7 +13,8 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
-class DestinationPaymentPage extends StatelessWidget {
+class DestinationPaymentPage extends StatelessWidget
+    with FailureMessageHandler {
   const DestinationPaymentPage({
     super.key,
     required this.order,
@@ -22,46 +26,76 @@ class DestinationPaymentPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<DestinationPaymentBloc>()
         ..add(DestinationPaymentEvent.started(order)),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Pembayaran',
+      child: BlocListener<DestinationPaymentBloc, DestinationPaymentState>(
+        listener: (context, state) {
+          state.successOnlineOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) {
+                handleFailure(context, l);
+              },
+              (r) => context.pushNamed(AppRouter.onlinePayment, extra: r.url),
+            ),
+          );
+          state.successOnsiteOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) {
+                handleFailure(context, l);
+                context.goNamed(AppRouter.paymentDone, extra: false);
+              },
+              (r) => context.goNamed(AppRouter.paymentDone, extra: true),
+            ),
+          );
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Pembayaran',
+            ),
           ),
-        ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SelectPaymentMethodWidget(),
-              const WisataDivider(),
-              RincianBiayaWidget(
-                order: order,
-              ),
-            ],
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SelectPaymentMethodWidget(),
+                const WisataDivider(),
+                RincianBiayaWidget(
+                  order: order,
+                ),
+              ],
+            ),
           ),
-        ),
-        bottomSheet: Container(
-          height: 80.h,
-          width: 1.sw,
-          padding: Dimension.aroundPadding,
-          decoration: const BoxDecoration(
-            color: AppColor.white,
-            boxShadow: [
-              BoxShadow(
-                blurStyle: BlurStyle.outer,
-                spreadRadius: 1,
-                blurRadius: 1,
-                color: AppColor.borderStroke,
-              ),
-            ],
-          ),
-          child: BlocBuilder<DestinationPaymentBloc, DestinationPaymentState>(
-            builder: (context, state) {
-              return WisataButton.primary(
-                onPressed: () {},
-                text: 'Bayar',
-              );
-            },
+          bottomSheet: Container(
+            height: 80.h,
+            width: 1.sw,
+            padding: Dimension.aroundPadding,
+            decoration: const BoxDecoration(
+              color: AppColor.white,
+              boxShadow: [
+                BoxShadow(
+                  blurStyle: BlurStyle.outer,
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  color: AppColor.borderStroke,
+                ),
+              ],
+            ),
+            child: BlocBuilder<DestinationPaymentBloc, DestinationPaymentState>(
+              builder: (context, state) {
+                return state.isLoading
+                    ? WisataButton.loading()
+                    : WisataButton.primary(
+                        onPressed: () {
+                          context.read<DestinationPaymentBloc>().add(
+                                const DestinationPaymentEvent
+                                    .onPayButtonPressed(),
+                              );
+                        },
+                        text: 'Bayar',
+                      );
+              },
+            ),
           ),
         ),
       ),

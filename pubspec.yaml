@@ -43,6 +43,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   intl: ^0.17.0
   json_annotation: ^4.7.0
+  lottie: ^2.0.0
   pretty_dio_logger: ^1.1.1
   retrofit: ^3.3.1
   rxdart: ^0.27.5
@@ -51,6 +52,7 @@ dependencies:
   tab_indicator_styler: ^2.0.0
   url_launcher: ^6.1.6
   uuid: ^3.0.6
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   bloc_test: ^9.0.3
@@ -76,12 +78,14 @@ flutter_gen:
     flutter_svg: true
     # flare_flutter: true
     # rive: true
+    lottie: true
 
 flutter:
   uses-material-design: true
   generate: true
 
   assets:
+    - assets/animations/
     - assets/fonts/
     - assets/google_fonts/
     - assets/icons/

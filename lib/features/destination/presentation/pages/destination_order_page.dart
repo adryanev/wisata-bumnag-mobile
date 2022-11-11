@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -517,8 +518,9 @@ class DetailPesananSouvenirCartWidget extends StatelessWidget {
                   ...list
                       .map(
                         (e) => ListTile(
-                          leading: Assets.images.destinationPlaceholder
-                              .image(fit: BoxFit.fill),
+                          leading: e.media == null
+                              ? null
+                              : CachedNetworkImage(imageUrl: e.media!),
                           title: Text(e.name),
                           subtitle: Text('${rupiahCurrency(e.price)}'),
                           trailing: Row(

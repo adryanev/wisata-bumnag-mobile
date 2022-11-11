@@ -9,6 +9,7 @@ class Orderable with _$Orderable {
     required String name,
     required double price,
     required int quantity,
+    required String? media,
     required double subtotal,
   }) = _Orderable;
 }
