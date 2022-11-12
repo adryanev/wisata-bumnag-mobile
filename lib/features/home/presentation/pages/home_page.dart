@@ -59,49 +59,56 @@ class _HomePageState extends State<HomePage> with FailureMessageHandler {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          authenticated: (user) {
-            context
-                .read<HomeBloc>()
-                .add(const HomeEvent.bottomNavigatonChanged(3));
-          },
-          unauthenticated: () => context.pushNamed(AppRouter.login),
-        );
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: Dimension.aroundPadding,
-            child: BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                return pages[state.navigationBarIndex];
-              },
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: Dimension.aroundPadding,
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return pages[state.navigationBarIndex];
+            },
           ),
         ),
-        bottomNavigationBar: BlocSelector<HomeBloc, HomeState, int>(
-          selector: (state) => state.navigationBarIndex,
-          builder: (context, state) {
-            return BottomNavigationBar(
-              showSelectedLabels: true,
-              items: navigationItem,
-              currentIndex: state,
-              onTap: (value) {
-                if (value == 3) {
-                  context.read<AuthenticationBloc>().add(
-                        const AuthenticationEvent.checkAuthenticationStatus(),
-                      );
-                  return;
-                }
-                context
-                    .read<HomeBloc>()
-                    .add(HomeEvent.bottomNavigatonChanged(value));
+      ),
+      bottomNavigationBar: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            authenticated: (_) => BlocSelector<HomeBloc, HomeState, int>(
+              selector: (state) => state.navigationBarIndex,
+              builder: (context, state) {
+                return BottomNavigationBar(
+                  showSelectedLabels: true,
+                  items: navigationItem,
+                  currentIndex: state,
+                  onTap: (value) {
+                    context
+                        .read<HomeBloc>()
+                        .add(HomeEvent.bottomNavigatonChanged(value));
+                  },
+                );
               },
-            );
-          },
-        ),
+            ),
+            unauthenticated: () => BlocSelector<HomeBloc, HomeState, int>(
+              selector: (state) => state.navigationBarIndex,
+              builder: (context, state) {
+                return BottomNavigationBar(
+                  showSelectedLabels: true,
+                  items: navigationItem,
+                  currentIndex: state,
+                  onTap: (value) {
+                    if (value == 3) {
+                      context.pushNamed(AppRouter.login);
+                    }
+                    context
+                        .read<HomeBloc>()
+                        .add(HomeEvent.bottomNavigatonChanged(value));
+                  },
+                );
+              },
+            ),
+            orElse: () => const SizedBox(),
+          );
+        },
       ),
     );
   }

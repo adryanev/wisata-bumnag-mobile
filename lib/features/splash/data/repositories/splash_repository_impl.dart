@@ -60,4 +60,21 @@ class SplashRepositoryImpl implements SplashRepository {
   @override
   Future<Either<Failure, Unit>> saveSalt(RemoteConfig<String, String> config) =>
       _localSource.saveSalt(config.value);
+
+  @override
+  Future<Either<Failure, RemoteConfig<String, String>>> fetchMapApiKey() =>
+      _remoteSource.getMapApiKey().then(
+            (value) => value.map(
+              (r) => RemoteConfig(
+                key: RemoteConfigKey.mapApiKey,
+                value: r,
+              ),
+            ),
+          );
+
+  @override
+  Future<Either<Failure, Unit>> saveMapApiKey(
+    RemoteConfig<String, String> config,
+  ) =>
+      _localSource.saveMapApiKey(config.value);
 }

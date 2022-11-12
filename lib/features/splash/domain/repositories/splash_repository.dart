@@ -11,4 +11,9 @@ abstract class SplashRepository {
 
   Future<Either<Failure, RemoteConfig<String, String>>> fetchSalt();
   Future<Either<Failure, Unit>> saveSalt(RemoteConfig<String, String> config);
+
+  Future<Either<Failure, RemoteConfig<String, String>>> fetchMapApiKey();
+  Future<Either<Failure, Unit>> saveMapApiKey(
+    RemoteConfig<String, String> config,
+  );
 }

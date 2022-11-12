@@ -21,6 +21,10 @@ class Failure with _$Failure {
     required Map<String, dynamic> errors,
   }) = ServerValidationFailure;
 
+  const factory Failure.locationFailure({
+    required String message,
+  }) = LocationFailure;
+
   const factory Failure.unexpectedFailure({
     required String message,
   }) = UnexpectedFailure;

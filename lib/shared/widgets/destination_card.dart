@@ -1,11 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/core/utils/currency_formatter.dart';
+import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
 class DestinationCard extends StatelessWidget {
-  const DestinationCard({super.key});
-
+  const DestinationCard({super.key, required this.destination});
+  final Destination destination;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -16,9 +20,11 @@ class DestinationCard extends StatelessWidget {
           children: [
             SizedBox(
               width: 175.w,
-              height: 110.h,
-              child:
-                  Assets.images.destinationPlaceholder.image(fit: BoxFit.fill),
+              height: 125.h,
+              child: CachedNetworkImage(
+                imageUrl: destination.media[0],
+                fit: BoxFit.fill,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
@@ -26,9 +32,9 @@ class DestinationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pulau Sultan',
+                    destination.name,
                     style: TextStyle(
-                      fontSize: 10.sp,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
                       color: AppColor.black,
@@ -43,9 +49,9 @@ class DestinationCard extends StatelessWidget {
                               .svg(color: AppColor.darkGrey),
                         ),
                         TextSpan(
-                          text: ' Pesisir Selatan, Sumatera Barat',
+                          text: ' ${destination.address}',
                           style: TextStyle(
-                            fontSize: 9.sp,
+                            fontSize: 11.sp,
                             color: AppColor.darkGrey,
                           ),
                         ),
@@ -58,27 +64,33 @@ class DestinationCard extends StatelessWidget {
                       Icon(
                         Icons.star,
                         color: const Color(0xFFFFB800),
-                        size: 8.r,
+                        size: 10.r,
                       ),
                       Text(
-                        ' 4.8',
-                        style:
-                            TextStyle(fontSize: 8.sp, color: AppColor.darkGrey),
+                        ' ${destination.reviews.rating ?? 0}',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color: AppColor.darkGrey,
+                        ),
                       ),
                       Text(
-                        '(120)',
-                        style:
-                            TextStyle(fontSize: 8.sp, color: AppColor.darkGrey),
+                        '(${destination.reviews.count})',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color: AppColor.darkGrey,
+                        ),
                       )
                     ],
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
-                      'Rp 1.000.000',
+                      '${rupiahCurrency(
+                        destination.tickets.firstOrNull?.price,
+                      )}',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 11.sp,
+                        fontSize: 13.sp,
                         color: AppColor.secondBlack,
                       ),
                     ),

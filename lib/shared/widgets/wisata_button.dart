@@ -9,7 +9,7 @@ class WisataButton extends StatelessWidget {
   });
 
   factory WisataButton.primary({
-    required VoidCallback onPressed,
+    required VoidCallback? onPressed,
     required String text,
   }) =>
       WisataButton(onPressed: onPressed, text: text);
@@ -24,20 +24,19 @@ class WisataButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(vertical: 13.5.h),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.r),
-          ),
+      style: ElevatedButton.styleFrom(
+        // padding: EdgeInsets.symmetric(vertical: 13.5.h),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6.r),
         ),
       ),
       child: text.isEmpty
           ? const CircularProgressIndicator.adaptive()
           : Text(
               text,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
     );
   }

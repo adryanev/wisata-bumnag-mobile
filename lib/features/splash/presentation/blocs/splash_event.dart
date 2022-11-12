@@ -11,4 +11,8 @@ class SplashEvent with _$SplashEvent {
   const factory SplashEvent.fetchSalt() = SplashFetchSalt;
   const factory SplashEvent.saveSalt(RemoteConfig<String, String> config) =
       SplashSaveSalt;
+
+  const factory SplashEvent.fetchMapApiKey() = SplashFetchMapApiKey;
+  const factory SplashEvent.saveMapApiKey(RemoteConfig<String, String> config) =
+      SplashSaveMapApiKey;
 }

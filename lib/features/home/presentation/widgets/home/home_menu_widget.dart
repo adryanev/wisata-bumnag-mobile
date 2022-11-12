@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
+import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 
 class HomeMenuWidget extends StatefulWidget {
   const HomeMenuWidget({super.key});
@@ -11,10 +16,21 @@ class HomeMenuWidget extends StatefulWidget {
 
 class _HomeMenuWidgetState extends State<HomeMenuWidget> {
   final listMenu = [
-    HomeMenuItem(
-      label: 'Wisata',
-      icon: Assets.images.logo.wisata.svg(),
-      onClick: () {},
+    BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
+      selector: (state) {
+        final category = state.category
+            ?.firstWhere((element) => element.name.toLowerCase() == 'wisata');
+        return category;
+      },
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Wisata',
+          icon: Assets.images.logo.wisata.svg(),
+          onClick: () {
+            context.pushNamed(AppRouter.destination, extra: state);
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Paket Wisata',
@@ -26,15 +42,38 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
       icon: Assets.images.logo.event.svg(),
       onClick: () {},
     ),
-    HomeMenuItem(
-      label: 'Kuliner',
-      icon: Assets.images.logo.kuliner.svg(),
-      onClick: () {},
+    BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
+      selector: (state) {
+        final category = state.category
+            ?.firstWhere((element) => element.name.toLowerCase() == 'kuliner');
+        return category;
+      },
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Kuliner',
+          icon: Assets.images.logo.kuliner.svg(),
+          onClick: () {
+            context.pushNamed(AppRouter.destination, extra: state);
+          },
+        );
+      },
     ),
-    HomeMenuItem(
-      label: 'Akomodasi',
-      icon: Assets.images.logo.akomodasi.svg(),
-      onClick: () {},
+    BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
+      selector: (state) {
+        final category = state.category?.firstWhere(
+          (element) => element.name.toLowerCase() == 'akomodasi',
+        );
+        return category;
+      },
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Akomodasi',
+          icon: Assets.images.logo.akomodasi.svg(),
+          onClick: () {
+            context.pushNamed(AppRouter.destination, extra: state);
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Suvenir',
