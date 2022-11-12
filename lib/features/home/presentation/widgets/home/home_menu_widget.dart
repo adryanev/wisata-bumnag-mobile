@@ -129,7 +129,7 @@ class HomeMenuItem extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
           ),
         ],
       ),

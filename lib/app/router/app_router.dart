@@ -9,6 +9,7 @@ import 'package:wisatabumnag/features/destination/presentation/pages/destination
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_order_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_payment_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
+import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -27,6 +28,7 @@ class AppRouter {
   static const destinationPayment = 'destination-payment';
   static const paymentDone = 'payment-done';
   static const onlinePayment = 'online-payment';
+  static const packages = 'packages';
 }
 
 final appRouter = GoRouter(
@@ -115,6 +117,11 @@ final appRouter = GoRouter(
           url: url,
         );
       },
-    )
+    ),
+    GoRoute(
+      path: '/packages',
+      name: AppRouter.packages,
+      builder: (context, state) => const PackageListPage(),
+    ),
   ],
 );

@@ -17,5 +17,4 @@ class Orderable with _$Orderable {
 enum OrderableType {
   ticket,
   souvenir,
-  package,
 }

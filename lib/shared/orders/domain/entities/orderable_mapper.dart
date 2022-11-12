@@ -34,8 +34,7 @@ class OrderableTypeMapper {
     switch (orderType) {
       case r'App\Models\Souvenir':
         return OrderableType.souvenir;
-      case r'App\Models\Package':
-        return OrderableType.package;
+
       case r'App\Models\Ticket':
         return OrderableType.ticket;
     }
@@ -48,8 +47,6 @@ class OrderableTypeMapper {
         return r'App\Models\Ticket';
       case OrderableType.souvenir:
         return r'App\Models\Souvenir';
-      case OrderableType.package:
-        return r'App\Models\Package';
     }
   }
 }
