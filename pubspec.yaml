@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.17.0
   json_annotation: ^4.7.0
   lottie: ^2.0.0
+  maps_launcher: ^2.0.1
   pretty_dio_logger: ^1.1.1
   retrofit: ^3.3.1
   rxdart: ^0.27.5

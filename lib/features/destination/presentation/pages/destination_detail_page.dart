@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -521,7 +522,12 @@ class DestinationDetailLocationWidget extends StatelessWidget {
                 height: 35.h,
                 width: 180.w,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MapsLauncher.launchCoordinates(
+                      double.parse(destinationDetail.latitude!),
+                      double.parse(destinationDetail.longitude!),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
                   ),
