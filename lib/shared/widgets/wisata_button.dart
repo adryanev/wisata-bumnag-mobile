@@ -34,7 +34,7 @@ class WisataButton extends StatelessWidget {
           ? const CircularProgressIndicator.adaptive()
           : Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),

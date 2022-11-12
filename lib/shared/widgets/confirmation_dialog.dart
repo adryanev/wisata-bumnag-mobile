@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
-import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class ConfirmationDialog extends StatelessWidget {

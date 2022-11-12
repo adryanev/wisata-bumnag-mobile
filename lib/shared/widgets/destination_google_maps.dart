@@ -14,7 +14,7 @@ class DestinationGoogleMaps extends StatefulWidget {
 }
 
 class _DestinationGoogleMapsState extends State<DestinationGoogleMaps> {
-  GoogleMapController? _controller;
+  // GoogleMapController? _controller;
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -28,11 +28,11 @@ class _DestinationGoogleMapsState extends State<DestinationGoogleMaps> {
           position: LatLng(widget.latitude, widget.longitude),
         ),
       },
-      onMapCreated: (controller) {
-        setState(() {
-          _controller = controller;
-        });
-      },
+      // onMapCreated: (controller) {
+      //   setState(() {
+      //     _controller = controller;
+      //   });
+      // },
     );
   }
 }

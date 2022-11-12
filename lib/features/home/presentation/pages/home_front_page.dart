@@ -60,7 +60,7 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
           );
         },
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             height: 1.sh,
             width: 1.sw,

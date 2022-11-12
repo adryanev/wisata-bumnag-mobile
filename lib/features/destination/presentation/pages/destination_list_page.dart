@@ -10,8 +10,8 @@ import 'package:wisatabumnag/features/destination/presentation/widgets/destinati
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/widgets/custom_tab_view.dart';
-import 'package:wisatabumnag/shared/widgets/filter_widget.dart';
-import 'package:wisatabumnag/shared/widgets/search_widget.dart';
+// import 'package:wisatabumnag/shared/widgets/filter_widget.dart';
+// import 'package:wisatabumnag/shared/widgets/search_widget.dart';
 
 class DestinationListPage extends StatefulWidget {
   const DestinationListPage({super.key, required this.category});

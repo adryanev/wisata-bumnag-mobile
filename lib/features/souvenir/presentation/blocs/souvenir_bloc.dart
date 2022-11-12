@@ -6,8 +6,6 @@ part 'souvenir_state.dart';
 
 class SouvenirBloc extends Bloc<SouvenirEvent, SouvenirState> {
   SouvenirBloc() : super(SouvenirInitial()) {
-    on<SouvenirEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<SouvenirEvent>((event, emit) {});
   }
 }

@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
-import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
