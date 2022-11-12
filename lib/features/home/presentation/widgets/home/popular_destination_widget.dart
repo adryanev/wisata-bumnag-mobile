@@ -29,7 +29,7 @@ class PopularDestinationWidget extends StatelessWidget {
             height: 4.h,
           ),
           SizedBox(
-            height: 190.h,
+            height: 210.h,
             width: 1.sw,
             child: BlocSelector<HomeFrontCubit, HomeFrontState,
                 List<Recommendation>?>(

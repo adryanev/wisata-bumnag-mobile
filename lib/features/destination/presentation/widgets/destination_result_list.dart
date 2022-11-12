@@ -5,6 +5,7 @@ import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_result/destination_result_bloc.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
+import 'package:wisatabumnag/shared/widgets/destination_non_ticket_card.dart';
 
 class DestinationResultList extends StatefulWidget {
   const DestinationResultList({
@@ -41,7 +42,7 @@ class _DestinationResultListState extends State<DestinationResultList> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    return currentScroll >= (maxScroll * 0.8);
   }
 
   @override
@@ -75,9 +76,14 @@ class _DestinationResultListState extends State<DestinationResultList> {
                     },
                   );
                 },
-                child: DestinationCard(
-                  destination: state.destinations[index],
-                ),
+                child:
+                    (widget.category.id == 1 || widget.category.parentId == 1)
+                        ? DestinationCard(
+                            destination: state.destinations[index],
+                          )
+                        : DestinationNonTicketCard(
+                            destination: state.destinations[index],
+                          ),
               ),
               itemCount: state.destinations.length,
               controller: _scrollController,

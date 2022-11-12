@@ -8,7 +8,7 @@ part 'reviewable_response.model.g.dart';
 class ReviewableResponse with _$ReviewableResponse {
   const factory ReviewableResponse({
     required int count,
-    required int? rating,
+    required double? rating,
     required List<ReviewResponse> data,
   }) = _ReviewableResponse;
 

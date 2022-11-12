@@ -18,6 +18,7 @@ import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
 import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
+import 'package:wisatabumnag/shared/widgets/destination_non_ticket_card.dart';
 import 'package:wisatabumnag/shared/widgets/reviewable_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
@@ -187,6 +188,12 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
               if (state.isLoading) {
                 return const SizedBox();
               }
+              if (state.destinationDetail?.categories.firstWhereOrNull(
+                    (element) => element.id == 1 || element.parentId == 1,
+                  ) ==
+                  null) {
+                return const SizedBox();
+              }
               return Container(
                 height: 80.h,
                 padding: Dimension.aroundPadding,
@@ -307,59 +314,58 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              Flexible(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+              if (destinationDetail.categories.firstWhereOrNull(
+                    (element) => element.id == 1 || element.parentId == 1,
+                  ) ==
+                  null) ...[
+                if (destinationDetail.instagram == null)
+                  const SizedBox()
+                else
+                  Flexible(
+                    flex: 6,
+                    child: Row(
                       children: [
-                        Icon(
-                          Icons.star,
-                          color: const Color(0xFFFFB800),
-                          size: 24.r,
-                        ),
+                        Assets.icons.icInstagramSolid.svg(),
                         SizedBox(
                           width: 4.w,
                         ),
                         Text(
-                          '${destinationDetail.reviews.rating ?? 0}',
-                          style: TextStyle(
-                            color: AppColor.secondBlack,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.sp,
+                          destinationDetail.instagram!,
+                          style: const TextStyle(
+                            color: AppColor.darkGrey,
                           ),
                         )
                       ],
                     ),
-                    Text(
-                      '${destinationDetail.reviews.count} Review',
-                      style: const TextStyle(
-                        color: AppColor.darkGrey,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 25.h,
-                width: 3.w,
-                color: AppColor.grey,
-              ),
-              const Spacer(),
-              if (destinationDetail.instagram == null)
-                const SizedBox()
-              else
+                  ),
+              ] else ...[
                 Flexible(
-                  flex: 6,
-                  child: Row(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Assets.icons.icInstagramSolid.svg(),
-                      SizedBox(
-                        width: 4.w,
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: const Color(0xFFFFB800),
+                            size: 24.r,
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Text(
+                            '${destinationDetail.reviews.rating ?? 0}',
+                            style: TextStyle(
+                              color: AppColor.secondBlack,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.sp,
+                            ),
+                          )
+                        ],
                       ),
                       Text(
-                        destinationDetail.instagram!,
+                        '${destinationDetail.reviews.count} Review',
                         style: const TextStyle(
                           color: AppColor.darkGrey,
                         ),
@@ -367,6 +373,33 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                Container(
+                  height: 25.h,
+                  width: 3.w,
+                  color: AppColor.grey,
+                ),
+                const Spacer(),
+                if (destinationDetail.instagram == null)
+                  const SizedBox()
+                else
+                  Flexible(
+                    flex: 6,
+                    child: Row(
+                      children: [
+                        Assets.icons.icInstagramSolid.svg(),
+                        SizedBox(
+                          width: 4.w,
+                        ),
+                        Text(
+                          destinationDetail.instagram!,
+                          style: const TextStyle(
+                            color: AppColor.darkGrey,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+              ]
             ],
           ),
           SizedBox(
@@ -655,7 +688,7 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 1.sw,
-            height: 190.h,
+            height: 210.h,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: destinationDetail.recommendations.length,
@@ -671,9 +704,17 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
                       },
                     );
                   },
-                  child: DestinationCard(
-                    destination: destinationDetail.recommendations[index],
-                  ),
+                  child: (destinationDetail.categories.firstWhereOrNull(
+                            (element) =>
+                                element.id == 1 || element.parentId == 1,
+                          ) ==
+                          null)
+                      ? DestinationNonTicketCard(
+                          destination: destinationDetail.recommendations[index],
+                        )
+                      : DestinationCard(
+                          destination: destinationDetail.recommendations[index],
+                        ),
                 );
               },
             ),
