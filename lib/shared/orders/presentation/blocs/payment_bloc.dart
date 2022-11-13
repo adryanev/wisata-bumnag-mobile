@@ -11,42 +11,41 @@ import 'package:wisatabumnag/shared/orders/domain/entities/payment_form.entity.d
 import 'package:wisatabumnag/shared/orders/domain/usecases/create_payment_online.dart';
 import 'package:wisatabumnag/shared/orders/domain/usecases/create_payment_onsite.dart';
 
-part 'destination_payment_event.dart';
-part 'destination_payment_state.dart';
-part 'destination_payment_bloc.freezed.dart';
+part 'payment_event.dart';
+part 'payment_state.dart';
+part 'payment_bloc.freezed.dart';
 
 @injectable
-class DestinationPaymentBloc
-    extends Bloc<DestinationPaymentEvent, DestinationPaymentState> {
-  DestinationPaymentBloc(
+class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
+  PaymentBloc(
     this._createPaymentOnline,
     this._createPaymentOnsite,
-  ) : super(DestinationPaymentState.initial()) {
-    on<_DestinationPaymentStarted>(_onStarted);
-    on<_DestinationPaymentTypeChanged>(_onPaymentTypeChanged);
-    on<_DestinationPaymentPayButtonPressed>(_onPayButtonPressed);
+  ) : super(PaymentState.initial()) {
+    on<_PaymentStarted>(_onStarted);
+    on<_PaymentTypeChanged>(_onPaymentTypeChanged);
+    on<_PaymentPayButtonPressed>(_onPayButtonPressed);
   }
 
   final CreatePaymentOnline _createPaymentOnline;
   final CreatePaymentOnsite _createPaymentOnsite;
 
   FutureOr<void> _onStarted(
-    _DestinationPaymentStarted event,
-    Emitter<DestinationPaymentState> emit,
+    _PaymentStarted event,
+    Emitter<PaymentState> emit,
   ) {
     emit(state.copyWith(order: event.order));
   }
 
   FutureOr<void> _onPaymentTypeChanged(
-    _DestinationPaymentTypeChanged event,
-    Emitter<DestinationPaymentState> emit,
+    _PaymentTypeChanged event,
+    Emitter<PaymentState> emit,
   ) {
     emit(state.copyWith(paymentType: event.paymentType));
   }
 
   FutureOr<void> _onPayButtonPressed(
-    _DestinationPaymentPayButtonPressed event,
-    Emitter<DestinationPaymentState> emit,
+    _PaymentPayButtonPressed event,
+    Emitter<PaymentState> emit,
   ) async {
     final form = PaymentForm(
       orderNumber: state.order!.number,

@@ -8,7 +8,6 @@ import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_pagination.entity.dart';
-import 'package:wisatabumnag/features/packages/domain/usecases/get_package_detail.dart';
 import 'package:wisatabumnag/features/packages/domain/usecases/get_packages.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';

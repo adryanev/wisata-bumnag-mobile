@@ -1,16 +1,16 @@
-part of 'destination_payment_bloc.dart';
+part of 'payment_bloc.dart';
 
 @freezed
-class DestinationPaymentState with _$DestinationPaymentState {
-  const factory DestinationPaymentState({
+class PaymentState with _$PaymentState {
+  const factory PaymentState({
     required bool isLoading,
     required PaymentType paymentType,
     required Order? order,
     required Option<Either<Failure, MidtransPayment>>
         successOnlineOrFailureOption,
     required Option<Either<Failure, Order>> successOnsiteOrFailureOption,
-  }) = _DestinationPaymentState;
-  factory DestinationPaymentState.initial() => DestinationPaymentState(
+  }) = _PaymentState;
+  factory PaymentState.initial() => PaymentState(
         isLoading: false,
         paymentType: PaymentType.onsite,
         order: null,

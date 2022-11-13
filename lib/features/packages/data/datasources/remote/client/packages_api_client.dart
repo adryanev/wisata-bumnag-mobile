@@ -4,6 +4,7 @@ import 'package:retrofit/http.dart';
 import 'package:wisatabumnag/core/networks/models/base_pagination_response.model.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/features/packages/data/models/package_detail_response.model.dart';
 import 'package:wisatabumnag/features/packages/data/models/package_response.model.dart';
 
 part 'packages_api_client.g.dart';
@@ -22,7 +23,7 @@ abstract class PackagesApiClient {
   );
 
   @GET('v1/packages/{id}')
-  Future<BaseResponse<PackageResponse>> getPackageDetail(
+  Future<BaseResponse<PackageDetailResponse>> getPackageDetail(
     @Path('id') String packageId,
   );
 }

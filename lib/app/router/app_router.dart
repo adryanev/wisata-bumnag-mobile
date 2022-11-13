@@ -7,14 +7,14 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_order_page.dart';
-import 'package:wisatabumnag/features/destination/presentation/pages/destination_payment_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
-import 'package:wisatabumnag/shared/widgets/online_payment_page.dart';
-import 'package:wisatabumnag/shared/widgets/payment_success_page.dart';
+import 'package:wisatabumnag/shared/orders/presentation/pages/online_payment_page.dart';
+import 'package:wisatabumnag/shared/orders/presentation/pages/payment_page.dart';
+import 'package:wisatabumnag/shared/orders/presentation/pages/payment_success_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -25,7 +25,7 @@ class AppRouter {
   static const destination = 'destination';
   static const destinationDetail = 'destination-detail';
   static const destinationOrder = 'destination-order';
-  static const destinationPayment = 'destination-payment';
+  static const payment = 'payment';
   static const paymentDone = 'payment-done';
   static const onlinePayment = 'online-payment';
   static const packages = 'packages';
@@ -82,41 +82,43 @@ final appRouter = GoRouter(
             return DestinationOrder(destinationDetail: destination);
           },
         ),
-        GoRoute(
-          path: 'payment',
-          name: AppRouter.destinationPayment,
-          builder: (context, state) {
-            final order = state.extra as Order?;
-            if (order == null) {
-              return const SizedBox();
-            }
-
-            return DestinationPaymentPage(order: order);
-          },
-        ),
       ],
     ),
     GoRoute(
-      path: '/payment-done',
-      name: AppRouter.paymentDone,
+      path: 'payment',
+      name: AppRouter.payment,
       builder: (context, state) {
-        final status = state.extra as bool?;
-        if (status == null) return const SizedBox();
-        return PaymentSuccessPage(
-          status: status,
-        );
+        final order = state.extra as Order?;
+        if (order == null) {
+          return const SizedBox();
+        }
+
+        return PaymentPage(order: order);
       },
-    ),
-    GoRoute(
-      path: '/online-payment',
-      name: AppRouter.onlinePayment,
-      builder: (context, state) {
-        final url = state.extra as String?;
-        if (url == null) return const SizedBox();
-        return OnlinePaymentPage(
-          url: url,
-        );
-      },
+      routes: [
+        GoRoute(
+          path: 'payment-done',
+          name: AppRouter.paymentDone,
+          builder: (context, state) {
+            final status = state.extra as bool?;
+            if (status == null) return const SizedBox();
+            return PaymentSuccessPage(
+              status: status,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'online-payment',
+          name: AppRouter.onlinePayment,
+          builder: (context, state) {
+            final url = state.extra as String?;
+            if (url == null) return const SizedBox();
+            return OnlinePaymentPage(
+              url: url,
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/packages',

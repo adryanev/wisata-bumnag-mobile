@@ -7,15 +7,14 @@ import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.da
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
-import 'package:wisatabumnag/features/destination/presentation/blocs/destination_payment/destination_payment_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
+import 'package:wisatabumnag/shared/orders/presentation/blocs/payment_bloc.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
-class DestinationPaymentPage extends StatelessWidget
-    with FailureMessageHandler {
-  const DestinationPaymentPage({
+class PaymentPage extends StatelessWidget with FailureMessageHandler {
+  const PaymentPage({
     super.key,
     required this.order,
   });
@@ -24,9 +23,9 @@ class DestinationPaymentPage extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<DestinationPaymentBloc>()
-        ..add(DestinationPaymentEvent.started(order)),
-      child: BlocListener<DestinationPaymentBloc, DestinationPaymentState>(
+      create: (context) =>
+          getIt<PaymentBloc>()..add(PaymentEvent.started(order)),
+      child: BlocListener<PaymentBloc, PaymentState>(
         listener: (context, state) {
           state.successOnlineOrFailureOption.fold(
             () => null,
@@ -81,15 +80,14 @@ class DestinationPaymentPage extends StatelessWidget
                 ),
               ],
             ),
-            child: BlocBuilder<DestinationPaymentBloc, DestinationPaymentState>(
+            child: BlocBuilder<PaymentBloc, PaymentState>(
               builder: (context, state) {
                 return state.isLoading
                     ? WisataButton.loading()
                     : WisataButton.primary(
                         onPressed: () {
-                          context.read<DestinationPaymentBloc>().add(
-                                const DestinationPaymentEvent
-                                    .onPayButtonPressed(),
+                          context.read<PaymentBloc>().add(
+                                const PaymentEvent.onPayButtonPressed(),
                               );
                         },
                         text: 'Bayar',
@@ -110,7 +108,7 @@ class SelectPaymentMethodWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: Dimension.aroundPadding,
-      child: BlocBuilder<DestinationPaymentBloc, DestinationPaymentState>(
+      child: BlocBuilder<PaymentBloc, PaymentState>(
         builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -138,8 +136,8 @@ class SelectPaymentMethodWidget extends StatelessWidget {
                   groupValue: state.paymentType,
                   title: const Text('Bayar di tempat'),
                   onChanged: (type) {
-                    context.read<DestinationPaymentBloc>().add(
-                          DestinationPaymentEvent.onPaymentTypeChanged(type!),
+                    context.read<PaymentBloc>().add(
+                          PaymentEvent.onPaymentTypeChanged(type!),
                         );
                   },
                 ),
@@ -160,8 +158,8 @@ class SelectPaymentMethodWidget extends StatelessWidget {
                   title: const Text('Bayar Online'),
                   subtitle: const Text('via ATM, QRIS, E-Wallet'),
                   onChanged: (type) {
-                    context.read<DestinationPaymentBloc>().add(
-                          DestinationPaymentEvent.onPaymentTypeChanged(type!),
+                    context.read<PaymentBloc>().add(
+                          PaymentEvent.onPaymentTypeChanged(type!),
                         );
                   },
                 ),

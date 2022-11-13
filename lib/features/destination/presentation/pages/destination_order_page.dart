@@ -59,7 +59,7 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                 (r) {
                   Navigator.pop(context);
 
-                  context.pushNamed(AppRouter.destinationPayment, extra: r);
+                  context.pushNamed(AppRouter.payment, extra: r);
                 },
               ),
             );

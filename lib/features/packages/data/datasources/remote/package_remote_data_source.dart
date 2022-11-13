@@ -5,6 +5,7 @@ import 'package:wisatabumnag/core/networks/extensions.dart';
 import 'package:wisatabumnag/core/networks/middlewares/providers/network_middleware_provider.dart';
 import 'package:wisatabumnag/core/networks/models/base_pagination_response.model.dart';
 import 'package:wisatabumnag/features/packages/data/datasources/remote/client/packages_api_client.dart';
+import 'package:wisatabumnag/features/packages/data/models/package_detail_response.model.dart';
 import 'package:wisatabumnag/features/packages/data/models/package_response.model.dart';
 
 abstract class PackageRemoteDataSource {
@@ -13,7 +14,7 @@ abstract class PackageRemoteDataSource {
     required int categoryId,
     required int page,
   });
-  Future<Either<Failure, PackageResponse>> getDetail({
+  Future<Either<Failure, PackageDetailResponse>> getDetail({
     required String packageId,
   });
 }
@@ -24,7 +25,7 @@ class PackageRemoteDataSourceImpl implements PackageRemoteDataSource {
   final PackagesApiClient _client;
   final MiddlewareProvider _provider;
   @override
-  Future<Either<Failure, PackageResponse>> getDetail({
+  Future<Either<Failure, PackageDetailResponse>> getDetail({
     required String packageId,
   }) =>
       safeRemoteCall(
