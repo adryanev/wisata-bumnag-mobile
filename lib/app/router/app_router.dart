@@ -8,7 +8,10 @@ import 'package:wisatabumnag/features/destination/presentation/pages/destination
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_order_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
+import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
+import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
+import 'package:wisatabumnag/features/packages/presentation/pages/package_order_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -29,6 +32,8 @@ class AppRouter {
   static const paymentDone = 'payment-done';
   static const onlinePayment = 'online-payment';
   static const packages = 'packages';
+  static const packageDetail = 'package-detail';
+  static const packageOrder = 'package-order';
 }
 
 final appRouter = GoRouter(
@@ -123,7 +128,34 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/packages',
       name: AppRouter.packages,
-      builder: (context, state) => const PackageListPage(),
+      builder: (context, state) {
+        final category = state.extra as Category?;
+
+        return PackageListPage(
+          category: category,
+        );
+      },
+      routes: [
+        GoRoute(
+          path: 'detail',
+          name: AppRouter.packageDetail,
+          builder: (context, state) {
+            final id = state.queryParams['id'];
+            return PackageDetailPage(packageId: id);
+          },
+        ),
+        GoRoute(
+          path: 'order',
+          name: AppRouter.packageOrder,
+          builder: (context, state) {
+            final package = state.extra as PackageDetail?;
+            if (package == null) {
+              return const SizedBox();
+            }
+            return PackageOrderPage(packageDetail: package);
+          },
+        ),
+      ],
     ),
   ],
 );
