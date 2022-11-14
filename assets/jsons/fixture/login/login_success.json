@@ -1,0 +1,14 @@
+{
+  "data": {
+    "user": {
+      "email": "rywukafe@getnada.com",
+      "name": "Nama lengkap",
+      "nik": "102003005030630",
+      "phone_number": "0285992059242"
+    },
+    "authorization": {
+      "access_token": "jwt-token",
+      "refresh_token": "jwt-token"
+    }
+  }
+}

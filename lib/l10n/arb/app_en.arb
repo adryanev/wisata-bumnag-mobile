@@ -5,6 +5,20 @@
     "description": "Text shown in the AppBar of the Counter Page"
   },
   "invalidEmail": "Invalid Email Address",
-  "invalidPassword": "Password must be at least 8 characters and contain at least one letter and number",
-  "confirmPasswordMismatch": "Password confirmation not match"
+  "invalidPassword": "Password must be at least 8 characters and contain at least capital letter, one letter, number, and special character",
+  "confirmPasswordMismatch": "Password confirmation not match",
+  "yourLocation": "Your Location",
+  "home": "Home",
+  "explore": "Explore",
+  "history": "History",
+  "account": "Account",
+  "cannotBeEmpty": "{field} cannot be empty",
+  "@cannotBeEmpty": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "name": "Name"
 }

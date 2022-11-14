@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:wisatabumnag/injector.dart';
 
@@ -29,8 +30,10 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
   FutureOr<Widget> Function() builder, {
   required String environment,
+  required FirebaseOptions firebaseOptions,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: firebaseOptions);
 
   await configureDependencies(environment: environment);
   FlutterError.onError = (details) {

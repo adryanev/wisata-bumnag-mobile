@@ -33,3 +33,39 @@ class StringSingleLine extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
 }
+
+class EmailAddress extends ValueObject<String> {
+  factory EmailAddress(String input) {
+    return EmailAddress._(
+      validateStringNotEmpty(input).flatMap(validateEmailAddress),
+    );
+  }
+
+  const EmailAddress._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class Password extends ValueObject<String> {
+  factory Password(String input) {
+    return Password._(
+      validateStringNotEmpty(input).flatMap(validatePassword),
+    );
+  }
+
+  const Password._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class PhoneNumber extends ValueObject<String> {
+  factory PhoneNumber(String input) {
+    return PhoneNumber._(
+      validateStringNotEmpty(input).flatMap(validatePhoneNumber),
+    );
+  }
+
+  const PhoneNumber._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
