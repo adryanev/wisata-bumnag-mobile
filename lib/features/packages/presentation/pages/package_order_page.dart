@@ -1,7 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'dart:developer';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,45 +12,35 @@ import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
-import 'package:wisatabumnag/features/destination/domain/entities/destination_detail.entity.dart';
-import 'package:wisatabumnag/features/destination/presentation/blocs/destination_order/destination_order_bloc.dart';
-import 'package:wisatabumnag/gen/assets.gen.dart';
+import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
+import 'package:wisatabumnag/features/packages/presentation/blocs/package_order/package_order_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
-import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class DestinationOrder extends StatelessWidget with FailureMessageHandler {
-  const DestinationOrder({
+class PackageOrderPage extends StatelessWidget with FailureMessageHandler {
+  const PackageOrderPage({
     super.key,
-    required this.destinationDetail,
+    required this.packageDetail,
   });
-  final DestinationDetail destinationDetail;
+  final PackageDetail packageDetail;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<DestinationOrderBloc>()
+      create: (context) => getIt<PackageOrderBloc>()
         ..add(
-          DestinationOrderEvent.started(
-            destinationDetail,
+          PackageOrderEvent.started(
+            packageDetail,
           ),
         ),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Pesanan'),
         ),
-        body: BlocListener<DestinationOrderBloc, DestinationOrderState>(
+        body: BlocListener<PackageOrderBloc, PackageOrderState>(
           listener: (context, state) {
-            state.souvenirsOrFailureOption.fold(
-              () => null,
-              (either) => either.fold(
-                (l) => handleFailure(context, l),
-                (r) => null,
-              ),
-            );
-
             state.createOrderOfFailureOption.fold(
               () => null,
               (either) => either.fold(
@@ -65,7 +54,7 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
             );
           },
           child: SafeArea(
-            child: BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+            child: BlocBuilder<PackageOrderBloc, PackageOrderState>(
               builder: (context, state) {
                 if (state.isLoading) {
                   return const Center(
@@ -76,7 +65,7 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      DetailPesananWidget(destinationDetail: destinationDetail),
+                      DetailPesananWidget(packageDetail: packageDetail),
                       Divider(
                         thickness: 8.h,
                         color: AppColor.grey,
@@ -87,16 +76,6 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                         color: AppColor.grey,
                       ),
                       const DetailPesananTicketWidget(),
-                      Divider(
-                        thickness: 8.h,
-                        color: AppColor.grey,
-                      ),
-                      const DetailPesananSouvenirWidget(),
-                      Divider(
-                        thickness: 8.h,
-                        color: AppColor.grey,
-                      ),
-                      const DetailPesananSouvenirCartWidget(),
                       Divider(
                         thickness: 8.h,
                         color: AppColor.grey,
@@ -127,7 +106,7 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
               ),
             ],
           ),
-          child: BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+          child: BlocBuilder<PackageOrderBloc, PackageOrderState>(
             builder: (context, state) {
               return WisataButton.primary(
                 onPressed: state.cart.isEmpty
@@ -144,8 +123,8 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                               Navigator.pop(context);
                             },
                             onConfirm: () {
-                              context.read<DestinationOrderBloc>().add(
-                                    const DestinationOrderEvent
+                              context.read<PackageOrderBloc>().add(
+                                    const PackageOrderEvent
                                         .proceedToPaymentButtonPressed(),
                                   );
                             },
@@ -165,8 +144,8 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
 }
 
 class DetailPesananWidget extends StatelessWidget {
-  const DetailPesananWidget({super.key, required this.destinationDetail});
-  final DestinationDetail destinationDetail;
+  const DetailPesananWidget({super.key, required this.packageDetail});
+  final PackageDetail packageDetail;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -186,33 +165,11 @@ class DetailPesananWidget extends StatelessWidget {
             height: 12.w,
           ),
           Text(
-            destinationDetail.name,
+            packageDetail.name,
             style: TextStyle(
               color: AppColor.black,
               fontSize: 14.sp,
             ),
-          ),
-          Text.rich(
-            TextSpan(
-              children: [
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: Assets.icons.icLocationPin.svg(
-                    color: AppColor.primary,
-                    height: 14.h,
-                    width: 14.w,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ${destinationDetail.address}',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColor.secondBlack,
-                  ),
-                ),
-              ],
-            ),
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -243,7 +200,7 @@ class DetailPesananTanggalWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              final bloc = context.read<DestinationOrderBloc>();
+              final bloc = context.read<PackageOrderBloc>();
               final date = await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
@@ -254,7 +211,7 @@ class DetailPesananTanggalWidget extends StatelessWidget {
               );
               log(date.toString());
               if (date != null) {
-                bloc.add(DestinationOrderEvent.orderForDateChanged(date));
+                bloc.add(PackageOrderEvent.orderForDateChanged(date));
               }
             },
             child: Container(
@@ -275,8 +232,8 @@ class DetailPesananTanggalWidget extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 8,
-                    child: BlocSelector<DestinationOrderBloc,
-                        DestinationOrderState, DateTime>(
+                    child: BlocSelector<PackageOrderBloc, PackageOrderState,
+                        DateTime>(
                       selector: (state) {
                         return state.orderForDate;
                       },
@@ -319,7 +276,7 @@ class DetailPesananTicketWidget extends StatelessWidget {
           SizedBox(
             height: 8.h,
           ),
-          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+          BlocBuilder<PackageOrderBloc, PackageOrderState>(
             builder: (context, state) {
               return Column(
                 children: [
@@ -343,10 +300,8 @@ class DetailPesananTicketWidget extends StatelessWidget {
                                 onPressed: quantity == 0
                                     ? null
                                     : () {
-                                        context
-                                            .read<DestinationOrderBloc>()
-                                            .add(
-                                              DestinationOrderEvent
+                                        context.read<PackageOrderBloc>().add(
+                                              PackageOrderEvent
                                                   .ticketRemoveButtonPressed(e),
                                             );
                                       },
@@ -371,8 +326,8 @@ class DetailPesananTicketWidget extends StatelessWidget {
                               width: 25.w,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  context.read<DestinationOrderBloc>().add(
-                                        DestinationOrderEvent
+                                  context.read<PackageOrderBloc>().add(
+                                        PackageOrderEvent
                                             .ticketAddButtonPressed(e),
                                       );
                                 },
@@ -401,217 +356,6 @@ class DetailPesananTicketWidget extends StatelessWidget {
   }
 }
 
-class DetailPesananSouvenirWidget extends StatelessWidget {
-  const DetailPesananSouvenirWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: Dimension.aroundPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Souvenir',
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18.sp,
-                ),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {},
-                child: const Text('Lihat Semua'),
-              ),
-            ],
-          ),
-          const Text(
-            'Berwisata gak lengkap rasanya kalau belum belanja suvenir. '
-            'Tambahkan suvenir yang kamu sukai.',
-            style: TextStyle(
-              color: AppColor.darkGrey,
-            ),
-          ),
-          SizedBox(
-            height: 2.h,
-          ),
-          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
-            builder: (context, state) {
-              if (state.souvenirs.isEmpty) {
-                return const Text(
-                  'Sepertinya destinasi ini tidak ada souvenir.',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: AppColor.darkGrey,
-                  ),
-                );
-              }
-              return SizedBox(
-                height: 220.h,
-                width: 1.sw,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: state.souvenirs.length,
-                  itemBuilder: (context, index) {
-                    return SouvenirItemCard(
-                      souvenir: state.souvenirs[index],
-                      onAddToCart: () {
-                        context.read<DestinationOrderBloc>().add(
-                              DestinationOrderEvent
-                                  .souvenirAddCartButtonPressed(
-                                state.souvenirs[index],
-                              ),
-                            );
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DetailPesananSouvenirCartWidget extends StatelessWidget {
-  const DetailPesananSouvenirCartWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: Dimension.aroundPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Keranjang Souvenir',
-            style: TextStyle(
-              color: AppColor.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
-            ),
-          ),
-          SizedBox(
-            height: 12.w,
-          ),
-          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
-            builder: (context, state) {
-              final list = state.cart
-                  .where((element) => element.type == OrderableType.souvenir);
-              if (list.isEmpty) {
-                return Text(
-                  'Kamu belum memilih souvenir.',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontStyle: FontStyle.italic,
-                    color: AppColor.darkGrey,
-                  ),
-                );
-              }
-              return Column(
-                children: [
-                  ...list
-                      .map(
-                        (e) => ListTile(
-                          leading: e.media == null
-                              ? null
-                              : CachedNetworkImage(imageUrl: e.media!),
-                          title: Text(e.name),
-                          subtitle: Text('${rupiahCurrency(e.price)}'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 24.w,
-                                child: IconButton(
-                                  onPressed: () {
-                                    context.read<DestinationOrderBloc>().add(
-                                          DestinationOrderEvent
-                                              .souvenirCartDeleteButtonPressed(
-                                            e,
-                                          ),
-                                        );
-                                  },
-                                  padding: EdgeInsets.zero,
-                                  icon: const Icon(
-                                    Icons.delete,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                                child: ElevatedButton(
-                                  onPressed: e.quantity == 1
-                                      ? null
-                                      : () {
-                                          context
-                                              .read<DestinationOrderBloc>()
-                                              .add(
-                                                DestinationOrderEvent
-                                                    .souvenirCartRemoveButtonPressed(
-                                                  e,
-                                                ),
-                                              );
-                                        },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    backgroundColor: AppColor.primary,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  child: const Icon(Icons.remove),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text('${e.quantity}'),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    context.read<DestinationOrderBloc>().add(
-                                          DestinationOrderEvent
-                                              .souvenirCartAddButtonPressed(e),
-                                        );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    backgroundColor: AppColor.primary,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  child: const Icon(Icons.add),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList()
-                ],
-              );
-            },
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class DetailPesananRincianBiayaWidget extends StatelessWidget {
   const DetailPesananRincianBiayaWidget({super.key});
 
@@ -633,7 +377,7 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
-          BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+          BlocBuilder<PackageOrderBloc, PackageOrderState>(
             builder: (context, state) {
               if (state.cart.isEmpty) {
                 return Text(
@@ -693,7 +437,7 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const Spacer(),
-                      BlocBuilder<DestinationOrderBloc, DestinationOrderState>(
+                      BlocBuilder<PackageOrderBloc, PackageOrderState>(
                         builder: (context, state) {
                           final total =
                               state.cart.map((e) => e.subtotal).fold<double>(

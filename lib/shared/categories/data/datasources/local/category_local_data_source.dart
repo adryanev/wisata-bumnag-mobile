@@ -16,8 +16,7 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
     const CategoryModel(id: 5, name: 'Akomodasi', parentId: null),
     const CategoryModel(id: 6, name: 'Desa Wisata', parentId: null),
     const CategoryModel(id: 24, name: 'Souvenir', parentId: null),
-    const CategoryModel(id: 27, name: 'Package', parentId: null),
-    const CategoryModel(id: 1, name: 'Wisata', parentId: null),
+    const CategoryModel(id: 26, name: 'Package', parentId: null),
   ];
   @override
   List<CategoryModel> getRootCategory() {
