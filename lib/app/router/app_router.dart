@@ -90,7 +90,7 @@ final appRouter = GoRouter(
       ],
     ),
     GoRoute(
-      path: 'payment',
+      path: '/payment',
       name: AppRouter.payment,
       builder: (context, state) {
         final order = state.extra as Order?;
@@ -100,30 +100,28 @@ final appRouter = GoRouter(
 
         return PaymentPage(order: order);
       },
-      routes: [
-        GoRoute(
-          path: 'payment-done',
-          name: AppRouter.paymentDone,
-          builder: (context, state) {
-            final status = state.extra as bool?;
-            if (status == null) return const SizedBox();
-            return PaymentSuccessPage(
-              status: status,
-            );
-          },
-        ),
-        GoRoute(
-          path: 'online-payment',
-          name: AppRouter.onlinePayment,
-          builder: (context, state) {
-            final url = state.extra as String?;
-            if (url == null) return const SizedBox();
-            return OnlinePaymentPage(
-              url: url,
-            );
-          },
-        ),
-      ],
+    ),
+    GoRoute(
+      path: '/payment-done',
+      name: AppRouter.paymentDone,
+      builder: (context, state) {
+        final status = state.extra as bool?;
+        if (status == null) return const SizedBox();
+        return PaymentSuccessPage(
+          status: status,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/online-payment',
+      name: AppRouter.onlinePayment,
+      builder: (context, state) {
+        final url = state.extra as String?;
+        if (url == null) return const SizedBox();
+        return OnlinePaymentPage(
+          url: url,
+        );
+      },
     ),
     GoRoute(
       path: '/packages',

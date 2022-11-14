@@ -32,10 +32,21 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
         );
       },
     ),
-    HomeMenuItem(
-      label: 'Paket Wisata',
-      icon: Assets.images.logo.paketWisata.svg(),
-      onClick: () {},
+    BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
+      selector: (state) {
+        final category = state.category
+            ?.firstWhere((element) => element.name.toLowerCase() == 'package');
+        return category;
+      },
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Paket Wisata',
+          icon: Assets.images.logo.paketWisata.svg(),
+          onClick: () {
+            context.pushNamed(AppRouter.packages, extra: state);
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Event',

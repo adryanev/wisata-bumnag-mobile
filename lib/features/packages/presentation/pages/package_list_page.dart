@@ -6,6 +6,7 @@ import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.da
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_bloc.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_result/destination_result_bloc.dart';
+import 'package:wisatabumnag/features/packages/presentation/blocs/package_list/package_list_bloc.dart';
 import 'package:wisatabumnag/features/packages/presentation/widgets/package_result_list.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
@@ -95,7 +96,7 @@ class _PackageListPageState extends State<PackageListPage>
                               // return SizedBox();
                               return BlocProvider(
                                 key: Key('destination_result_bloc_$index'),
-                                create: (_) => getIt<DestinationResultBloc>(),
+                                create: (_) => getIt<PackageListBloc>(),
                                 child: PackageResultList(
                                   key: Key('destination_result_list_$index'),
                                   category: categories[index],

@@ -275,59 +275,39 @@ class PackageDetailHeaderWidget extends StatelessWidget {
           SizedBox(
             height: 6.h,
           ),
-          Flexible(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: const Color(0xFFFFB800),
-                      size: 24.r,
-                    ),
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                    Text(
-                      '${packageDetail.reviews.rating ?? 0}',
-                      style: TextStyle(
-                        color: AppColor.secondBlack,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.sp,
-                      ),
-                    )
-                  ],
-                ),
-                Text(
-                  '${packageDetail.reviews.count} Review',
-                  style: const TextStyle(
-                    color: AppColor.darkGrey,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: const Color(0xFFFFB800),
+                    size: 24.r,
                   ),
-                )
-              ],
-            ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
+                  Text(
+                    '${packageDetail.reviews.rating ?? 0}',
+                    style: TextStyle(
+                      color: AppColor.secondBlack,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
+                    ),
+                  )
+                ],
+              ),
+              Text(
+                '${packageDetail.reviews.count} Review',
+                style: const TextStyle(
+                  color: AppColor.darkGrey,
+                ),
+              )
+            ],
           ),
-          Container(
-            height: 25.h,
-            width: 3.w,
-            color: AppColor.grey,
-          ),
-          const Spacer(),
           SizedBox(
             height: 20.h,
-          ),
-          Text(
-            'Jadwal Buka',
-            style: TextStyle(
-              color: AppColor.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 16.sp,
-            ),
-          ),
-          SizedBox(
-            height: 16.h,
           ),
         ],
       ),

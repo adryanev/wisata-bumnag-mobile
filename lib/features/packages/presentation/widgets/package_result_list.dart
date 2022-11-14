@@ -69,7 +69,7 @@ class _PackageResultListState extends State<PackageResultList> {
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
                   context.pushNamed(
-                    AppRouter.destinationDetail,
+                    AppRouter.packageDetail,
                     queryParams: {
                       'id': state.packages[index].id.toString(),
                     },

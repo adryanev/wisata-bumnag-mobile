@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
-import 'package:wisatabumnag/gen/assets.gen.dart';
 
 class PackageCard extends StatelessWidget {
   const PackageCard({super.key, required this.package});
