@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '7735004694',
     projectId: 'wisata-bumnag-prod',
     storageBucket: 'wisata-bumnag-prod.appspot.com',
-    iosClientId: '7735004694-9rhe698j12o6gog6g5cu6mull68vd5kk.apps.googleusercontent.com',
+    iosClientId:
+        '7735004694-9rhe698j12o6gog6g5cu6mull68vd5kk.apps.googleusercontent.com',
     iosBundleId: 'dev.bumnag.wisata',
   );
 }
