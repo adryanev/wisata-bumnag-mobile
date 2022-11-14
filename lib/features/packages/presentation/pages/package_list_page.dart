@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_bloc.dart';
-import 'package:wisatabumnag/features/destination/presentation/blocs/destination_result/destination_result_bloc.dart';
 import 'package:wisatabumnag/features/packages/presentation/blocs/package_list/package_list_bloc.dart';
 import 'package:wisatabumnag/features/packages/presentation/widgets/package_result_list.dart';
 import 'package:wisatabumnag/injector.dart';
