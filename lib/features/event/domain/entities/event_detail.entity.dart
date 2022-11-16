@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event.entity.dart';
-import 'package:wisatabumnag/shared/domain/entities/review.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/reviewable.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'event_detail.entity.freezed.dart';
@@ -15,7 +14,7 @@ class EventDetail with _$EventDetail {
     required String? phoneNumber,
     required String? email,
     required double? latitude,
-    required double longitude,
+    required double? longitude,
     required DateTime startDate,
     required DateTime endDate,
     required String? termAndCondition,

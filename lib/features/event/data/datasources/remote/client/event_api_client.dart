@@ -15,7 +15,7 @@ abstract class EventApiClient {
   factory EventApiClient(@Named(InjectionConstants.publicDio) Dio dio) =
       _EventApiClient;
 
-  @GET('v1/destinations')
+  @GET('v1/events')
   Future<BasePaginationResponse<List<EventResponse>>> getEvent({
     @Query('page') required int page,
   });

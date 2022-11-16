@@ -177,7 +177,9 @@ final appRouter = GoRouter(
           name: AppRouter.eventDetail,
           builder: (context, state) {
             final id = state.queryParams['id'];
-            return EventDetailPage(eventId: id);
+            return EventDetailPage(
+              eventId: id,
+            );
           },
         ),
         GoRoute(

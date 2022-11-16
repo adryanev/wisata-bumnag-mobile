@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wisatabumnag/features/event/data/models/event_response.model.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.dart';
-import 'package:wisatabumnag/shared/data/models/review_response.model.dart';
 import 'package:wisatabumnag/shared/data/models/reviewable_response.model.dart';
 import 'package:wisatabumnag/shared/data/models/ticketable_response.model.dart';
 part 'event_detail_response.model.freezed.dart';
