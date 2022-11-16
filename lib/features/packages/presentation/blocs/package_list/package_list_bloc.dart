@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
-import 'package:wisatabumnag/features/packages/domain/entities/package_pagination.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/usecases/get_packages.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
+import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';
 
 part 'package_list_event.dart';
@@ -37,7 +37,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         final packages = result.getRight();
         emit(
           state.copyWith(
-            packages: packages!.packages,
+            packages: packages!.data,
             pagination: packages.pagination,
             hasReachedMax:
                 packages.pagination.lastPage == state.pagination.currentPage,
@@ -67,7 +67,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         state.copyWith(
           packages: List.of(state.packages)
             ..addAll(
-              packages!.packages,
+              packages!.data,
             ),
           pagination: packages.pagination,
           hasReachedMax:

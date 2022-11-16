@@ -5,7 +5,7 @@ class DestinationResultState with _$DestinationResultState {
   const factory DestinationResultState({
     required DestinationResultStatus status,
     required List<Destination> destinations,
-    required Option<Either<Failure, DestinationPagination>>
+    required Option<Either<Failure, Paginable<Destination>>>
         destinationsOrFailureOption,
     required bool hasReachedMax,
     required int currentPage,

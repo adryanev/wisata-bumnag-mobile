@@ -5,7 +5,7 @@ class EventListState with _$EventListState {
   const factory EventListState({
     required EventListStatus status,
     required List<Event> events,
-    required Option<Either<Failure, EventPagination>>
+    required Option<Either<Failure, Paginable<Event>>>
         packagePaginationOrFailureOption,
     required bool hasReachedMax,
     required int currentPage,
