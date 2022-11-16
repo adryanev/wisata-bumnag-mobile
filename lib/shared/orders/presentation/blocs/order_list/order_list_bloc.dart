@@ -5,7 +5,6 @@ import 'package:dartz/dartz.dart' hide Order;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
-import 'package:wisatabumnag/core/domain/usecases/use_case.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';
