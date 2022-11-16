@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/shared/domain/entities/ticket_setting.entity.dart';
 part 'ticketable.entity.freezed.dart';
 
 @freezed
@@ -16,5 +17,6 @@ class Ticketable with _$Ticketable {
     required String? description,
     required String? ticketableType,
     required String? ticketableId,
+    required TicketSetting? settings,
   }) = _Ticketable;
 }

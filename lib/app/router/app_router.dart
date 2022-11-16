@@ -7,6 +7,10 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination_de
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_order_page.dart';
+import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.dart';
+import 'package:wisatabumnag/features/event/presentation/pages/event_detail_page.dart';
+import 'package:wisatabumnag/features/event/presentation/pages/event_list_page.dart';
+import 'package:wisatabumnag/features/event/presentation/pages/event_order_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
@@ -34,6 +38,9 @@ class AppRouter {
   static const packages = 'packages';
   static const packageDetail = 'package-detail';
   static const packageOrder = 'package-order';
+  static const events = 'events';
+  static const eventDetail = 'event-detail';
+  static const eventOrder = 'event-order';
 }
 
 final appRouter = GoRouter(
@@ -151,6 +158,39 @@ final appRouter = GoRouter(
               return const SizedBox();
             }
             return PackageOrderPage(packageDetail: package);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/events',
+      name: AppRouter.events,
+      builder: (context, state) {
+        final category = state.extra as Category?;
+        return EventListPage(
+          category: category,
+        );
+      },
+      routes: [
+        GoRoute(
+          path: 'detail',
+          name: AppRouter.eventDetail,
+          builder: (context, state) {
+            final id = state.queryParams['id'];
+            return EventDetailPage(
+              eventId: id,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'order',
+          name: AppRouter.eventOrder,
+          builder: (context, state) {
+            final event = state.extra as EventDetail?;
+            if (event == null) {
+              return const SizedBox();
+            }
+            return EventOrderPage(eventDetail: event);
           },
         ),
       ],
