@@ -27,7 +27,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
     Emitter<EventListState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == EventListStatus.initial) {
+    if (state.events.isEmpty) {
       final result = await _getEvent(const GetEventParams());
       if (result.isRight()) {
         final events = result.getRight();
@@ -42,7 +42,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
       }
       return emit(
         state.copyWith(
-          packagePaginationOrFailureOption: optionOf(result),
+          eventPaginationOrFailureOption: optionOf(result),
           status: result.isRight()
               ? EventListStatus.success
               : EventListStatus.failure,
@@ -70,12 +70,17 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
         ),
       );
     }
-    return emit(
+    emit(
       state.copyWith(
-        packagePaginationOrFailureOption: optionOf(result),
+        eventPaginationOrFailureOption: optionOf(result),
         status: result.isRight()
             ? EventListStatus.success
             : EventListStatus.failure,
+      ),
+    );
+    emit(
+      state.copyWith(
+        eventPaginationOrFailureOption: none(),
       ),
     );
   }

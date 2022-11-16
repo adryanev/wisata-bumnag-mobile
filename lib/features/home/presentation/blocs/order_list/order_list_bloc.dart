@@ -28,7 +28,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     Emitter<OrderListState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == OrderListStatus.initial) {
+    if (state.orders.isEmpty) {
       final result = await _getOrderHistories(const GetOrderHistoriesParams());
       if (result.isRight()) {
         final orders = result.getRight();
@@ -43,7 +43,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       }
       return emit(
         state.copyWith(
-          packagePaginationOrFailureOption: optionOf(result),
+          orderPaginationOrFailureOption: optionOf(result),
           status: result.isRight()
               ? OrderListStatus.success
               : OrderListStatus.failure,
@@ -71,12 +71,17 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
         ),
       );
     }
-    return emit(
+    emit(
       state.copyWith(
-        packagePaginationOrFailureOption: optionOf(result),
+        orderPaginationOrFailureOption: optionOf(result),
         status: result.isRight()
             ? OrderListStatus.success
             : OrderListStatus.failure,
+      ),
+    );
+    emit(
+      state.copyWith(
+        orderPaginationOrFailureOption: none(),
       ),
     );
   }

@@ -7,7 +7,7 @@ class Order with _$Order {
   const factory Order({
     required String number,
     required String note,
-    required int status,
+    required OrderStatus status,
     required DateTime orderDate,
     required double totalPrice,
     required List<OrderDetail> orderDetails,
@@ -30,3 +30,11 @@ class OrderDetail with _$OrderDetail {
 }
 
 enum PaymentType { onsite, online }
+
+enum OrderStatus {
+  created,
+  paid,
+  cancelled,
+  completed,
+  refunded,
+}

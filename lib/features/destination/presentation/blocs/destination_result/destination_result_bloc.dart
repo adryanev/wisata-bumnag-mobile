@@ -39,7 +39,7 @@ class DestinationResultBloc
     Emitter<DestinationResultState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == DestinationResultStatus.initial) {
+    if (state.destinations.isEmpty) {
       final result =
           await _getDestination(GetDestinationParams(category: event.category));
       if (result.isRight()) {

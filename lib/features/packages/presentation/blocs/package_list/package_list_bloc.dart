@@ -30,7 +30,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
     Emitter<PackageListState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == PackageListStatus.initial) {
+    if (state.packages.isEmpty) {
       final result =
           await _getPackages(GetPackagesParams(category: event.category));
       if (result.isRight()) {
@@ -75,7 +75,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         ),
       );
     }
-    return emit(
+    emit(
       state.copyWith(
         packagePaginationOrFailureOption: optionOf(result),
         status: result.isRight()
@@ -83,5 +83,6 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
             : PackageListStatus.failure,
       ),
     );
+    emit(state.copyWith(packagePaginationOrFailureOption: none()));
   }
 }

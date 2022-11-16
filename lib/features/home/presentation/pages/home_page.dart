@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> with FailureMessageHandler {
                   items: navigationItem,
                   currentIndex: state,
                   onTap: (value) {
-                    if (value == 3) {
+                    if (value == 2 || value == 3) {
                       context.pushNamed(AppRouter.login);
                     }
                     context
