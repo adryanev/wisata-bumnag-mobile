@@ -4,10 +4,11 @@ import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/features/event/data/datasources/remote/event_remote_data_source.dart';
 import 'package:wisatabumnag/features/event/data/models/event_detail_response.model.dart';
 import 'package:wisatabumnag/features/event/data/models/event_response.model.dart';
+import 'package:wisatabumnag/features/event/domain/entities/event.entity.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.dart';
-import 'package:wisatabumnag/features/event/domain/entities/event_pagination.entity.dart';
 import 'package:wisatabumnag/features/event/domain/repositories/event_repository.dart';
 import 'package:wisatabumnag/shared/data/models/pagination_response.model.dart';
+import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 
 @LazySingleton(as: EventRepository)
 class EventRepositoryImpl implements EventRepository {
@@ -15,11 +16,11 @@ class EventRepositoryImpl implements EventRepository {
 
   final EventRemoteDataSource _remoteSource;
   @override
-  Future<Either<Failure, EventPagination>> getEvent({required int page}) =>
+  Future<Either<Failure, Paginable<Event>>> getEvent({required int page}) =>
       _remoteSource.getEvents(page: page).then(
             (value) => value.map(
-              (r) => EventPagination(
-                events: r.data!.map((e) => e.toDomain()).toList(),
+              (r) => Paginable(
+                data: r.data!.map((e) => e.toDomain()).toList(),
                 pagination: r.meta.toDomain(),
               ),
             ),

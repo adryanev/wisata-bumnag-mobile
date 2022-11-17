@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
-import 'package:wisatabumnag/features/packages/domain/entities/package_pagination.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/usecases/get_packages.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
+import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';
 
 part 'package_list_event.dart';
@@ -30,14 +30,14 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
     Emitter<PackageListState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == PackageListStatus.initial) {
+    if (state.packages.isEmpty) {
       final result =
           await _getPackages(GetPackagesParams(category: event.category));
       if (result.isRight()) {
         final packages = result.getRight();
         emit(
           state.copyWith(
-            packages: packages!.packages,
+            packages: packages!.data,
             pagination: packages.pagination,
             hasReachedMax:
                 packages.pagination.lastPage == state.pagination.currentPage,
@@ -67,7 +67,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         state.copyWith(
           packages: List.of(state.packages)
             ..addAll(
-              packages!.packages,
+              packages!.data,
             ),
           pagination: packages.pagination,
           hasReachedMax:
@@ -75,7 +75,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         ),
       );
     }
-    return emit(
+    emit(
       state.copyWith(
         packagePaginationOrFailureOption: optionOf(result),
         status: result.isRight()
@@ -83,5 +83,6 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
             : PackageListStatus.failure,
       ),
     );
+    emit(state.copyWith(packagePaginationOrFailureOption: none()));
   }
 }

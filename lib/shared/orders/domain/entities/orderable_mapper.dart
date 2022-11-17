@@ -83,3 +83,38 @@ class PaymentTypeMapper {
     throw UnimplementedError('invalid payment type string');
   }
 }
+
+class OrderStatusMapper {
+  const OrderStatusMapper._();
+
+  static String toText(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.created:
+        return 'Dibuat';
+      case OrderStatus.paid:
+        return 'Dibayar';
+      case OrderStatus.cancelled:
+        return 'Dibatalkan';
+      case OrderStatus.completed:
+        return 'Selesai';
+      case OrderStatus.refunded:
+        return 'Dikembalikan';
+    }
+  }
+
+  static OrderStatus fromResponse(int status) {
+    switch (status) {
+      case 0:
+        return OrderStatus.created;
+      case 1:
+        return OrderStatus.paid;
+      case 2:
+        return OrderStatus.cancelled;
+      case 3:
+        return OrderStatus.completed;
+      case 4:
+        return OrderStatus.refunded;
+    }
+    throw UnimplementedError('invalid order status');
+  }
+}

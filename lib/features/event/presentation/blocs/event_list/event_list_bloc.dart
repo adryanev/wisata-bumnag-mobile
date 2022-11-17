@@ -7,8 +7,8 @@ import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event.entity.dart';
-import 'package:wisatabumnag/features/event/domain/entities/event_pagination.entity.dart';
 import 'package:wisatabumnag/features/event/domain/usecases/get_events.dart';
+import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';
 
 part 'event_list_event.dart';
@@ -27,13 +27,13 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
     Emitter<EventListState> emit,
   ) async {
     if (state.hasReachedMax) return;
-    if (state.status == EventListStatus.initial) {
+    if (state.events.isEmpty) {
       final result = await _getEvent(const GetEventParams());
       if (result.isRight()) {
         final events = result.getRight();
         emit(
           state.copyWith(
-            events: events!.events,
+            events: events!.data,
             pagination: events.pagination,
             hasReachedMax:
                 events.pagination.lastPage == state.pagination.currentPage,
@@ -42,7 +42,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
       }
       return emit(
         state.copyWith(
-          packagePaginationOrFailureOption: optionOf(result),
+          eventPaginationOrFailureOption: optionOf(result),
           status: result.isRight()
               ? EventListStatus.success
               : EventListStatus.failure,
@@ -62,7 +62,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
         state.copyWith(
           events: List.of(state.events)
             ..addAll(
-              events!.events,
+              events!.data,
             ),
           pagination: events.pagination,
           hasReachedMax:
@@ -70,12 +70,17 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
         ),
       );
     }
-    return emit(
+    emit(
       state.copyWith(
-        packagePaginationOrFailureOption: optionOf(result),
+        eventPaginationOrFailureOption: optionOf(result),
         status: result.isRight()
             ? EventListStatus.success
             : EventListStatus.failure,
+      ),
+    );
+    emit(
+      state.copyWith(
+        eventPaginationOrFailureOption: none(),
       ),
     );
   }
