@@ -31,7 +31,7 @@ class OrderListItem extends StatelessWidget {
           SizedBox(
             height: 8.h,
           ),
-          Text(
+          const Text(
             'Total Pesanan',
           ),
           SizedBox(

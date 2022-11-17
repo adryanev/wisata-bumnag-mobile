@@ -11,11 +11,11 @@ abstract class CategoryLocalDataSource {
 class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   final _categoryRoot = [
     const CategoryModel(id: 1, name: 'Wisata', parentId: null),
-    const CategoryModel(id: 3, name: 'Event', parentId: null),
-    const CategoryModel(id: 4, name: 'Kuliner', parentId: null),
-    const CategoryModel(id: 5, name: 'Akomodasi', parentId: null),
-    const CategoryModel(id: 6, name: 'Desa Wisata', parentId: null),
-    const CategoryModel(id: 24, name: 'Souvenir', parentId: null),
+    const CategoryModel(id: 2, name: 'Event', parentId: null),
+    const CategoryModel(id: 3, name: 'Kuliner', parentId: null),
+    const CategoryModel(id: 4, name: 'Akomodasi', parentId: null),
+    const CategoryModel(id: 5, name: 'Desa Wisata', parentId: null),
+    const CategoryModel(id: 23, name: 'Souvenir', parentId: null),
     const CategoryModel(id: 26, name: 'Package', parentId: null),
   ];
   @override
