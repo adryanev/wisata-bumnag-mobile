@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
+import 'package:wisatabumnag/core/utils/bloc_event_transformers.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/usecases/get_souvenirs.dart';
 import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
@@ -18,7 +19,14 @@ part 'souvenir_list_bloc.freezed.dart';
 @injectable
 class SouvenirListBloc extends Bloc<SouvenirListEvent, SouvenirListState> {
   SouvenirListBloc(this._getSouvenirs) : super(SouvenirListState.initial()) {
-    on<_SouvenirListStarted>(_onStarted);
+    on<_SouvenirListStarted>(
+      _onStarted,
+      transformer: throttleDroppable(
+        const Duration(
+          milliseconds: 300,
+        ),
+      ),
+    );
   }
 
   final GetSouvenirs _getSouvenirs;

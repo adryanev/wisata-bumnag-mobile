@@ -24,6 +24,6 @@ abstract class SouvenirApiClient {
   @GET('v1/souvenirs')
   Future<BasePaginationResponse<List<DestinationSouvenirResponse>>>
       getSouvenirLists({
-    @Query('page') int page,
+    @Query('page') required int page,
   });
 }

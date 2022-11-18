@@ -10,7 +10,7 @@ class SouvenirResponse with _$SouvenirResponse {
   const factory SouvenirResponse({
     required int id,
     required String name,
-    required String? price,
+    required double? price,
     required bool isFree,
     required String? termAndConditions,
     required int? quantity,
@@ -30,7 +30,7 @@ extension SouvenirResponseX on SouvenirResponse {
   Souvenir toDomain() => Souvenir(
         id: id,
         name: name,
-        price: double.tryParse(price ?? '') ?? 0.0,
+        price: price ?? 0,
         isFree: isFree,
         termAndConditions: termAndConditions,
         quantity: quantity,

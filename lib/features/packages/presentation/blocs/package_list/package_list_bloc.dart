@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
+import 'package:wisatabumnag/core/utils/bloc_event_transformers.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/usecases/get_packages.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
@@ -21,7 +22,14 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
   PackageListBloc(
     this._getPackages,
   ) : super(PackageListState.initial()) {
-    on<_PackageListStarted>(_onStarted);
+    on<_PackageListStarted>(
+      _onStarted,
+      transformer: throttleDroppable(
+        const Duration(
+          milliseconds: 300,
+        ),
+      ),
+    );
   }
   final GetPackages _getPackages;
 

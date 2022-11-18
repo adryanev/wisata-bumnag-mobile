@@ -16,6 +16,10 @@ import 'package:wisatabumnag/features/packages/domain/entities/package_detail.en
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_order_page.dart';
+import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
+import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
+import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
+import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -41,6 +45,8 @@ class AppRouter {
   static const events = 'events';
   static const eventDetail = 'event-detail';
   static const eventOrder = 'event-order';
+  static const souvenirs = 'souvenirs';
+  static const souvenirDetail = 'souvenir-detail';
 }
 
 final appRouter = GoRouter(
@@ -191,6 +197,32 @@ final appRouter = GoRouter(
               return const SizedBox();
             }
             return EventOrderPage(eventDetail: event);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/souvenirs',
+      name: AppRouter.souvenirs,
+      builder: (context, state) {
+        return const SouvenirListPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'detail',
+          name: AppRouter.souvenirDetail,
+          builder: (context, state) {
+            final map = state.extra as Map<String, dynamic>?;
+            if (map == null) {
+              return const SizedBox();
+            }
+            final souvenir = map['souvenir'] as Souvenir;
+            final destinationSouvenir =
+                map['destinationSouvenir'] as DestinationSouvenir;
+            return SouvenirDetailPage(
+              destinationSouvenir: destinationSouvenir,
+              souvenir: souvenir,
+            );
           },
         ),
       ],

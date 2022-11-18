@@ -97,10 +97,22 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
         );
       },
     ),
-    HomeMenuItem(
-      label: 'Suvenir',
-      icon: Assets.images.logo.suvenir.svg(),
-      onClick: () {},
+    BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
+      selector: (state) {
+        final category = state.category?.firstWhere(
+          (element) => element.name.toLowerCase() == 'event',
+        );
+        return category;
+      },
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Suvenir',
+          icon: Assets.images.logo.suvenir.svg(),
+          onClick: () {
+            context.pushNamed(AppRouter.souvenirs);
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Profil Nagari',

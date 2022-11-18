@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
+import 'package:wisatabumnag/core/utils/bloc_event_transformers.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event.entity.dart';
 import 'package:wisatabumnag/features/event/domain/usecases/get_events.dart';
 import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
@@ -18,7 +19,14 @@ part 'event_list_bloc.freezed.dart';
 @injectable
 class EventListBloc extends Bloc<EventListEvent, EventListState> {
   EventListBloc(this._getEvent) : super(EventListState.initial()) {
-    on<_EventListStarted>(_onStarted);
+    on<_EventListStarted>(
+      _onStarted,
+      transformer: throttleDroppable(
+        const Duration(
+          milliseconds: 300,
+        ),
+      ),
+    );
   }
   final GetEvent _getEvent;
 

@@ -26,7 +26,7 @@ class DestinationResultBloc
       _onDestinationResultFetched,
       transformer: throttleDroppable(
         const Duration(
-          milliseconds: 250,
+          milliseconds: 300,
         ),
       ),
     );
