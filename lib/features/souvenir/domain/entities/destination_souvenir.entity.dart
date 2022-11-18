@@ -7,6 +7,18 @@ class DestinationSouvenir with _$DestinationSouvenir {
   const factory DestinationSouvenir({
     required int id,
     required String name,
+    required String description,
+    required String? address,
+    required String? phoneNumber,
+    required String? email,
+    required String? latitude,
+    required String? longitude,
+    required String? openingHours,
+    required String? closingHours,
+    required String? workingDay,
+    required String? instagram,
+    required String? website,
+    required String? capacity,
     required List<Souvenir> souvenirs,
   }) = _DestinationSouvenir;
 }
