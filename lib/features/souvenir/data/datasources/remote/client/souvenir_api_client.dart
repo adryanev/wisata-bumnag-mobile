@@ -5,6 +5,7 @@ import 'package:wisatabumnag/core/networks/models/base_pagination_response.model
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/features/souvenir/data/models/destination_souvenir_response.model.dart';
+import 'package:wisatabumnag/features/souvenir/data/models/souvenir_detail_response.model.dart';
 import 'package:wisatabumnag/features/souvenir/data/models/souvenir_response.model.dart';
 
 part 'souvenir_api_client.g.dart';
@@ -26,4 +27,9 @@ abstract class SouvenirApiClient {
       getSouvenirLists({
     @Query('page') required int page,
   });
+
+  @GET('v1/souvenirs/{id}')
+  Future<BaseResponse<SouvenirDetailResponse>> getSouvenirDetail(
+    @Path('id') String souvenirId,
+  );
 }

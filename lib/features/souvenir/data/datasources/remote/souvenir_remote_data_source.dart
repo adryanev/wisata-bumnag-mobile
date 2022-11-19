@@ -6,6 +6,7 @@ import 'package:wisatabumnag/core/networks/middlewares/providers/network_middlew
 import 'package:wisatabumnag/core/networks/models/base_pagination_response.model.dart';
 import 'package:wisatabumnag/features/souvenir/data/datasources/remote/client/souvenir_api_client.dart';
 import 'package:wisatabumnag/features/souvenir/data/models/destination_souvenir_response.model.dart';
+import 'package:wisatabumnag/features/souvenir/data/models/souvenir_detail_response.model.dart';
 import 'package:wisatabumnag/features/souvenir/data/models/souvenir_response.model.dart';
 
 abstract class SouvenirRemoteDataSource {
@@ -17,6 +18,9 @@ abstract class SouvenirRemoteDataSource {
               BasePaginationResponse<List<DestinationSouvenirResponse>>>>
       getSouvenirs({
     required int page,
+  });
+  Future<Either<Failure, SouvenirDetailResponse>> getSouvenirDetail({
+    required String souvenirId,
   });
 }
 
@@ -46,4 +50,14 @@ class SouvenirRemoteDataSourceImpl implements SouvenirRemoteDataSource {
             middlewares: _middlewareProvider.getAll(),
             retrofitCall: () => _client.getSouvenirLists(page: page),
           );
+
+  @override
+  Future<Either<Failure, SouvenirDetailResponse>> getSouvenirDetail({
+    required String souvenirId,
+  }) =>
+      safeRemoteCall(
+        middlewares: _middlewareProvider.getAll(),
+        retrofitCall: () =>
+            _client.getSouvenirDetail(souvenirId).then((value) => value.data!),
+      );
 }
