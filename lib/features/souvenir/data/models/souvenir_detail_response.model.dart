@@ -45,5 +45,6 @@ extension SouvenirDetailResponseX on SouvenirDetailResponse {
         categories: categories.map((e) => e.toDomain()).toList(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        recommendations: recommendations.map((e) => e.toDomain()).toList(),
       );
 }

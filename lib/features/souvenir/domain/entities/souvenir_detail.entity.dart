@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/reviewable.entity.dart';
 part 'souvenir_detail.entity.freezed.dart';
@@ -19,5 +20,6 @@ class SouvenirDetail with _$SouvenirDetail {
     required List<Category> categories,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required List<Souvenir> recommendations,
   }) = _SouvenirDetail;
 }
