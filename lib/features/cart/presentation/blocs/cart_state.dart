@@ -9,6 +9,7 @@ class CartState with _$CartState {
         cartSouvenirOrFailureOption,
     required List<CartSouvenir> selectedCartSouvenir,
     required double totalPrice,
+    required CartStatus status,
   }) = _CartState;
   factory CartState.initial() => CartState(
         cartSavedOrFailureOption: none(),
@@ -16,5 +17,12 @@ class CartState with _$CartState {
         selectedCartSouvenir: [],
         totalPrice: 0,
         cartSouvenirOrFailureOption: none(),
+        status: CartStatus.initial,
       );
+}
+
+enum CartStatus {
+  initial,
+  fetching,
+  saving,
 }
