@@ -213,7 +213,7 @@ class DestinationSouvenirHeaderWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            destinationSouvenir.name,
+            souvenir.name.toTitleCase(),
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,
