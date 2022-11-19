@@ -18,6 +18,16 @@ class OrderableModel with _$OrderableModel {
 
   factory OrderableModel.fromJson(Map<String, dynamic> json) =>
       _$OrderableModelFromJson(json);
+
+  factory OrderableModel.fromDomain(Orderable form) => OrderableModel(
+        type: OrderableTypeMapper.toStringType(form.type),
+        id: form.id,
+        name: form.name,
+        price: form.price,
+        quantity: form.quantity,
+        media: form.media,
+        subtotal: form.subtotal,
+      );
 }
 
 extension OrderableModelX on OrderableModel {
