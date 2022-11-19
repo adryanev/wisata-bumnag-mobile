@@ -104,18 +104,117 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       return null;
     }
 
-    // if exist then add qty of current orderable;
+    final temporaryItems = [...destinationSouvenir.items];
+    final newQuantity = currentOrderable.quantity + 1;
+    final newOrderable = currentOrderable.copyWith(
+      quantity: newQuantity,
+      subtotal: currentOrderable.price * newQuantity,
+    );
+    temporaryItems[currentOrderableIndex] = newOrderable;
+
+    final temporary = [...state.cartSouvenir];
+
+    final newDestinationSouvenir =
+        destinationSouvenir.copyWith(items: [...temporaryItems]);
+
+    temporary[destinationSouvenirIndex] = newDestinationSouvenir;
+    emit(state.copyWith(cartSouvenir: [...temporary]));
   }
 
   FutureOr<void> _onRemoveButtonPressed(
     _CartRemoveButtonPressed event,
     Emitter<CartState> emit,
-  ) {}
+  ) {
+    final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
+      (element) => element.destinationId == event.destinationSouvenir.id,
+    );
+    final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
+      (element) => element.destinationId == event.destinationSouvenir.id,
+    );
+    // if souvenir cart not exist then add new entry to cart
+    if (destinationSouvenir == null) {
+      return null;
+    }
+    // if exist then get current orderable
+    final currentOrderable = destinationSouvenir.items.firstWhereOrNull(
+      (element) =>
+          element.id == event.orderable.id &&
+          element.type == event.orderable.type,
+    );
+    final currentOrderableIndex = destinationSouvenir.items.indexWhere(
+      (element) =>
+          element.id == event.orderable.id &&
+          element.type == event.orderable.type,
+    );
+    // if not exist then add new orderable to items
+    if (currentOrderable == null) {
+      return null;
+    }
+
+    final temporaryItems = [...destinationSouvenir.items];
+    final newQuantity = currentOrderable.quantity - 1;
+    final newOrderable = currentOrderable.copyWith(
+      quantity: newQuantity,
+      subtotal: currentOrderable.price * newQuantity,
+    );
+    temporaryItems[currentOrderableIndex] = newOrderable;
+
+    final temporary = [...state.cartSouvenir];
+
+    final newDestinationSouvenir =
+        destinationSouvenir.copyWith(items: [...temporaryItems]);
+
+    temporary[destinationSouvenirIndex] = newDestinationSouvenir;
+    emit(state.copyWith(cartSouvenir: [...temporary]));
+  }
 
   FutureOr<void> _onDeleteButtonPressed(
     _CartDeleteButtonPressed event,
     Emitter<CartState> emit,
-  ) {}
+  ) {
+    final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
+      (element) => element.destinationId == event.destinationSouvenir.id,
+    );
+    final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
+      (element) => element.destinationId == event.destinationSouvenir.id,
+    );
+    // if souvenir cart not exist then add new entry to cart
+    if (destinationSouvenir == null) {
+      return null;
+    }
+    // if exist then get current orderable
+    final currentOrderable = destinationSouvenir.items.firstWhereOrNull(
+      (element) =>
+          element.id == event.orderable.id &&
+          element.type == event.orderable.type,
+    );
+    final currentOrderableIndex = destinationSouvenir.items.indexWhere(
+      (element) =>
+          element.id == event.orderable.id &&
+          element.type == event.orderable.type,
+    );
+    // if not exist then add new orderable to items
+    if (currentOrderable == null) {
+      return null;
+    }
+
+    final temporaryItems = [...destinationSouvenir.items]
+      ..removeAt(currentOrderableIndex);
+
+    final temporary = [...state.cartSouvenir];
+
+    if (temporaryItems.isEmpty) {
+      temporary.removeAt(destinationSouvenirIndex);
+      emit(state.copyWith(cartSouvenir: [...temporary]));
+      return null;
+    }
+
+    final newDestinationSouvenir =
+        destinationSouvenir.copyWith(items: [...temporaryItems]);
+
+    temporary[destinationSouvenirIndex] = newDestinationSouvenir;
+    emit(state.copyWith(cartSouvenir: [...temporary]));
+  }
 
   FutureOr<void> _onCartSelected(
     _CartSelected event,
