@@ -14,7 +14,9 @@ import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.
 import 'package:wisatabumnag/features/event/presentation/pages/event_detail_page.dart';
 import 'package:wisatabumnag/features/event/presentation/pages/event_list_page.dart';
 import 'package:wisatabumnag/features/event/presentation/pages/event_order_page.dart';
+import 'package:wisatabumnag/features/home/domain/entities/order_history_item.entity.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
+import 'package:wisatabumnag/features/home/presentation/pages/order_history/order_detail_page.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
@@ -52,6 +54,7 @@ class AppRouter {
   static const souvenirDetail = 'souvenir-detail';
   static const cart = 'cart';
   static const cartOrder = 'cart-order';
+  static const order = 'order';
 }
 
 final appRouter = GoRouter(
@@ -254,6 +257,18 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      path: '/order',
+      name: AppRouter.order,
+      builder: (context, state) {
+        final orderItem = state.extra as OrderHistoryItem?;
+        if (orderItem == null) {
+          return const SizedBox();
+        }
+
+        return OrderDetailPage(orderHistoryItem: orderItem);
+      },
     ),
   ],
 );

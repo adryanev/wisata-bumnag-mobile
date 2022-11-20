@@ -10,5 +10,6 @@ class User with _$User {
     required Nik? nik,
     required PhoneNumber? phoneNumber,
     required StringSingleLine name,
+    required String? roles,
   }) = _User;
 }

@@ -16,7 +16,7 @@ class HomeHistoryOrderPage extends StatelessWidget {
           getIt<OrderListBloc>()..add(const OrderListEvent.started()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Riwayat Pesanan'),
+          title: const Text('Riwayat Transaksi'),
         ),
         body: SafeArea(
           child: SizedBox(
@@ -41,11 +41,11 @@ class HomeHistoryOrderPage extends StatelessWidget {
                         endIndent: 16.w,
                         thickness: 2.h,
                       ),
-                      itemCount: state.orders.length,
+                      itemCount: state.orderHistories.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {},
                         child: OrderListItem(
-                          order: state.orders[index],
+                          order: state.orderHistories[index],
                         ),
                       ),
                     );

@@ -39,6 +39,9 @@ class CartOrderPage extends StatelessWidget with FailureMessageHandler {
             (either) => either.fold(
               (l) => handleFailure(context, l),
               (r) {
+                context
+                    .read<CartBloc>()
+                    .add(CartEvent.currentRemoved(cartSouvenir));
                 Navigator.pop(context);
 
                 context.pushNamed(AppRouter.payment, extra: r);

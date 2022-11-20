@@ -13,6 +13,8 @@ class OrderResponse with _$OrderResponse {
     required int status,
     required DateTime orderDate,
     required double totalPrice,
+    required String? qrCode,
+    required String? paymentType,
     required List<OrderDetailResponse> orderDetails,
   }) = _OrderResponse;
 
@@ -27,6 +29,10 @@ extension OrderResponseX on OrderResponse {
         status: OrderStatusMapper.fromResponse(status),
         orderDate: orderDate,
         totalPrice: totalPrice,
+        qrCode: qrCode,
+        paymentType: paymentType == null
+            ? null
+            : PaymentTypeMapper.toPaymentType(paymentType!),
         orderDetails: orderDetails.map((e) => e.toDomain()).toList(),
       );
 }
@@ -43,6 +49,7 @@ class OrderDetailResponse with _$OrderDetailResponse {
     required double subtotal,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required OrderableDetailResponse orderableDetail,
   }) = _OrderDetailResponse;
 
   factory OrderDetailResponse.fromJson(Map<String, dynamic> json) =>
@@ -60,5 +67,24 @@ extension OrderDetailResponseX on OrderDetailResponse {
         subtotal: subtotal,
         createdAt: createdAt,
         updatedAt: updatedAt,
+        orderableDetail: orderableDetail.toDomain(),
       );
+}
+
+@freezed
+class OrderableDetailResponse with _$OrderableDetailResponse {
+  const factory OrderableDetailResponse({
+    required int id,
+    required String name,
+    required String type,
+    required List<String> media,
+  }) = _OrderableDetailResponse;
+
+  factory OrderableDetailResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderableDetailResponseFromJson(json);
+}
+
+extension OrderableDetailResponseX on OrderableDetailResponse {
+  OrderableDetail toDomain() =>
+      OrderableDetail(id: id, name: name, type: type, media: media);
 }

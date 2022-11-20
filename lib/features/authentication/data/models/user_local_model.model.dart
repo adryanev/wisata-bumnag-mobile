@@ -13,6 +13,7 @@ class UserLocalModel with _$UserLocalModel {
     required String? nik,
     required String name,
     required String? phoneNumber,
+    required String? roles,
   }) = _UserLocalModel;
 
   factory UserLocalModel.fromJson(Map<String, dynamic> json) =>
@@ -23,6 +24,7 @@ class UserLocalModel with _$UserLocalModel {
         nik: response.nik,
         name: response.name!,
         phoneNumber: response.phoneNumber,
+        roles: response.roles,
       );
 }
 
@@ -32,5 +34,6 @@ extension UserLocalModelX on UserLocalModel {
         nik: nik == null ? null : Nik(nik!),
         phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
         name: StringSingleLine(name),
+        roles: roles,
       );
 }

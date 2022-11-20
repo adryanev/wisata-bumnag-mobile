@@ -6,6 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
+import 'package:wisatabumnag/features/home/domain/entities/order_history_item.entity.dart';
+import 'package:wisatabumnag/features/home/domain/mappers/order_history_item_mapper.dart';
 import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/domain/entities/pagination.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -32,9 +34,11 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       final result = await _getOrderHistories(const GetOrderHistoriesParams());
       if (result.isRight()) {
         final orders = result.getRight();
+
         emit(
           state.copyWith(
-            orders: orders!.data,
+            orderHistories: OrderHistoryItemMapper.mapFromOrder(orders!.data),
+            orders: orders.data,
             pagination: orders.pagination,
             hasReachedMax:
                 orders.pagination.lastPage == state.pagination.currentPage,
@@ -61,9 +65,11 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       final orders = result.getRight();
       emit(
         state.copyWith(
+          orderHistories: List.of(state.orderHistories)
+            ..addAll(OrderHistoryItemMapper.mapFromOrder(orders!.data)),
           orders: List.of(state.orders)
             ..addAll(
-              orders!.data,
+              orders.data,
             ),
           pagination: orders.pagination,
           hasReachedMax:
