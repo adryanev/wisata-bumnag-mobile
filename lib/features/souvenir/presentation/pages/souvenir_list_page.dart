@@ -7,8 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
-import 'package:wisatabumnag/core/utils/currency_formatter.dart';
-import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/blocs/souvenir_list_bloc.dart';
@@ -16,7 +14,6 @@ import 'package:wisatabumnag/features/souvenir/presentation/widgets/destination_
 import 'package:wisatabumnag/features/souvenir/presentation/widgets/souvenir_cart_bottom_sheet.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
-import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirListPage extends StatefulWidget {
   const SouvenirListPage({super.key});
