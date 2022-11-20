@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/features/authentication/data/models/user_local_model.model.dart';
+import 'package:wisatabumnag/features/cart/data/models/cart_souvenir_model.model.dart';
 
 abstract class LocalStorage {
   Future<String?> getApiKey();
@@ -25,6 +26,9 @@ abstract class LocalStorage {
   Future<void> setMapApiKey(String mapApiKey);
 
   Future<void> logoutUser();
+
+  Future<void> saveCart(List<CartSouvenirModel> carts);
+  Future<List<CartSouvenirModel>?> getUserCart();
 }
 
 @LazySingleton(as: LocalStorage)
@@ -113,5 +117,23 @@ class LocalStorageImpl implements LocalStorage {
   @override
   Future<void> setMapApiKey(String mapApiKey) {
     return _storage.setString(LocalStorageKey.mapApiKey, mapApiKey);
+  }
+
+  @override
+  Future<List<CartSouvenirModel>?> getUserCart() {
+    final data = _storage.getString(LocalStorageKey.cartKey);
+    if (data == null) return Future.value();
+    final carts = jsonDecode(data) as List<dynamic>;
+    final cartsObject = carts
+        .map((x) => CartSouvenirModel.fromJson(x as Map<String, dynamic>))
+        .toList();
+
+    return Future.value(cartsObject);
+  }
+
+  @override
+  Future<void> saveCart(List<CartSouvenirModel> carts) {
+    final data = jsonEncode(carts);
+    return _storage.setString(LocalStorageKey.cartKey, data);
   }
 }

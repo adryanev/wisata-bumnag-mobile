@@ -5,7 +5,7 @@ class PackageListState with _$PackageListState {
   const factory PackageListState({
     required PackageListStatus status,
     required List<Package> packages,
-    required Option<Either<Failure, PackagePagination>>
+    required Option<Either<Failure, Paginable<Package>>>
         packagePaginationOrFailureOption,
     required bool hasReachedMax,
     required int currentPage,

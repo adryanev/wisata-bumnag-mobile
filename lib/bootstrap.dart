@@ -15,10 +15,20 @@ import 'package:wisatabumnag/injector.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
-  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-    super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
+    log('onTransition(${bloc.runtimeType}, $transition)');
+
+    super.onTransition(bloc, transition);
   }
+
+  // @override
+  // void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
+  //   super.onChange(bloc, change);
+  //   log('onChange(${bloc.runtimeType}, $change)');
+  // }
 
   @override
   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {

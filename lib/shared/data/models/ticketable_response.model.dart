@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/shared/data/models/ticket_setting_response.model.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'ticketable_response.model.freezed.dart';
 part 'ticketable_response.model.g.dart';
@@ -18,6 +19,7 @@ class TicketableResponse with _$TicketableResponse {
     required String? description,
     required String? ticketableType,
     required String? ticketableId,
+    required TicketSettingResponse? settings,
   }) = _TicketableResponse;
 
   factory TicketableResponse.fromJson(Map<String, dynamic> json) =>
@@ -38,5 +40,6 @@ extension TicketableResponseX on TicketableResponse {
         description: description,
         ticketableType: ticketableType,
         ticketableId: ticketableId,
+        settings: settings?.toDomain(),
       );
 }

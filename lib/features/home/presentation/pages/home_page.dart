@@ -5,6 +5,7 @@ import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_account_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_explore_page.dart';
@@ -59,56 +60,67 @@ class _HomePageState extends State<HomePage> with FailureMessageHandler {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: Dimension.aroundPadding,
-          child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              return pages[state.navigationBarIndex];
-            },
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          authenticated: (user) => context.read<CartBloc>().add(
+                const CartEvent.started(),
+              ),
+          orElse: () => null,
+        );
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: Dimension.aroundPadding,
+            child: BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                return pages[state.navigationBarIndex];
+              },
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          return state.maybeWhen(
-            authenticated: (_) => BlocSelector<HomeBloc, HomeState, int>(
-              selector: (state) => state.navigationBarIndex,
-              builder: (context, state) {
-                return BottomNavigationBar(
-                  showSelectedLabels: true,
-                  items: navigationItem,
-                  currentIndex: state,
-                  onTap: (value) {
-                    context
-                        .read<HomeBloc>()
-                        .add(HomeEvent.bottomNavigatonChanged(value));
-                  },
-                );
-              },
-            ),
-            unauthenticated: () => BlocSelector<HomeBloc, HomeState, int>(
-              selector: (state) => state.navigationBarIndex,
-              builder: (context, state) {
-                return BottomNavigationBar(
-                  showSelectedLabels: true,
-                  items: navigationItem,
-                  currentIndex: state,
-                  onTap: (value) {
-                    if (value == 3) {
-                      context.pushNamed(AppRouter.login);
-                    }
-                    context
-                        .read<HomeBloc>()
-                        .add(HomeEvent.bottomNavigatonChanged(value));
-                  },
-                );
-              },
-            ),
-            orElse: () => const SizedBox(),
-          );
-        },
+        bottomNavigationBar:
+            BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              authenticated: (_) => BlocSelector<HomeBloc, HomeState, int>(
+                selector: (state) => state.navigationBarIndex,
+                builder: (context, state) {
+                  return BottomNavigationBar(
+                    showSelectedLabels: true,
+                    items: navigationItem,
+                    currentIndex: state,
+                    onTap: (value) {
+                      context
+                          .read<HomeBloc>()
+                          .add(HomeEvent.bottomNavigatonChanged(value));
+                    },
+                  );
+                },
+              ),
+              unauthenticated: () => BlocSelector<HomeBloc, HomeState, int>(
+                selector: (state) => state.navigationBarIndex,
+                builder: (context, state) {
+                  return BottomNavigationBar(
+                    showSelectedLabels: true,
+                    items: navigationItem,
+                    currentIndex: state,
+                    onTap: (value) {
+                      if (value == 2 || value == 3) {
+                        context.pushNamed(AppRouter.login);
+                      }
+                      context
+                          .read<HomeBloc>()
+                          .add(HomeEvent.bottomNavigatonChanged(value));
+                    },
+                  );
+                },
+              ),
+              orElse: () => const SizedBox(),
+            );
+          },
+        ),
       ),
     );
   }

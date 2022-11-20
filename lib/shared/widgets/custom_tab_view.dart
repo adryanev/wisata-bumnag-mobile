@@ -1,3 +1,4 @@
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -110,9 +111,14 @@ class _CustomTabsState extends State<CustomTabView>
             controller: controller,
             labelColor: AppColor.white,
             unselectedLabelColor: Theme.of(context).hintColor,
-            indicator: ShapeDecoration(
-              color: Theme.of(context).primaryColor,
-              shape: const StadiumBorder(),
+            indicator: BubbleTabIndicator(
+              indicatorHeight: 30.h,
+              indicatorColor: AppColor.primary,
+              tabBarIndicatorSize: TabBarIndicatorSize.tab,
+              // Other flags
+              // indicatorRadius: 1,
+              // insets: EdgeInsets.all(1),
+              // padding: EdgeInsets.all(10)
             ),
             tabs: List.generate(
               widget.itemCount,

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
 
 part 'order_response.model.freezed.dart';
 part 'order_response.model.g.dart';
@@ -23,7 +24,7 @@ extension OrderResponseX on OrderResponse {
   Order toDomain() => Order(
         number: number,
         note: note,
-        status: status,
+        status: OrderStatusMapper.fromResponse(status),
         orderDate: orderDate,
         totalPrice: totalPrice,
         orderDetails: orderDetails.map((e) => e.toDomain()).toList(),

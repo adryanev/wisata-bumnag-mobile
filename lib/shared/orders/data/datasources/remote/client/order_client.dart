@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:wisatabumnag/core/networks/models/base_pagination_response.model.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/shared/orders/data/models/midtrans_payment_response.model.dart';
@@ -25,4 +26,9 @@ abstract class OrderClient {
 
   @POST('v1/payments')
   Future<MidtransPaymentResponse> payOnline(@Body() PaymentPayload payload);
+
+  @GET('v1/orders')
+  Future<BasePaginationResponse<List<OrderResponse>>> orderHistories({
+    @Query('page') required int page,
+  });
 }

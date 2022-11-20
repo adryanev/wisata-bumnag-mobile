@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart' hide Order;
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
+import 'package:wisatabumnag/shared/data/models/pagination_response.model.dart';
+import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/orders/data/datasources/remote/order_remote_data_source.dart';
 import 'package:wisatabumnag/shared/orders/data/models/midtrans_payment_response.model.dart';
 import 'package:wisatabumnag/shared/orders/data/models/order_payload.model.dart';
@@ -37,6 +39,19 @@ class OrderRepositoryImpl implements OrderRepository {
       _remoteDataSource.payOnline(PaymentPayload.fromDomain(form)).then(
             (value) => value.map(
               (r) => r.toDomain(),
+            ),
+          );
+
+  @override
+  Future<Either<Failure, Paginable<Order>>> orderHistories({
+    required int page,
+  }) =>
+      _remoteDataSource.orderHistories(page: page).then(
+            (value) => value.map(
+              (r) => Paginable(
+                data: r.data!.map((e) => e.toDomain()).toList(),
+                pagination: r.meta.toDomain(),
+              ),
             ),
           );
 }

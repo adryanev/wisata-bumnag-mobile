@@ -23,7 +23,7 @@ class DateTimeFormat {
   static DateFormat get dayString => DateFormat.EEEE();
   static DateFormat get monthAbbrWithDate => DateFormat.MMMMd();
   static DateFormat get hourMinutes => DateFormat.Hm();
-  static DateFormat get standard => DateFormat('dd MMM yyyy');
+  static DateFormat get standard => DateFormat('dd MMM yyyy', 'id');
   static DateFormat get completeDateWithDay => DateFormat.yMMMMEEEEd('id');
 }
 
@@ -43,6 +43,7 @@ class LocalStorageKey {
   static const saltKey = 'salt';
   static const baseUrlKey = 'base_url';
   static const mapApiKey = 'map_api_key';
+  static const cartKey = 'cart';
 }
 
 class InjectionConstants {
