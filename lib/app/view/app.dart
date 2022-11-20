@@ -12,16 +12,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/utils.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
 
-class App extends StatelessWidget {
+class App extends StatelessWidget with FailureMessageHandler {
   const App({super.key});
 
   @override
@@ -37,6 +39,9 @@ class App extends StatelessWidget {
         BlocProvider<HomeBloc>(
           create: (_) => getIt<HomeBloc>(),
         ),
+        BlocProvider<CartBloc>(
+          create: (_) => getIt<CartBloc>(),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -46,6 +51,19 @@ class App extends StatelessWidget {
                 disappeared: () => null,
                 appeared: (message) => context.showSnackbar(
                   message: message,
+                ),
+              );
+            },
+          ),
+          BlocListener<CartBloc, CartState>(
+            listener: (context, state) {
+              state.cartSavedOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => context.showSnackbar(
+                    message: 'Berhasil meyimpan souvenir ke keranjang',
+                  ),
                 ),
               );
             },

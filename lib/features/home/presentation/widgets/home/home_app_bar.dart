@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
@@ -45,7 +48,20 @@ class HomeCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.icons.icCartActive.svg();
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        if (state.cartSouvenir.isEmpty) {
+          return Assets.icons.icCart.svg();
+        } else {
+          return InkWell(
+            onTap: () {
+              context.pushNamed(AppRouter.cart);
+            },
+            child: Assets.icons.icCartActive.svg(),
+          );
+        }
+      },
+    );
   }
 }
 

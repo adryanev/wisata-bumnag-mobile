@@ -508,10 +508,8 @@ class DestinationDetailLocationWidget extends StatelessWidget {
               width: 1.sw,
               height: 180.h,
               child: DestinationGoogleMaps(
-                latitude: double.parse(destinationDetail.latitude!),
-                longitude: double.parse(
-                  destinationDetail.longitude!,
-                ),
+                latitude: destinationDetail.latitude!,
+                longitude: destinationDetail.longitude!,
               ),
             ),
             SizedBox(
@@ -524,8 +522,8 @@ class DestinationDetailLocationWidget extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     MapsLauncher.launchCoordinates(
-                      double.parse(destinationDetail.latitude!),
-                      double.parse(destinationDetail.longitude!),
+                      destinationDetail.latitude!,
+                      destinationDetail.longitude!,
                     );
                   },
                   style: ElevatedButton.styleFrom(

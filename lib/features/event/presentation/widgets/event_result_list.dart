@@ -79,7 +79,7 @@ class _EventResultListState extends State<EventResultList> {
               controller: _scrollController,
             );
           case EventListStatus.failure:
-            return const Center(child: Text('failed to fetch Destination'));
+            return const Center(child: Text('failed to fetch Events'));
         }
       },
     );

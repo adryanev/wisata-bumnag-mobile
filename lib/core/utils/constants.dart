@@ -43,6 +43,7 @@ class LocalStorageKey {
   static const saltKey = 'salt';
   static const baseUrlKey = 'base_url';
   static const mapApiKey = 'map_api_key';
+  static const cartKey = 'cart';
 }
 
 class InjectionConstants {
