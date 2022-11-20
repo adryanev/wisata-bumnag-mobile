@@ -47,6 +47,8 @@ class AppRouter {
   static const eventOrder = 'event-order';
   static const souvenirs = 'souvenirs';
   static const souvenirDetail = 'souvenir-detail';
+  static const cart = 'cart';
+  static const cartOrder = 'cart-order';
 }
 
 final appRouter = GoRouter(

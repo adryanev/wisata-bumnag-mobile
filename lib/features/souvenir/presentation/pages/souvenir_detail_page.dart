@@ -7,11 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/extensions/language/pair.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir_detail.entity.dart';
@@ -179,9 +181,10 @@ class SouvenirDetailPage extends StatelessWidget with FailureMessageHandler {
                   width: 120.w,
                   child: WisataButton.primary(
                     onPressed: () {
-                      context.read<AuthenticationBloc>().add(
-                            const AuthenticationEvent
-                                .checkAuthenticationStatus(),
+                      context.read<CartBloc>().add(
+                            CartEvent.decisionChecked(
+                              Pair(destinationSouvenir, souvenir),
+                            ),
                           );
                     },
                     text: '+ Keranjang',
@@ -605,25 +608,36 @@ class DestinationSouvenirReviewAndRecommendationWidget extends StatelessWidget {
           SizedBox(
             width: 1.sw,
             height: 220.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: souvenirDetail.recommendations.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    context.pushNamed(
-                      AppRouter.souvenirDetail,
-                      queryParams: {
-                        'souvenir': souvenirDetail.recommendations[index].id,
-                        'destinationSouvenir': destinationSouvenir
+            child: BlocBuilder<CartBloc, CartState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: souvenirDetail.recommendations.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return SouvenirItemCard(
+                      souvenir: souvenirDetail.recommendations[index],
+                      onAddToCart: () {
+                        context.read<CartBloc>().add(
+                              CartEvent.decisionChecked(
+                                Pair(
+                                  destinationSouvenir,
+                                  souvenirDetail.recommendations[index],
+                                ),
+                              ),
+                            );
+                      },
+                      onTap: () {
+                        context.pushNamed(
+                          AppRouter.souvenirDetail,
+                          extra: {
+                            'souvenir': souvenirDetail.recommendations[index],
+                            'destinationSouvenir': destinationSouvenir
+                          },
+                        );
                       },
                     );
                   },
-                  child: SouvenirItemCard(
-                    souvenir: souvenirDetail.recommendations[index],
-                    onAddToCart: () {},
-                  ),
                 );
               },
             ),

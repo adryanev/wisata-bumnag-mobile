@@ -123,8 +123,10 @@ class LocalStorageImpl implements LocalStorage {
   Future<List<CartSouvenirModel>?> getUserCart() {
     final data = _storage.getString(LocalStorageKey.cartKey);
     if (data == null) return Future.value();
-    final carts = jsonDecode(data) as List<Map<String, dynamic>>;
-    final cartsObject = carts.map(CartSouvenirModel.fromJson).toList();
+    final carts = jsonDecode(data) as List<dynamic>;
+    final cartsObject = carts
+        .map((x) => CartSouvenirModel.fromJson(x as Map<String, dynamic>))
+        .toList();
 
     return Future.value(cartsObject);
   }

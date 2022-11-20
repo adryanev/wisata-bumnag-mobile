@@ -1,14 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/extensions/language/pair.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
+import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
+import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
-class DestinationSouvenirCard extends StatelessWidget {
+class DestinationSouvenirCard extends StatelessWidget
+    with FailureMessageHandler {
   const DestinationSouvenirCard({
     super.key,
     required this.destinationSouvenir,
@@ -71,7 +82,16 @@ class DestinationSouvenirCard extends StatelessWidget {
                       },
                     );
                   },
-                  onAddToCart: () {},
+                  onAddToCart: () {
+                    context.read<CartBloc>().add(
+                          CartEvent.decisionChecked(
+                            Pair(
+                              destinationSouvenir,
+                              destinationSouvenir.souvenirs[index],
+                            ),
+                          ),
+                        );
+                  },
                 ),
               ),
             )

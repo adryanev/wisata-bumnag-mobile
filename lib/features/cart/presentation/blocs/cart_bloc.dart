@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
@@ -8,11 +9,14 @@ import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/domain/usecases/use_case.dart';
 import 'package:wisatabumnag/core/extensions/dartz_extensions.dart';
+import 'package:wisatabumnag/core/extensions/language/pair.dart';
 import 'package:wisatabumnag/features/cart/domain/entities/cart_souvenir.entity.dart';
 import 'package:wisatabumnag/features/cart/domain/usecases/get_user_cart.dart';
 import 'package:wisatabumnag/features/cart/domain/usecases/save_cart.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
+import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart';
+import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -28,6 +32,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_CartSelected>(_onCartSelected);
     on<_CartDeselected>(_onCartDeselected);
     on<_CartSaveButtonPressed>(_onSaveButtonPressed);
+    on<_CartDecisionChecked>(_onDecisionChecked);
+    on<_CartSouvenirAddButtonPressed>(_onCartSouvenirAddPressed);
+    on<_CartSaveToCartButtonPressed>(_onSaveToCartPressed);
   }
 
   final GetUserCart _getUserCart;
@@ -37,6 +44,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _CartStarted event,
     Emitter<CartState> emit,
   ) async {
+    final previousState = state.status;
     emit(state.copyWith(status: CartStatus.fetching));
 
     final result = await _getUserCart(NoParams());
@@ -51,7 +59,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     emit(
       state.copyWith(
         cartSouvenirOrFailureOption: none(),
-        status: CartStatus.initial,
+        status: previousState,
       ),
     );
   }
@@ -74,7 +82,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         destinationAddress: event.destinationSouvenir.address,
         items: [event.orderable],
       );
-      emit(state.copyWith(cartSouvenir: [...state.cartSouvenir, cart]));
+      emit(
+        state.copyWith(
+          cartSouvenir: [...state.cartSouvenir, cart],
+          temporary: null,
+        ),
+      );
       return null;
     }
     // if exist then get current orderable
@@ -100,12 +113,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           destinationSouvenir.copyWith(items: newItems);
 
       temporary[destinationSouvenirIndex] = newDestinationSouvenir;
-      emit(state.copyWith(cartSouvenir: [...temporary]));
+      emit(
+        state.copyWith(
+          cartSouvenir: [...temporary],
+          temporary: null,
+        ),
+      );
       return null;
     }
 
     final temporaryItems = [...destinationSouvenir.items];
-    final newQuantity = currentOrderable.quantity + 1;
+    final newQuantity = currentOrderable.quantity + event.orderable.quantity;
     final newOrderable = currentOrderable.copyWith(
       quantity: newQuantity,
       subtotal: currentOrderable.price * newQuantity,
@@ -118,7 +136,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         destinationSouvenir.copyWith(items: [...temporaryItems]);
 
     temporary[destinationSouvenirIndex] = newDestinationSouvenir;
-    emit(state.copyWith(cartSouvenir: [...temporary]));
+    emit(
+      state.copyWith(
+        cartSouvenir: [...temporary],
+        temporary: null,
+      ),
+    );
   }
 
   FutureOr<void> _onRemoveButtonPressed(
@@ -165,7 +188,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         destinationSouvenir.copyWith(items: [...temporaryItems]);
 
     temporary[destinationSouvenirIndex] = newDestinationSouvenir;
-    emit(state.copyWith(cartSouvenir: [...temporary]));
+    emit(
+      state.copyWith(
+        cartSouvenir: [...temporary],
+        temporary: null,
+      ),
+    );
   }
 
   FutureOr<void> _onDeleteButtonPressed(
@@ -205,7 +233,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     if (temporaryItems.isEmpty) {
       temporary.removeAt(destinationSouvenirIndex);
-      emit(state.copyWith(cartSouvenir: [...temporary]));
+      emit(
+        state.copyWith(
+          cartSouvenir: [...temporary],
+          temporary: null,
+        ),
+      );
       return null;
     }
 
@@ -213,21 +246,155 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         destinationSouvenir.copyWith(items: [...temporaryItems]);
 
     temporary[destinationSouvenirIndex] = newDestinationSouvenir;
-    emit(state.copyWith(cartSouvenir: [...temporary]));
+    emit(
+      state.copyWith(
+        cartSouvenir: [...temporary],
+        temporary: null,
+      ),
+    );
   }
 
   FutureOr<void> _onCartSelected(
     _CartSelected event,
     Emitter<CartState> emit,
-  ) {}
+  ) {
+    if (event.orderable == null) {
+      emit(
+        state.copyWith(
+          selectedCartSouvenir: [
+            ...state.selectedCartSouvenir,
+            event.cartSouvenir
+          ],
+        ),
+      );
+      return null;
+    }
+
+    final temporarySelectedCartSouvenir = [...state.selectedCartSouvenir];
+    final temporaryCartSouvenir =
+        temporarySelectedCartSouvenir.firstWhereOrNull(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+    final temporaryCartSouvenirIndex = temporarySelectedCartSouvenir.indexWhere(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+
+    if (temporaryCartSouvenir == null) {
+      final newCartSouvenir = event.cartSouvenir.copyWith(items: []);
+      final newCart = newCartSouvenir.copyWith(items: [event.orderable!]);
+      emit(
+        state.copyWith(
+          selectedCartSouvenir: [...state.selectedCartSouvenir, newCart],
+        ),
+      );
+      return null;
+    }
+    final newCart = event.cartSouvenir.copyWith(items: [event.orderable!]);
+    emit(
+      state.copyWith(
+        selectedCartSouvenir: [...state.selectedCartSouvenir, newCart],
+      ),
+    );
+    temporarySelectedCartSouvenir[temporaryCartSouvenirIndex] = newCart;
+    emit(
+      state.copyWith(selectedCartSouvenir: [...temporarySelectedCartSouvenir]),
+    );
+  }
 
   FutureOr<void> _onCartDeselected(
     _CartDeselected event,
     Emitter<CartState> emit,
-  ) {}
+  ) {
+    if (event.orderable == null) {
+      final temporaryCartSouvenirIndex = state.selectedCartSouvenir.indexWhere(
+        (element) => element.destinationId == event.cartSouvenir.destinationId,
+      );
+      final temporarySelectedCartSouvenir = [...state.selectedCartSouvenir]
+        ..removeAt(temporaryCartSouvenirIndex);
+
+      emit(
+        state.copyWith(
+          selectedCartSouvenir: [
+            ...temporarySelectedCartSouvenir,
+          ],
+        ),
+      );
+      return null;
+    }
+
+    final temporarySelectedCartSouvenir = [...state.selectedCartSouvenir];
+    final temporaryCartSouvenir =
+        temporarySelectedCartSouvenir.firstWhereOrNull(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+    final temporaryCartSouvenirIndex = temporarySelectedCartSouvenir.indexWhere(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+
+    if (temporaryCartSouvenir == null) {
+      return null;
+    }
+    final tempOrderableIndex = temporaryCartSouvenir.items.indexWhere(
+      (element) =>
+          element.id == event.orderable!.id &&
+          element.type == event.orderable!.type,
+    );
+
+    final tempOrderableList = [...temporaryCartSouvenir.items]
+      ..removeAt(tempOrderableIndex);
+
+    final newCartSouvenir = temporaryCartSouvenir.copyWith(
+      items: tempOrderableList,
+    );
+    temporarySelectedCartSouvenir[temporaryCartSouvenirIndex] = newCartSouvenir;
+
+    emit(
+      state.copyWith(selectedCartSouvenir: [...temporarySelectedCartSouvenir]),
+    );
+  }
 
   FutureOr<void> _onSaveButtonPressed(
     _CartSaveButtonPressed event,
     Emitter<CartState> emit,
-  ) {}
+  ) {
+    log('data: ${state.cartSouvenir}');
+
+    // final orderables =
+    //     state.cartSouvenir.fold(<Orderable>[], (e, v) => [...v.items]);
+  }
+
+  FutureOr<void> _onDecisionChecked(
+    _CartDecisionChecked event,
+    Emitter<CartState> emit,
+  ) {
+    final previous = state.status;
+    emit(
+      state.copyWith(temporary: event.temporary, status: CartStatus.temporary),
+    );
+    emit(state.copyWith(status: previous));
+  }
+
+  FutureOr<void> _onCartSouvenirAddPressed(
+    _CartSouvenirAddButtonPressed event,
+    Emitter<CartState> emit,
+  ) async {
+    final orderable = OrderableMapper.fromSouvenir(event.souvenir);
+    add(
+      CartEvent.addButtonPressed(
+        destinationSouvenir: event.destinationSouvenir,
+        orderable: orderable.copyWith(quantity: event.quantity),
+      ),
+    );
+    add(const CartEvent.saveToCartButtonPressed());
+  }
+
+  FutureOr<void> _onSaveToCartPressed(
+    _CartSaveToCartButtonPressed event,
+    Emitter<CartState> emit,
+  ) async {
+    final currentCart = state.cartSouvenir;
+    final result = await _saveCart(SaveCartParams(currentCart));
+    emit(state.copyWith(cartSavedOrFailureOption: optionOf(result)));
+    emit(state.copyWith(cartSavedOrFailureOption: none()));
+  }
 }
