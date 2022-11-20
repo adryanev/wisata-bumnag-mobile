@@ -69,17 +69,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     Emitter<CartState> emit,
   ) {
     final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     // if souvenir cart not exist then add new entry to cart
     if (destinationSouvenir == null) {
       final cart = CartSouvenir(
-        destinationId: event.destinationSouvenir.id,
-        destinationName: event.destinationSouvenir.name,
-        destinationAddress: event.destinationSouvenir.address,
+        destinationId: event.destinationSouvenir.destinationId,
+        destinationName: event.destinationSouvenir.destinationName,
+        destinationAddress: event.destinationSouvenir.destinationAddress,
         items: [event.orderable],
       );
       emit(
@@ -123,7 +125,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
 
     final temporaryItems = [...destinationSouvenir.items];
-    final newQuantity = currentOrderable.quantity + event.orderable.quantity;
+    final newQuantity = currentOrderable.quantity + (event.quantity ?? 1);
     final newOrderable = currentOrderable.copyWith(
       quantity: newQuantity,
       subtotal: currentOrderable.price * newQuantity,
@@ -149,10 +151,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     Emitter<CartState> emit,
   ) {
     final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     // if souvenir cart not exist then add new entry to cart
     if (destinationSouvenir == null) {
@@ -201,10 +205,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     Emitter<CartState> emit,
   ) {
     final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
-      (element) => element.destinationId == event.destinationSouvenir.id,
+      (element) =>
+          element.destinationId == event.destinationSouvenir.destinationId,
     );
     // if souvenir cart not exist then add new entry to cart
     if (destinationSouvenir == null) {
@@ -381,8 +387,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     final orderable = OrderableMapper.fromSouvenir(event.souvenir);
     add(
       CartEvent.addButtonPressed(
-        destinationSouvenir: event.destinationSouvenir,
+        destinationSouvenir: CartSouvenir(
+          destinationId: event.destinationSouvenir.id,
+          destinationName: event.destinationSouvenir.name,
+          destinationAddress: event.destinationSouvenir.address,
+          items: [
+            orderable.copyWith(quantity: event.quantity),
+          ],
+        ),
         orderable: orderable.copyWith(quantity: event.quantity),
+        quantity: event.quantity,
       ),
     );
     add(const CartEvent.saveToCartButtonPressed());

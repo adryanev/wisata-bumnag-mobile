@@ -62,7 +62,7 @@ class App extends StatelessWidget with FailureMessageHandler {
                 (either) => either.fold(
                   (l) => handleFailure(context, l),
                   (r) => context.showSnackbar(
-                    message: 'Berhasil menambahkan souvenir ke keranjang',
+                    message: 'Berhasil meyimpan souvenir ke keranjang',
                   ),
                 ),
               );

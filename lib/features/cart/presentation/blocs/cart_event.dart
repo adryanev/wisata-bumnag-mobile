@@ -14,15 +14,16 @@ class CartEvent with _$CartEvent {
   const factory CartEvent.saveToCartButtonPressed() =
       _CartSaveToCartButtonPressed;
   const factory CartEvent.addButtonPressed({
-    required DestinationSouvenir destinationSouvenir,
+    required CartSouvenir destinationSouvenir,
     required Orderable orderable,
+    int? quantity,
   }) = _CartAddButtonPressed;
   const factory CartEvent.removeButtonPressed({
-    required DestinationSouvenir destinationSouvenir,
+    required CartSouvenir destinationSouvenir,
     required Orderable orderable,
   }) = _CartRemoveButtonPressed;
   const factory CartEvent.deleteButtonPressed({
-    required DestinationSouvenir destinationSouvenir,
+    required CartSouvenir destinationSouvenir,
     required Orderable orderable,
   }) = _CartDeleteButtonPressed;
   const factory CartEvent.saveButtonPressed() = _CartSaveButtonPressed;

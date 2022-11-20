@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/login/login_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/register/register_page.dart';
+import 'package:wisatabumnag/features/cart/presentation/pages/cart_list_page.dart';
 import 'package:wisatabumnag/features/destination/domain/entities/destination_detail.entity.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_detail_page.dart';
 import 'package:wisatabumnag/features/destination/presentation/pages/destination_list_page.dart';
@@ -227,6 +228,32 @@ final appRouter = GoRouter(
             );
           },
         ),
+      ],
+    ),
+    GoRoute(
+      path: '/cart',
+      name: AppRouter.cart,
+      builder: (context, state) {
+        return const CartListPage();
+      },
+      routes: [
+        // GoRoute(
+        //   path: 'detail',
+        //   name: AppRouter.souvenirDetail,
+        //   builder: (context, state) {
+        //     final map = state.extra as Map<String, dynamic>?;
+        //     if (map == null) {
+        //       return const SizedBox();
+        //     }
+        //     final souvenir = map['souvenir'] as Souvenir;
+        //     final destinationSouvenir =
+        //         map['destinationSouvenir'] as DestinationSouvenir;
+        //     return SouvenirDetailPage(
+        //       destinationSouvenir: destinationSouvenir,
+        //       souvenir: souvenir,
+        //     );
+        //   },
+        // ),
       ],
     ),
   ],
