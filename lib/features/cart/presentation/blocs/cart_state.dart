@@ -8,7 +8,6 @@ class CartState with _$CartState {
     required Option<Either<Failure, Unit>> cartSavedOrFailureOption,
     required Option<Either<Failure, List<CartSouvenir>>>
         cartSouvenirOrFailureOption,
-    required List<CartSouvenir> selectedCartSouvenir,
     required double totalPrice,
     required CartStatus status,
   }) = _CartState;
@@ -16,7 +15,6 @@ class CartState with _$CartState {
         temporary: null,
         cartSavedOrFailureOption: none(),
         cartSouvenir: [],
-        selectedCartSouvenir: [],
         totalPrice: 0,
         cartSouvenirOrFailureOption: none(),
         status: CartStatus.initial,

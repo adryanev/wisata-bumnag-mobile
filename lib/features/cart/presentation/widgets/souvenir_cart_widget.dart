@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
@@ -53,8 +55,15 @@ class SouvenirCartWidget extends StatelessWidget {
                       fontSize: 14.sp,
                     ),
                   ),
-                  trailing:
-                      WisataButton.primary(onPressed: () {}, text: 'Bayar'),
+                  trailing: WisataButton.primary(
+                    onPressed: () {
+                      context.pushNamed(
+                        AppRouter.cartOrder,
+                        extra: cartSouvenir,
+                      );
+                    },
+                    text: 'Bayar',
+                  ),
                 ),
                 ...cartSouvenir.items
                     .map(

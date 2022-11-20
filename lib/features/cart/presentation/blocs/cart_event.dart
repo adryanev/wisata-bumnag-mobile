@@ -27,13 +27,4 @@ class CartEvent with _$CartEvent {
     required Orderable orderable,
   }) = _CartDeleteButtonPressed;
   const factory CartEvent.saveButtonPressed() = _CartSaveButtonPressed;
-
-  const factory CartEvent.selected({
-    Orderable? orderable,
-    required CartSouvenir cartSouvenir,
-  }) = _CartSelected;
-  const factory CartEvent.deselected({
-    Orderable? orderable,
-    required CartSouvenir cartSouvenir,
-  }) = _CartDeselected;
 }
