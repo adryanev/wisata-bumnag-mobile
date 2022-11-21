@@ -22,7 +22,7 @@ abstract class ReviewApiClient {
       getWaitingForReview({
     @Query('page') required int page,
   });
-  @GET('v1/history')
+  @GET('v1/reviews/history')
   Future<BasePaginationResponse<List<OrderDetailResponse>>> getHistoryReview({
     @Query('page') required int page,
   });

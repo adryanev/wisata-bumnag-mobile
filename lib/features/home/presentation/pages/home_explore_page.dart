@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
@@ -66,7 +68,9 @@ class _HomeExplorePageState extends State<HomeExplorePage> {
                 builder: (context, state) {
                   if (state is AuthenticationAuthenticated) {
                     return IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(AppRouter.review);
+                      },
                       icon: const Icon(
                         Icons.star_outline_rounded,
                       ),

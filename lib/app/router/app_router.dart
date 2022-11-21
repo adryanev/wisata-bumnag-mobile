@@ -21,6 +21,8 @@ import 'package:wisatabumnag/features/packages/domain/entities/package_detail.en
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_order_page.dart';
+import 'package:wisatabumnag/features/review/presentation/pages/review_form_page.dart';
+import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
@@ -55,6 +57,8 @@ class AppRouter {
   static const cart = 'cart';
   static const cartOrder = 'cart-order';
   static const order = 'order';
+  static const review = 'review';
+  static const createReview = 'create-review';
 }
 
 final appRouter = GoRouter(
@@ -270,5 +274,25 @@ final appRouter = GoRouter(
         return OrderDetailPage(orderHistoryItem: orderItem);
       },
     ),
+    GoRoute(
+        path: '/review',
+        name: AppRouter.review,
+        builder: (context, state) {
+          return const ReviewPage();
+        },
+        routes: [
+          GoRoute(
+            path: 'create-review',
+            name: AppRouter.createReview,
+            builder: (context, state) {
+              final orderDetail = state.extra as OrderDetail?;
+              if (orderDetail == null) {
+                return const SizedBox();
+              }
+
+              return ReviewFormPage(orderDetail: orderDetail);
+            },
+          ),
+        ]),
   ],
 );
