@@ -33,6 +33,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_CartDecisionChecked>(_onDecisionChecked);
     on<_CartSouvenirAddButtonPressed>(_onCartSouvenirAddPressed);
     on<_CartSaveToCartButtonPressed>(_onSaveToCartPressed);
+    on<_CartCurrentRemoved>(_onCurrentRemoved);
   }
 
   final GetUserCart _getUserCart;
@@ -309,5 +310,32 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     final result = await _saveCart(SaveCartParams(currentCart));
     emit(state.copyWith(cartSavedOrFailureOption: optionOf(result)));
     emit(state.copyWith(cartSavedOrFailureOption: none()));
+  }
+
+  FutureOr<void> _onCurrentRemoved(
+    _CartCurrentRemoved event,
+    Emitter<CartState> emit,
+  ) {
+    final destinationSouvenir = state.cartSouvenir.firstWhereOrNull(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+    final destinationSouvenirIndex = state.cartSouvenir.indexWhere(
+      (element) => element.destinationId == event.cartSouvenir.destinationId,
+    );
+    // if souvenir cart not exist then add new entry to cart
+    if (destinationSouvenir == null) {
+      return null;
+    }
+
+    final temporary = [...state.cartSouvenir]
+      ..removeAt(destinationSouvenirIndex);
+
+    emit(
+      state.copyWith(
+        cartSouvenir: [...temporary],
+        temporary: null,
+      ),
+    );
+    add(const CartEvent.saveToCartButtonPressed());
   }
 }

@@ -24,6 +24,7 @@ class UserDataResponse with _$UserDataResponse {
     @JsonKey(name: 'nik') required String? nik,
     @JsonKey(name: 'phone_number') required String? phoneNumber,
     @JsonKey(name: 'name') required String? name,
+    @JsonKey(name: 'roles') required String? roles,
   }) = _UserDataResponse;
 
   factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
@@ -36,6 +37,7 @@ extension UserDataResponseX on UserDataResponse {
         nik: nik == null ? null : Nik(nik!),
         phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
         name: StringSingleLine(name!),
+        roles: roles,
       );
 }
 
