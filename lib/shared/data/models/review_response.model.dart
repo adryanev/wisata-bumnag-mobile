@@ -14,7 +14,7 @@ class ReviewResponse with _$ReviewResponse {
     required String reviewableType,
     required List<String> media,
     required UserDataResponse user,
-    required String rating,
+    required double rating,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _ReviewResponse;

@@ -59,5 +59,5 @@ Failure _parseException(Object exception) {
     }
   }
 
-  return const Failure.unexpectedFailure(message: 'message');
+  return Failure.unexpectedFailure(message: '$exception');
 }
