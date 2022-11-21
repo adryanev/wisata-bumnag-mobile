@@ -9,6 +9,7 @@ part 'user_local_model.model.g.dart';
 @freezed
 class UserLocalModel with _$UserLocalModel {
   const factory UserLocalModel({
+    required int id,
     required String email,
     required String? nik,
     required String name,
@@ -20,6 +21,7 @@ class UserLocalModel with _$UserLocalModel {
       _$UserLocalModelFromJson(json);
   factory UserLocalModel.fromRemoteModel(UserDataResponse response) =>
       UserLocalModel(
+        id: response.id,
         email: response.email!,
         nik: response.nik,
         name: response.name!,
@@ -30,6 +32,7 @@ class UserLocalModel with _$UserLocalModel {
 
 extension UserLocalModelX on UserLocalModel {
   User toDomain() => User(
+        id: id,
         emailAddress: EmailAddress(email),
         nik: nik == null ? null : Nik(nik!),
         phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
