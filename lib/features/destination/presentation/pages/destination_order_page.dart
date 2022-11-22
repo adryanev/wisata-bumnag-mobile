@@ -450,7 +450,7 @@ class DetailPesananSouvenirWidget extends StatelessWidget {
                 );
               }
               return SizedBox(
-                height: 220.h,
+                height: 240.h,
                 width: 1.sw,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,

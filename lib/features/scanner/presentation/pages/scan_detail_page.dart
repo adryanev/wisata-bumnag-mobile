@@ -17,8 +17,8 @@ import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
-class OrderDetailPage extends StatelessWidget {
-  const OrderDetailPage({super.key, required this.orderHistoryItem});
+class ScanDetailPage extends StatelessWidget {
+  const ScanDetailPage({super.key, required this.orderHistoryItem});
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -115,6 +115,7 @@ class OrderDetailPage extends StatelessWidget {
                                     width: .4.sw,
                                     child: SvgPicture.network(
                                       orderHistoryItem.order.qrCode!,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   SizedBox(

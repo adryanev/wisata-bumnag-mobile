@@ -23,6 +23,8 @@ import 'package:wisatabumnag/features/packages/presentation/pages/package_list_p
 import 'package:wisatabumnag/features/packages/presentation/pages/package_order_page.dart';
 import 'package:wisatabumnag/features/review/presentation/pages/review_form_page.dart';
 import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
@@ -59,6 +61,8 @@ class AppRouter {
   static const order = 'order';
   static const review = 'review';
   static const createReview = 'create-review';
+  static const scan = 'scan';
+  static const scanDetail = 'scan-detail';
 }
 
 final appRouter = GoRouter(
@@ -291,6 +295,26 @@ final appRouter = GoRouter(
               }
 
               return ReviewFormPage(orderDetail: orderDetail);
+            },
+          ),
+        ]),
+    GoRoute(
+        path: '/scan',
+        name: AppRouter.scan,
+        builder: (context, state) {
+          return const ScanPage();
+        },
+        routes: [
+          GoRoute(
+            path: 'scan-detail',
+            name: AppRouter.scanDetail,
+            builder: (context, state) {
+              final orderItem = state.extra as OrderHistoryItem?;
+              if (orderItem == null) {
+                return const SizedBox();
+              }
+
+              return ScanDetailPage(orderHistoryItem: orderItem);
             },
           ),
         ]),

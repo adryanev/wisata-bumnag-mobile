@@ -8,6 +8,7 @@ environment:
   flutter: 3.0.5
 
 dependencies:
+  ai_barcode_scanner: ^0.0.2+1
   bloc: ^8.1.0
   bloc_concurrency: ^0.2.0
   bubble_tab_indicator: ^0.1.6
@@ -48,6 +49,7 @@ dependencies:
   json_annotation: ^4.7.0
   lottie: ^2.0.0
   maps_launcher: ^2.0.1
+  mobile_scanner: ^2.1.0
   pretty_dio_logger: ^1.1.1
   readmore: ^2.2.0
   retrofit: ^3.3.1
