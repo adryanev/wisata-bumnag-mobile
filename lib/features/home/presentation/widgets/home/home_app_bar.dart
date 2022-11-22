@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
@@ -48,18 +49,25 @@ class HomeCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        if (state.cartSouvenir.isEmpty) {
-          return Assets.icons.icCart.svg();
-        } else {
-          return InkWell(
-            onTap: () {
-              context.pushNamed(AppRouter.cart);
+        if (state is AuthenticationAuthenticated) {
+          return BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              if (state.cartSouvenir.isEmpty) {
+                return Assets.icons.icCart.svg();
+              } else {
+                return InkWell(
+                  onTap: () {
+                    context.pushNamed(AppRouter.cart);
+                  },
+                  child: Assets.icons.icCartActive.svg(),
+                );
+              }
             },
-            child: Assets.icons.icCartActive.svg(),
           );
         }
+        return const SizedBox();
       },
     );
   }

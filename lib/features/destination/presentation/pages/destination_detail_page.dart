@@ -61,34 +61,6 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
               );
             },
           ),
-          BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              state.maybeWhen(
-                authenticated: (_) => context.pushNamed(
-                  AppRouter.destinationOrder,
-                  extra: _destinationDetail,
-                ),
-                unauthenticated: () => showDialog<void>(
-                  context: context,
-                  builder: (_) => ConfirmationDialog(
-                    title: 'Harus Masuk',
-                    description: 'Untuk memesan item ini anda harus masuk '
-                        'terlebih dahulu.',
-                    confirmText: 'Masuk',
-                    dismissText: 'Batal',
-                    onDismiss: () {
-                      Navigator.pop(context);
-                    },
-                    onConfirm: () {
-                      context.pushNamed(AppRouter.login);
-                    },
-                  ),
-                ),
-                failed: (failure) => handleFailure(context, failure),
-                orElse: () => null,
-              );
-            },
-          ),
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -241,14 +213,43 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
                     const Spacer(),
                     SizedBox(
                       width: 120.w,
-                      child: WisataButton.primary(
-                        onPressed: () {
-                          context.read<AuthenticationBloc>().add(
-                                const AuthenticationEvent
-                                    .checkAuthenticationStatus(),
+                      child:
+                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                        builder: (context, state) {
+                          if (state is AuthenticationAuthenticated) {
+                            return WisataButton.primary(
+                              onPressed: () {
+                                context.pushNamed(
+                                  AppRouter.destinationOrder,
+                                  extra: _destinationDetail,
+                                );
+                              },
+                              text: 'Beli Tiket',
+                            );
+                          }
+                          return WisataButton.primary(
+                            onPressed: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (_) => ConfirmationDialog(
+                                  title: 'Harus Masuk',
+                                  description:
+                                      'Untuk memesan item ini anda harus masuk '
+                                      'terlebih dahulu.',
+                                  confirmText: 'Masuk',
+                                  dismissText: 'Batal',
+                                  onDismiss: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onConfirm: () {
+                                    context.pushNamed(AppRouter.login);
+                                  },
+                                ),
                               );
+                            },
+                            text: 'Beli Tiket',
+                          );
                         },
-                        text: 'Beli Tiket',
                       ),
                     )
                   ],

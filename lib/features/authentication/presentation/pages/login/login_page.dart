@@ -21,60 +21,70 @@ class LoginPage extends StatelessWidget with FailureMessageHandler {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<LoginBloc>(),
-      child: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          state.loginOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) {
-                context
-                  ..read<AuthenticationBloc>().add(
-                    const AuthenticationEvent.checkAuthenticationStatus(),
-                  )
-                  ..read<HomeBloc>().add(
-                    const HomeEvent.bottomNavigatonChanged(0),
-                  )
-                  ..goNamed(AppRouter.home);
-              },
-            ),
-          );
-        },
-        child: Scaffold(
-          appBar: AppBar(),
-          body: SafeArea(
-            child: Padding(
-              padding: Dimension.aroundPadding,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 24.h,
-                    ),
-                    Text(
-                      'Selamat Datang',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.black,
+    return WillPopScope(
+      onWillPop: () {
+        context
+          ..read<HomeBloc>().add(
+            const HomeEvent.bottomNavigatonChanged(0),
+          )
+          ..goNamed(AppRouter.home);
+        return Future.value(false);
+      },
+      child: BlocProvider(
+        create: (context) => getIt<LoginBloc>(),
+        child: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            state.loginOrFailureOption.fold(
+              () => null,
+              (either) => either.fold(
+                (l) => handleFailure(context, l),
+                (r) {
+                  context
+                    ..read<AuthenticationBloc>().add(
+                      const AuthenticationEvent.checkAuthenticationStatus(),
+                    )
+                    ..read<HomeBloc>().add(
+                      const HomeEvent.bottomNavigatonChanged(0),
+                    )
+                    ..goNamed(AppRouter.home);
+                },
+              ),
+            );
+          },
+          child: Scaffold(
+            appBar: AppBar(),
+            body: SafeArea(
+              child: Padding(
+                padding: Dimension.aroundPadding,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 24.h,
                       ),
-                    ),
-                    Text(
-                      'Silahkan Masuk',
-                      style: TextStyle(
-                        color: AppColor.black,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        'Selamat Datang',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColor.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    const LoginFormWidget()
-                  ],
+                      Text(
+                        'Silahkan Masuk',
+                        style: TextStyle(
+                          color: AppColor.black,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      const LoginFormWidget()
+                    ],
+                  ),
                 ),
               ),
             ),

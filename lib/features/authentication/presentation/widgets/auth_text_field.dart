@@ -7,17 +7,21 @@ class AuthTextField extends StatefulWidget {
     super.key,
     this.hint,
     this.isPassword = false,
-    required this.label,
+    this.label,
     required this.controller,
     required this.validator,
     this.textInputAction,
+    this.keyboardType,
+    this.maxLine = 1,
   });
   final String? hint;
   final bool isPassword;
-  final String label;
+  final String? label;
   final TextEditingController controller;
   final String? validator;
   final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final int? maxLine;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -39,16 +43,18 @@ class _AuthTextFieldState extends State<AuthTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColor.secondBlack,
+        if (widget.label != null) ...[
+          Text(
+            widget.label!,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: AppColor.secondBlack,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 2.h,
-        ),
+          SizedBox(
+            height: 2.h,
+          ),
+        ],
         TextFormField(
           key: widget.key,
           controller: widget.controller,
@@ -56,7 +62,9 @@ class _AuthTextFieldState extends State<AuthTextField> {
           validator: (_) => widget.validator,
           style: TextStyle(fontSize: 12.sp),
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLines: widget.maxLine,
           textInputAction: widget.textInputAction ?? TextInputAction.next,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             errorMaxLines: 3,
             contentPadding: EdgeInsets.all(10.r),
