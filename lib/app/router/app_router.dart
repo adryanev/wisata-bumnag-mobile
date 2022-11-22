@@ -25,6 +25,7 @@ import 'package:wisatabumnag/features/review/presentation/pages/review_form_page
 import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_success_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
@@ -63,6 +64,7 @@ class AppRouter {
   static const createReview = 'create-review';
   static const scan = 'scan';
   static const scanDetail = 'scan-detail';
+  static const scanSuccess = 'scan-success';
 }
 
 final appRouter = GoRouter(
@@ -279,44 +281,55 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/review',
-        name: AppRouter.review,
-        builder: (context, state) {
-          return const ReviewPage();
-        },
-        routes: [
-          GoRoute(
-            path: 'create-review',
-            name: AppRouter.createReview,
-            builder: (context, state) {
-              final orderDetail = state.extra as OrderDetail?;
-              if (orderDetail == null) {
-                return const SizedBox();
-              }
+      path: '/review',
+      name: AppRouter.review,
+      builder: (context, state) {
+        return const ReviewPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'create-review',
+          name: AppRouter.createReview,
+          builder: (context, state) {
+            final orderDetail = state.extra as OrderDetail?;
+            if (orderDetail == null) {
+              return const SizedBox();
+            }
 
-              return ReviewFormPage(orderDetail: orderDetail);
-            },
-          ),
-        ]),
+            return ReviewFormPage(orderDetail: orderDetail);
+          },
+        ),
+      ],
+    ),
     GoRoute(
-        path: '/scan',
-        name: AppRouter.scan,
-        builder: (context, state) {
-          return const ScanPage();
-        },
-        routes: [
-          GoRoute(
-            path: 'scan-detail',
-            name: AppRouter.scanDetail,
-            builder: (context, state) {
-              final orderItem = state.extra as OrderHistoryItem?;
-              if (orderItem == null) {
-                return const SizedBox();
-              }
+      path: '/scan',
+      name: AppRouter.scan,
+      builder: (context, state) {
+        return const ScanPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'scan-detail',
+          name: AppRouter.scanDetail,
+          builder: (context, state) {
+            final orderItem = state.extra as OrderHistoryItem?;
+            if (orderItem == null) {
+              return const SizedBox();
+            }
 
-              return ScanDetailPage(orderHistoryItem: orderItem);
-            },
-          ),
-        ]),
+            return ScanDetailPage(orderHistoryItem: orderItem);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/scan-success',
+      name: AppRouter.scanSuccess,
+      builder: (context, state) {
+        final status = state.extra as bool?;
+        if (status == null) return const SizedBox();
+        return ScanSuccessPage(status: status);
+      },
+    )
   ],
 );

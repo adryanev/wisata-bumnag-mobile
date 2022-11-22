@@ -248,7 +248,7 @@ class _ReviewFormPageState extends State<ReviewFormPage>
                                                 borderRadius:
                                                     BorderRadius.circular(4.r),
                                               ),
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.camera_alt_outlined,
                                                 color: AppColor.darkGrey,
                                               ),
