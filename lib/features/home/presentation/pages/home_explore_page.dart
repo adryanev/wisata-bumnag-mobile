@@ -219,30 +219,37 @@ class ExploreItemWidget extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: explore.media.length,
-              itemBuilder: (context, index) => SizedBox(
-                height: 80.w,
-                width: 80.w,
-                child: InkWell(
-                  onTap: () {
-                    showDialog<dynamic>(
-                      context: context,
-                      builder: (_) {
-                        return Dialog(
-                          child: SizedBox(
-                            child: CachedNetworkImage(
-                              imageUrl: explore.media[index],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+              itemBuilder: (context, index) => Row(
+                children: [
+                  SizedBox(
+                    height: 80.w,
+                    width: 80.w,
+                    child: InkWell(
+                      onTap: () {
+                        showDialog<dynamic>(
+                          context: context,
+                          builder: (_) {
+                            return Dialog(
+                              child: SizedBox(
+                                child: CachedNetworkImage(
+                                  imageUrl: explore.media[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  child: CachedNetworkImage(
-                    imageUrl: explore.media[index],
-                    fit: BoxFit.cover,
+                      child: CachedNetworkImage(
+                        imageUrl: explore.media[index],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                ],
               ),
             ),
           ),
