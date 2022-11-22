@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
@@ -114,15 +118,30 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
         );
       },
     ),
-    HomeMenuItem(
-      label: 'Profil Nagari',
-      icon: Assets.images.logo.profilNagari.svg(),
-      onClick: () {},
+    BlocBuilder<HomeFrontCubit, HomeFrontState>(
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Profil Nagari',
+          icon: Assets.images.logo.profilNagari.svg(),
+          onClick: () {
+            context.pushNamed(
+              AppRouter.webview,
+              queryParams: {
+                'url': 'https://id.wikipedia.org/wiki/Mandeh',
+                'title': 'Profil Nagari',
+              },
+            );
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Instagram',
       icon: Assets.images.logo.instagram.image(),
-      onClick: () {},
+      onClick: () async {
+        const url = 'https://www.instagram.com/explore/tags/mandeh/';
+        await launchUrlString(url, mode: LaunchMode.externalApplication);
+      },
     ),
   ];
   @override

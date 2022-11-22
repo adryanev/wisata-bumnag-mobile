@@ -36,6 +36,7 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/online_payment_page.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/payment_page.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/payment_success_page.dart';
+import 'package:wisatabumnag/shared/widgets/web_view_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -65,6 +66,7 @@ class AppRouter {
   static const scan = 'scan';
   static const scanDetail = 'scan-detail';
   static const scanSuccess = 'scan-success';
+  static const webview = 'webview';
 }
 
 final appRouter = GoRouter(
@@ -330,6 +332,13 @@ final appRouter = GoRouter(
         if (status == null) return const SizedBox();
         return ScanSuccessPage(status: status);
       },
-    )
+    ),
+    GoRoute(
+        path: '/webview',
+        name: AppRouter.webview,
+        builder: (context, state) {
+          final params = state.queryParams;
+          return WebViewPage(url: params['url']!, title: params['title']!);
+        })
   ],
 );

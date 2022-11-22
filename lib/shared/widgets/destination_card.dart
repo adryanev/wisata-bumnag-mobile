@@ -94,7 +94,7 @@ class DestinationCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 3.h),
                 ],
               ),
             )
