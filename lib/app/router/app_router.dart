@@ -334,11 +334,12 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/webview',
-        name: AppRouter.webview,
-        builder: (context, state) {
-          final params = state.queryParams;
-          return WebViewPage(url: params['url']!, title: params['title']!);
-        })
+      path: '/webview',
+      name: AppRouter.webview,
+      builder: (context, state) {
+        final params = state.queryParams;
+        return WebViewPage(url: params['url']!, title: params['title']!);
+      },
+    ),
   ],
 );
