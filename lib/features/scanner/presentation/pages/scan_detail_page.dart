@@ -1,162 +1,146 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:change_case/change_case.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/home/domain/entities/order_history_item.entity.dart';
+import 'package:wisatabumnag/features/scanner/presentation/blocs/scan_detail/scan_detail_bloc.dart';
+import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
-class OrderDetailPage extends StatelessWidget {
-  const OrderDetailPage({super.key, required this.orderHistoryItem});
+class ScanDetailPage extends StatelessWidget with FailureMessageHandler {
+  const ScanDetailPage({super.key, required this.orderHistoryItem});
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          orderHistoryItem.name,
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              OrderDetailHeaderWidget(orderHistoryItem: orderHistoryItem),
-              const WisataDivider(),
-              OrderDetailProdukWidget(orderHistoryItem: orderHistoryItem),
-              const WisataDivider(),
-              OrderDetailRincianPembayaran(orderHistoryItem: orderHistoryItem),
-            ],
+    return BlocProvider(
+      create: (context) => getIt<ScanDetailBloc>()
+        ..add(ScanDetailEvent.started(orderHistoryItem)),
+      child: BlocListener<ScanDetailBloc, ScanDetailState>(
+        listener: (context, state) {
+          state.approveTicketOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => context.goNamed(AppRouter.scanSuccess, extra: true),
+            ),
+          );
+          state.payTicketOrFailureOption.fold(
+            () => null,
+            (either) => either.fold(
+              (l) => handleFailure(context, l),
+              (r) => Navigator.pop(context),
+            ),
+          );
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              orderHistoryItem.name,
+            ),
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  OrderDetailHeaderWidget(orderHistoryItem: orderHistoryItem),
+                  const WisataDivider(),
+                  OrderDetailProdukWidget(orderHistoryItem: orderHistoryItem),
+                  const WisataDivider(),
+                  OrderDetailRincianPembayaran(
+                    orderHistoryItem: orderHistoryItem,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          bottomSheet: Container(
+            height: 80.h,
+            width: 1.sw,
+            padding: Dimension.aroundPadding,
+            decoration: const BoxDecoration(
+              color: AppColor.white,
+              boxShadow: [
+                BoxShadow(
+                  blurStyle: BlurStyle.outer,
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  color: AppColor.borderStroke,
+                ),
+              ],
+            ),
+            child: BlocBuilder<ScanDetailBloc, ScanDetailState>(
+              builder: (context, state) {
+                return state.isPaid
+                    ? WisataButton.primary(
+                        onPressed: state.isLoading
+                            ? null
+                            : () {
+                                showDialog<dynamic>(
+                                  context: context,
+                                  builder: (_) => ConfirmationDialog(
+                                    title: 'Konfirmasi Setuju',
+                                    description:
+                                        'Apakah anda menyetujui tiket ini?',
+                                    onDismiss: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onConfirm: () {
+                                      context.read<ScanDetailBloc>().add(
+                                            const ScanDetailEvent
+                                                .approveButtonPressed(),
+                                          );
+                                    },
+                                    confirmText: 'Setuju',
+                                    dismissText: 'Batal',
+                                  ),
+                                );
+                              },
+                        text: 'Setujui Tiket',
+                      )
+                    : WisataButton.primary(
+                        onPressed: state.isLoading
+                            ? null
+                            : () {
+                                showDialog<dynamic>(
+                                  context: context,
+                                  builder: (_) => ConfirmationDialog(
+                                    title: 'Konfirmasi Pembayaran',
+                                    description:
+                                        'Pastikan anda sudah menerima uang '
+                                        'dari pengunjung',
+                                    onDismiss: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onConfirm: () {
+                                      context.read<ScanDetailBloc>().add(
+                                            const ScanDetailEvent
+                                                .payNowButtonPressed(),
+                                          );
+                                    },
+                                    confirmText: 'Konfirmasi',
+                                    dismissText: 'Batal',
+                                  ),
+                                );
+                              },
+                        text: 'Bayar Tiket',
+                      );
+              },
+            ),
           ),
         ),
-      ),
-      bottomSheet: Container(
-        height: 80.h,
-        width: 1.sw,
-        padding: Dimension.aroundPadding,
-        decoration: const BoxDecoration(
-          color: AppColor.white,
-          boxShadow: [
-            BoxShadow(
-              blurStyle: BlurStyle.outer,
-              spreadRadius: 1,
-              blurRadius: 1,
-              color: AppColor.borderStroke,
-            ),
-          ],
-        ),
-        child: orderHistoryItem.order.paymentType == null
-            ? WisataButton.primary(
-                onPressed: () {
-                  showDialog<dynamic>(
-                    context: context,
-                    builder: (_) => ConfirmationDialog(
-                      title: 'Konfirmasi Pesanan',
-                      description: 'Apakah pesanan sudah benar? '
-                          'Jika sudah silahkan lanjut untuk melakukan '
-                          'pembayaran pesanan yang sudah dibuat.',
-                      onDismiss: () {
-                        Navigator.pop(context);
-                      },
-                      onConfirm: () {
-                        context.pushNamed(
-                          AppRouter.payment,
-                          extra: orderHistoryItem.order,
-                        );
-                      },
-                      confirmText: 'Lanjut',
-                      dismissText: 'Batal',
-                    ),
-                  );
-                },
-                text: 'Lanjut ke Pembayaran',
-              )
-            : orderHistoryItem.order.qrCode == null
-                ? const SizedBox()
-                : WisataButton.primary(
-                    onPressed: () {
-                      showDialog<dynamic>(
-                        context: context,
-                        builder: (_) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Padding(
-                              padding: Dimension.aroundPadding,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    orderHistoryItem.name.toTitleCase(),
-                                    style: TextStyle(
-                                      color: AppColor.black,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  SizedBox(
-                                    height: .2.sh,
-                                    width: .4.sw,
-                                    child: SvgPicture.network(
-                                      orderHistoryItem.order.qrCode!,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  Text(
-                                    'Tiket siap digunakan',
-                                    style: TextStyle(
-                                      color: AppColor.darkGrey,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  const Text(
-                                    'Tunjukkan QR ini kepada petugas tiket '
-                                    'yang berjaga di objek wisata.',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  SizedBox(
-                                    width: .4.sh,
-                                    height: 40.h,
-                                    child: WisataButton.primary(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      text: 'Kembali',
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    text: 'Lihat Tiket',
-                  ),
       ),
     );
   }

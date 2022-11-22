@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/features/home/presentation/widgets/home/ads_banner_widget.dart';
 import 'package:wisatabumnag/features/home/presentation/widgets/home/home_app_bar.dart';
@@ -56,7 +60,6 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
           );
         },
         child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             height: 1.sh,
             width: 1.sw,
@@ -70,6 +73,54 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
                 const AdsBannerWidget(),
                 SizedBox(
                   height: 20.h,
+                ),
+                BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (context, state) {
+                    if (state is AuthenticationAuthenticated) {
+                      if (state.user.roles?.toLowerCase() == 'ticketer') {
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                context.pushNamed(AppRouter.scan);
+                              },
+                              child: DecoratedBox(
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    side: const BorderSide(
+                                      color: AppColor.borderStroke,
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  leading: const Icon(
+                                    Icons.qr_code_scanner_rounded,
+                                    color: AppColor.secondBlack,
+                                  ),
+                                  title: Text(
+                                    'Scan QR Pengunjung',
+                                    style: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: AppColor.secondBlack,
+                                    ),
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: AppColor.secondBlack,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                          ],
+                        );
+                      }
+                    }
+                    return const SizedBox();
+                  },
                 ),
                 const HomeMenuWidget(),
                 SizedBox(

@@ -606,7 +606,7 @@ class DestinationSouvenirReviewAndRecommendationWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 1.sw,
-            height: 220.h,
+            height: 240.h,
             child: BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
                 return ListView.builder(

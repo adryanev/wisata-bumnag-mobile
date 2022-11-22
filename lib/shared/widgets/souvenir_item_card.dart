@@ -19,7 +19,7 @@ class SouvenirItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.w,
+      height: 200.w,
       width: 140.w,
       child: InkWell(
         onTap: onTap,

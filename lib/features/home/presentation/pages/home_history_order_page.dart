@@ -49,46 +49,49 @@ class _HomeHistoryOrderPageState extends State<HomeHistoryOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _orderListBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Riwayat Transaksi'),
-        ),
-        body: SafeArea(
-          child: SizedBox(
-            height: 1.sh,
-            width: 1.sw,
-            child: BlocBuilder<OrderListBloc, OrderListState>(
-              bloc: _orderListBloc,
-              builder: (context, state) {
-                switch (state.status) {
-                  case OrderListStatus.initial:
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  case OrderListStatus.failure:
-                    return const Center(
-                      child: Text('failed to fetch Order Histories'),
-                    );
-                  case OrderListStatus.success:
-                    return ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                        color: AppColor.grey,
-                        indent: 16.w,
-                        endIndent: 16.w,
-                        thickness: 2.h,
-                      ),
-                      itemCount: state.orderHistories.length,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {},
-                        child: OrderListItem(
-                          order: state.orderHistories[index],
+    return OverflowBox(
+      maxWidth: 1.sw,
+      child: BlocProvider(
+        create: (context) => _orderListBloc,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Riwayat Transaksi'),
+          ),
+          body: SafeArea(
+            child: SizedBox(
+              height: 1.sh,
+              width: 1.sw,
+              child: BlocBuilder<OrderListBloc, OrderListState>(
+                bloc: _orderListBloc,
+                builder: (context, state) {
+                  switch (state.status) {
+                    case OrderListStatus.initial:
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    case OrderListStatus.failure:
+                      return const Center(
+                        child: Text('failed to fetch Order Histories'),
+                      );
+                    case OrderListStatus.success:
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => Divider(
+                          color: AppColor.grey,
+                          indent: 16.w,
+                          endIndent: 16.w,
+                          thickness: 2.h,
                         ),
-                      ),
-                    );
-                }
-              },
+                        itemCount: state.orderHistories.length,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {},
+                          child: OrderListItem(
+                            order: state.orderHistories[index],
+                          ),
+                        ),
+                      );
+                  }
+                },
+              ),
             ),
           ),
         ),

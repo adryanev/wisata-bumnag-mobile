@@ -28,7 +28,7 @@ class HomeAppBar extends StatelessWidget {
           flex: 12,
         ),
         const HomeCartWidget(),
-        // const Spacer(),
+        const Spacer(),
         // const HomeNotificationWidget(),
       ],
     );

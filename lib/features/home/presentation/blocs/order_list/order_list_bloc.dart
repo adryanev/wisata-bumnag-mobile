@@ -37,7 +37,9 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
 
         emit(
           state.copyWith(
-            orderHistories: OrderHistoryItemMapper.mapFromOrder(orders!.data),
+            orderHistories: OrderHistoryItemMapper.mapFromOrderList(
+              orders!.data,
+            ),
             orders: orders.data,
             pagination: orders.pagination,
             hasReachedMax:
@@ -66,7 +68,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       emit(
         state.copyWith(
           orderHistories: List.of(state.orderHistories)
-            ..addAll(OrderHistoryItemMapper.mapFromOrder(orders!.data)),
+            ..addAll(OrderHistoryItemMapper.mapFromOrderList(orders!.data)),
           orders: List.of(state.orders)
             ..addAll(
               orders.data,

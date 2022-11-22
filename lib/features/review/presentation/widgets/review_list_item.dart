@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
-import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
