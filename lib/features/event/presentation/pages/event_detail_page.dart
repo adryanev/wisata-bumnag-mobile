@@ -430,8 +430,8 @@ class EventDetailReviewAndRecommendationWidget extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
               ),
-              const Spacer(),
-              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+              // const Spacer(),
+              // TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
           if (eventDetail.reviews.count > 0) ...[

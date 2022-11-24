@@ -613,8 +613,8 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
               ),
-              const Spacer(),
-              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+              // const Spacer(),
+              // TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
           if (destinationDetail.reviews.count > 0) ...[

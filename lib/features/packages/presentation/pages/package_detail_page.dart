@@ -428,8 +428,8 @@ class PackageDetailReviewAndRecommendationWidget extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
               ),
-              const Spacer(),
-              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+              // const Spacer(),
+              // TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
           if (packageDetail.reviews.count > 0) ...[
