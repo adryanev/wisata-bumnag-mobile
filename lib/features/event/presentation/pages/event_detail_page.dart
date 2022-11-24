@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:collection/collection.dart';
@@ -9,6 +11,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
@@ -307,8 +310,21 @@ class EventDetailHeaderWidget extends StatelessWidget {
                 style: const TextStyle(
                   color: AppColor.darkGrey,
                 ),
-              )
+              ),
             ],
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            // ignore: prefer_interpolation_to_compose_strings
+            DateTimeFormat.completeDateWithTime.format(eventDetail.startDate) +
+                ' - ' +
+                DateTimeFormat.completeDateWithTime.format(eventDetail.endDate),
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(
             height: 20.h,
