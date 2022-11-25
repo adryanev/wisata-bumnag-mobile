@@ -334,6 +334,7 @@ class DetailPesananTicketWidget extends StatelessWidget {
                       return ListTile(
                         title: Text(e.name),
                         subtitle: Text('${rupiahCurrency(e.price)}'),
+                        isThreeLine: true,
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

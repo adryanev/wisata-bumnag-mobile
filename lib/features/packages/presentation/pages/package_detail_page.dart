@@ -151,6 +151,13 @@ class _PackageDetailPageState extends State<PackageDetailPage>
                           thickness: 8.h,
                           color: AppColor.grey,
                         ),
+                        PackageDetailDestinations(
+                          packageDetail: package,
+                        ),
+                        Divider(
+                          thickness: 8.h,
+                          color: AppColor.grey,
+                        ),
                         PackageDetailInformationWidget(
                           packageDetail: package,
                         ),
@@ -313,8 +320,8 @@ class PackageDetailHeaderWidget extends StatelessWidget {
   }
 }
 
-class PackageDetailContentWidget extends StatelessWidget {
-  const PackageDetailContentWidget({
+class PackageDetailDestinations extends StatelessWidget {
+  const PackageDetailDestinations({
     super.key,
     required this.packageDetail,
   });
@@ -327,7 +334,7 @@ class PackageDetailContentWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Harga Termasuk',
+            'Destinasi',
             style: TextStyle(
               color: AppColor.black,
               fontSize: 16.sp,
@@ -337,7 +344,13 @@ class PackageDetailContentWidget extends StatelessWidget {
             height: 8.h,
           ),
           Text(
-            packageDetail.priceInclude ?? '',
+            packageDetail.destination
+                    ?.trim()
+                    .split('~')
+                    .skip(1)
+                    .map((e) => '- $e')
+                    .join('\n') ??
+                '',
             style: TextStyle(
               color: AppColor.secondBlack,
               fontSize: 14.sp,
@@ -345,23 +358,6 @@ class PackageDetailContentWidget extends StatelessWidget {
           ),
           SizedBox(
             height: 12.h,
-          ),
-          Text(
-            'Harga Tidak Termasuk',
-            style: TextStyle(
-              color: AppColor.black,
-              fontSize: 16.sp,
-            ),
-          ),
-          SizedBox(
-            height: 8.h,
-          ),
-          Text(
-            packageDetail.priceExclude ?? '',
-            style: TextStyle(
-              color: AppColor.secondBlack,
-              fontSize: 14.sp,
-            ),
           ),
         ],
       ),
@@ -394,7 +390,81 @@ class PackageDetailInformationWidget extends StatelessWidget {
             height: 8.h,
           ),
           Text(
-            packageDetail.activities ?? '',
+            packageDetail.activities
+                    ?.trim()
+                    .split('~')
+                    .skip(1)
+                    .map((e) => '- $e')
+                    .join('\n') ??
+                '',
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PackageDetailContentWidget extends StatelessWidget {
+  const PackageDetailContentWidget({
+    super.key,
+    required this.packageDetail,
+  });
+  final PackageDetail packageDetail;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Harga Termasuk',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            packageDetail.priceInclude
+                    ?.trim()
+                    .split('~')
+                    .skip(1)
+                    .map((e) => '- $e')
+                    .join('\n') ??
+                '',
+            style: TextStyle(
+              color: AppColor.secondBlack,
+              fontSize: 14.sp,
+            ),
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Text(
+            'Harga Tidak Termasuk',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 16.sp,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          Text(
+            packageDetail.priceExclude
+                    ?.trim()
+                    .split('~')
+                    .skip(1)
+                    .map((e) => '- $e')
+                    .join('\n') ??
+                '',
             style: TextStyle(
               color: AppColor.secondBlack,
               fontSize: 14.sp,
