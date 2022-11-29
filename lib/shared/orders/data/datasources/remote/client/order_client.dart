@@ -22,9 +22,6 @@ abstract class OrderClient {
   Future<BaseResponse<OrderResponse>> createOrder(@Body() OrderPayload payload);
 
   @POST('v1/payments')
-  Future<BaseResponse<OrderResponse>> payOnsite(@Body() PaymentPayload payload);
-
-  @POST('v1/payments')
   Future<MidtransPaymentResponse> payOnline(@Body() PaymentPayload payload);
 
   @GET('v1/orders')

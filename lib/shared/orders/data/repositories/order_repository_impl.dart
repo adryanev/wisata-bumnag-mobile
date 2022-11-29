@@ -27,14 +27,6 @@ class OrderRepositoryImpl implements OrderRepository {
           );
 
   @override
-  Future<Either<Failure, Order>> paymentOnSite(PaymentForm form) =>
-      _remoteDataSource.payOnsite(PaymentPayload.fromDomain(form)).then(
-            (value) => value.map(
-              (r) => r.toDomain(),
-            ),
-          );
-
-  @override
   Future<Either<Failure, MidtransPayment>> paymentOnline(PaymentForm form) =>
       _remoteDataSource.payOnline(PaymentPayload.fromDomain(form)).then(
             (value) => value.map(

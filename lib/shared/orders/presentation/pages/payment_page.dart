@@ -36,16 +36,6 @@ class PaymentPage extends StatelessWidget with FailureMessageHandler {
               (r) => context.pushNamed(AppRouter.onlinePayment, extra: r.url),
             ),
           );
-          state.successOnsiteOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) {
-                handleFailure(context, l);
-                context.goNamed(AppRouter.paymentDone, extra: false);
-              },
-              (r) => context.goNamed(AppRouter.paymentDone, extra: true),
-            ),
-          );
         },
         child: Scaffold(
           appBar: AppBar(
@@ -132,36 +122,11 @@ class SelectPaymentMethodWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: RadioListTile<PaymentType>(
-                  value: PaymentType.onsite,
-                  groupValue: state.paymentType,
-                  title: const Text('Bayar di tempat'),
-                  onChanged: (type) {
-                    context.read<PaymentBloc>().add(
-                          PaymentEvent.onPaymentTypeChanged(type!),
-                        );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColor.borderStroke,
-                  ),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: RadioListTile<PaymentType>(
                   value: PaymentType.online,
                   groupValue: state.paymentType,
                   title: const Text('Bayar Online'),
                   subtitle: const Text('via ATM, QRIS, E-Wallet'),
-                  onChanged: (type) {
-                    context.read<PaymentBloc>().add(
-                          PaymentEvent.onPaymentTypeChanged(type!),
-                        );
-                  },
+                  onChanged: (value) {},
                 ),
               ),
             ],
