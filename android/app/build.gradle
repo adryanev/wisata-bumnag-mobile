@@ -79,17 +79,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "Wisata Pulau Setan"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "[STG] Wisata Pulau Setan"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "[DEV] Wisata Pulau Setan"]
         }
     }
 
