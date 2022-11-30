@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -16,6 +17,7 @@ import 'package:wisatabumnag/features/authentication/presentation/blocs/authenti
 import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.dart';
 import 'package:wisatabumnag/features/event/presentation/blocs/event_detail/event_detail_bloc.dart';
 import 'package:wisatabumnag/features/event/presentation/widgets/event_card.dart';
+import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
@@ -309,6 +311,37 @@ class EventDetailHeaderWidget extends StatelessWidget {
                   color: AppColor.darkGrey,
                 ),
               ),
+              if (eventDetail.instagram == null)
+                const SizedBox()
+              else ...[
+                SizedBox(
+                  height: 4.h,
+                ),
+                InkWell(
+                  onTap: () async {
+                    final url =
+                        'instagram://user?username=${eventDetail.instagram?.replaceFirst('@', '')}';
+                    await launchUrlString(
+                      url,
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Assets.icons.icInstagramSolid.svg(),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      Text(
+                        eventDetail.instagram!,
+                        style: const TextStyle(
+                          color: AppColor.darkGrey,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ]
             ],
           ),
           SizedBox(

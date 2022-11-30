@@ -10,6 +10,7 @@ class SouvenirListState with _$SouvenirListState {
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _SouvenirListState;
   factory SouvenirListState.initial() => SouvenirListState(
         status: SouvenirListStatus.initial,
@@ -23,6 +24,7 @@ class SouvenirListState with _$SouvenirListState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 

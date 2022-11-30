@@ -10,6 +10,7 @@ class ExploreState with _$ExploreState {
     required Option<Either<Failure, Paginable<Explore>>>
         explorePaginationOrFailureOption,
     required List<Explore> explores,
+    required bool isLoadMore,
   }) = _ExploreState;
   factory ExploreState.initial() => ExploreState(
         status: ExploreStatus.initial,
@@ -23,6 +24,7 @@ class ExploreState with _$ExploreState {
         ),
         explorePaginationOrFailureOption: none(),
         explores: [],
+        isLoadMore: false,
       );
 }
 

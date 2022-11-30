@@ -10,6 +10,7 @@ class DestinationResultState with _$DestinationResultState {
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _DestinationResultState;
   factory DestinationResultState.initial() => DestinationResultState(
         status: DestinationResultStatus.initial,
@@ -23,6 +24,7 @@ class DestinationResultState with _$DestinationResultState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 

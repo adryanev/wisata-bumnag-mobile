@@ -30,6 +30,7 @@ class DestinationResultBloc
         ),
       ),
     );
+    on<DestinationResultRefreshed>(_onRefreshed);
   }
 
   final GetDestination _getDestination;
@@ -63,6 +64,8 @@ class DestinationResultBloc
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
+
     final result = await _getDestination(
       GetDestinationParams(
         category: event.category,
@@ -87,10 +90,19 @@ class DestinationResultBloc
     return emit(
       state.copyWith(
         destinationsOrFailureOption: optionOf(result),
+        isLoadMore: false,
         status: result.isRight()
             ? DestinationResultStatus.success
             : DestinationResultStatus.failure,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    DestinationResultRefreshed event,
+    Emitter<DestinationResultState> emit,
+  ) {
+    emit(DestinationResultState.initial());
+    add(DestinationResultEvent.fetched(event.category));
   }
 }

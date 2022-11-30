@@ -30,6 +30,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
         ),
       ),
     );
+    on<_PackageListRefreshed>(_onRefreshed);
   }
   final GetPackages _getPackages;
 
@@ -62,6 +63,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
     final result = await _getPackages(
       GetPackagesParams(
         category: event.category,
@@ -86,11 +88,24 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
     emit(
       state.copyWith(
         packagePaginationOrFailureOption: optionOf(result),
+      ),
+    );
+    emit(
+      state.copyWith(
+        packagePaginationOrFailureOption: none(),
         status: result.isRight()
             ? PackageListStatus.success
             : PackageListStatus.failure,
+        isLoadMore: false,
       ),
     );
-    emit(state.copyWith(packagePaginationOrFailureOption: none()));
+  }
+
+  FutureOr<void> _onRefreshed(
+    _PackageListRefreshed event,
+    Emitter<PackageListState> emit,
+  ) {
+    emit(PackageListState.initial());
+    add(PackageListEvent.started(event.category));
   }
 }

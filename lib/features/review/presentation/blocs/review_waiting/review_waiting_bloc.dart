@@ -20,6 +20,7 @@ class ReviewWaitingBloc extends Bloc<ReviewWaitingEvent, ReviewWaitingState> {
   ReviewWaitingBloc(this._getWaitingForReview)
       : super(ReviewWaitingState.initial()) {
     on<_ReviewWaitingStarted>(_onStarted);
+    on<_ReviewWaitingRefreshed>(_onRefreshed);
   }
 
   final GetWaitingForReview _getWaitingForReview;
@@ -52,6 +53,7 @@ class ReviewWaitingBloc extends Bloc<ReviewWaitingEvent, ReviewWaitingState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
     final result = await _getWaitingForReview(
       GetWaitingForReviewParams(
         page: state.pagination.currentPage + 1,
@@ -75,14 +77,23 @@ class ReviewWaitingBloc extends Bloc<ReviewWaitingEvent, ReviewWaitingState> {
     emit(
       state.copyWith(
         orderDetailPaginationOrFailureOption: optionOf(result),
-        status:
-            result.isRight() ? ReviewWaiting.success : ReviewWaiting.failure,
       ),
     );
     emit(
       state.copyWith(
         orderDetailPaginationOrFailureOption: none(),
+        status:
+            result.isRight() ? ReviewWaiting.success : ReviewWaiting.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _ReviewWaitingRefreshed event,
+    Emitter<ReviewWaitingState> emit,
+  ) {
+    emit(ReviewWaitingState.initial());
+    add(const ReviewWaitingEvent.started());
   }
 }

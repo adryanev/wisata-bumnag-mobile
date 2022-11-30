@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -325,19 +327,29 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
                 else
                   Flexible(
                     flex: 6,
-                    child: Row(
-                      children: [
-                        Assets.icons.icInstagramSolid.svg(),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Text(
-                          destinationDetail.instagram!,
-                          style: const TextStyle(
-                            color: AppColor.darkGrey,
+                    child: InkWell(
+                      onTap: () async {
+                        final url =
+                            'instagram://user?username=${destinationDetail.instagram?.replaceFirst('@', '')}';
+                        await launchUrlString(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Assets.icons.icInstagramSolid.svg(),
+                          SizedBox(
+                            width: 4.w,
                           ),
-                        )
-                      ],
+                          Text(
+                            destinationDetail.instagram!,
+                            style: const TextStyle(
+                              color: AppColor.darkGrey,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
               ] else ...[
@@ -386,19 +398,30 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
                 else
                   Flexible(
                     flex: 6,
-                    child: Row(
-                      children: [
-                        Assets.icons.icInstagramSolid.svg(),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Text(
-                          destinationDetail.instagram!,
-                          style: const TextStyle(
-                            color: AppColor.darkGrey,
+                    child: InkWell(
+                      onTap: () async {
+                        debugPrint('instagram tapped');
+                        final url =
+                            'instagram://user?username=${destinationDetail.instagram?.replaceFirst('@', '')}';
+                        await launchUrlString(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Assets.icons.icInstagramSolid.svg(),
+                          SizedBox(
+                            width: 4.w,
                           ),
-                        )
-                      ],
+                          Text(
+                            destinationDetail.instagram!,
+                            style: const TextStyle(
+                              color: AppColor.darkGrey,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
               ]

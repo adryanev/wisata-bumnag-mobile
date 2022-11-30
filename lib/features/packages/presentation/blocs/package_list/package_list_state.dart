@@ -10,6 +10,7 @@ class PackageListState with _$PackageListState {
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _PackageListState;
   factory PackageListState.initial() => PackageListState(
         status: PackageListStatus.initial,
@@ -23,6 +24,7 @@ class PackageListState with _$PackageListState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 

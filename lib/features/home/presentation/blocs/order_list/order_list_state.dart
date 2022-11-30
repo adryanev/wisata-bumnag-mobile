@@ -11,6 +11,7 @@ class OrderListState with _$OrderListState {
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _OrderListState;
   factory OrderListState.initial() => OrderListState(
         orderHistories: [],
@@ -25,6 +26,7 @@ class OrderListState with _$OrderListState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 

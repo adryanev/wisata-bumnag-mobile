@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -21,35 +22,20 @@ class HomeExplorePage extends StatefulWidget {
 }
 
 class _HomeExplorePageState extends State<HomeExplorePage> {
-  late final ScrollController _scrollController;
   late final ExploreBloc _exploreBloc;
+  late final RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    _refreshController = RefreshController();
     _exploreBloc = getIt<ExploreBloc>();
     _exploreBloc.add(const ExploreEvent.started());
   }
 
-  void _onScroll() {
-    if (_isBottom) {
-      _exploreBloc.add(const ExploreEvent.started());
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.8);
-  }
-
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _refreshController.dispose();
     _exploreBloc.close();
     super.dispose();
   }
@@ -58,56 +44,97 @@ class _HomeExplorePageState extends State<HomeExplorePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _exploreBloc,
-      child: OverflowBox(
-        maxWidth: MediaQuery.of(context).size.width,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Ulasan Pengunjung'),
-            actions: [
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) {
-                  if (state is AuthenticationAuthenticated) {
-                    return IconButton(
-                      onPressed: () {
-                        context.pushNamed(AppRouter.review);
-                      },
-                      icon: const Icon(
-                        Icons.star_outline_rounded,
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              )
-            ],
-          ),
-          body: SafeArea(
-            child: Padding(
-              padding: Dimension.aroundPadding,
-              child: BlocBuilder<ExploreBloc, ExploreState>(
-                bloc: _exploreBloc,
-                builder: (context, state) {
-                  switch (state.status) {
-                    case ExploreStatus.initial:
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    case ExploreStatus.failure:
-                      return const Center(
-                        child: Text('Cannot fetch explore'),
-                      );
-                    case ExploreStatus.success:
-                      return ListView.separated(
-                        controller: _scrollController,
-                        itemBuilder: (context, index) => ExploreItemWidget(
-                          explore: state.explores[index],
+      child: BlocListener<ExploreBloc, ExploreState>(
+        listener: (context, state) {
+          switch (state.status) {
+            case ExploreStatus.initial:
+              break;
+            case ExploreStatus.failure:
+              state.isLoadMore
+                  ? _refreshController.loadFailed()
+                  : _refreshController.refreshFailed();
+              break;
+            case ExploreStatus.success:
+              state.isLoadMore
+                  ? _refreshController.loadComplete()
+                  : _refreshController.refreshCompleted();
+              break;
+          }
+          if (state.hasReachedMax) {
+            _refreshController.loadNoData();
+          }
+        },
+        child: OverflowBox(
+          maxWidth: MediaQuery.of(context).size.width,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Ulasan Pengunjung'),
+              actions: [
+                BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (context, state) {
+                    if (state is AuthenticationAuthenticated) {
+                      return IconButton(
+                        onPressed: () {
+                          context.pushNamed(AppRouter.review);
+                        },
+                        icon: const Icon(
+                          Icons.star_outline_rounded,
                         ),
-                        itemCount: state.explores.length,
-                        separatorBuilder: (context, index) =>
-                            Divider(height: 4.h),
                       );
-                  }
-                },
+                    }
+                    return const SizedBox();
+                  },
+                )
+              ],
+            ),
+            body: SafeArea(
+              child: Padding(
+                padding: Dimension.aroundPadding,
+                child: BlocBuilder<ExploreBloc, ExploreState>(
+                  bloc: _exploreBloc,
+                  builder: (context, state) {
+                    switch (state.status) {
+                      case ExploreStatus.initial:
+                        return const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      case ExploreStatus.failure:
+                        return const Center(
+                          child: Text('Cannot fetch explore'),
+                        );
+                      case ExploreStatus.success:
+                        return SmartRefresher(
+                          controller: _refreshController,
+                          enablePullUp: true,
+                          header: const WaterDropHeader(
+                            waterDropColor: AppColor.primary,
+                          ),
+                          footer: const ClassicFooter(
+                            loadStyle: LoadStyle.ShowWhenLoading,
+                          ),
+                          onRefresh: () {
+                            context
+                                .read<ExploreBloc>()
+                                .add(const ExploreEvent.refreshed());
+                          },
+                          onLoading: () {
+                            if (state.hasReachedMax) return;
+                            context
+                                .read<ExploreBloc>()
+                                .add(const ExploreEvent.started());
+                          },
+                          child: ListView.separated(
+                            itemBuilder: (context, index) => ExploreItemWidget(
+                              explore: state.explores[index],
+                            ),
+                            itemCount: state.explores.length,
+                            separatorBuilder: (context, index) =>
+                                Divider(height: 4.h),
+                          ),
+                        );
+                    }
+                  },
+                ),
               ),
             ),
           ),
