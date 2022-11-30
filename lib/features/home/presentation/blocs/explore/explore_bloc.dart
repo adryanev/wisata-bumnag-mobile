@@ -19,6 +19,7 @@ part 'explore_bloc.freezed.dart';
 class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   ExploreBloc(this._getExplore) : super(ExploreState.initial()) {
     on<_ExploreStarted>(_onStarted);
+    on<_ExploreRefreshed>(_onRefreshed);
   }
   final GetExplore _getExplore;
 
@@ -49,6 +50,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
         ),
       );
     }
+    emit(state.copyWith(isLoadMore: true));
 
     final result = await _getExplore(
       GetExploreParams(
@@ -73,14 +75,23 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     emit(
       state.copyWith(
         explorePaginationOrFailureOption: optionOf(result),
-        status:
-            result.isRight() ? ExploreStatus.success : ExploreStatus.failure,
       ),
     );
     emit(
       state.copyWith(
         explorePaginationOrFailureOption: none(),
+        status:
+            result.isRight() ? ExploreStatus.success : ExploreStatus.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _ExploreRefreshed event,
+    Emitter<ExploreState> emit,
+  ) {
+    emit(ExploreState.initial());
+    add(const ExploreEvent.started());
   }
 }

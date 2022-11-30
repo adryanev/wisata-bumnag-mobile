@@ -10,6 +10,7 @@ class ReviewHistoryState with _$ReviewHistoryState {
     required Option<Either<Failure, Paginable<OrderDetail>>>
         orderDetailPaginationOrFailureOption,
     required List<OrderDetail> orderDetails,
+    required bool isLoadMore,
   }) = _ReviewHistoryState;
   factory ReviewHistoryState.initial() => ReviewHistoryState(
         status: ReviewHistory.initial,
@@ -23,6 +24,7 @@ class ReviewHistoryState with _$ReviewHistoryState {
         ),
         orderDetailPaginationOrFailureOption: none(),
         orderDetails: [],
+        isLoadMore: false,
       );
 }
 

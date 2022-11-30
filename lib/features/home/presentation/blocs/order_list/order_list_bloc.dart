@@ -21,6 +21,7 @@ part 'order_list_bloc.freezed.dart';
 class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   OrderListBloc(this._getOrderHistories) : super(OrderListState.initial()) {
     on<_OrderListStarted>(_onStarted);
+    on<_OrderListRefreshed>(_onRefreshed);
   }
 
   final GetOrderHistories _getOrderHistories;
@@ -57,6 +58,8 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
+
     final result = await _getOrderHistories(
       GetOrderHistoriesParams(
         page: state.pagination.currentPage + 1,
@@ -82,15 +85,24 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     emit(
       state.copyWith(
         orderPaginationOrFailureOption: optionOf(result),
-        status: result.isRight()
-            ? OrderListStatus.success
-            : OrderListStatus.failure,
       ),
     );
     emit(
       state.copyWith(
         orderPaginationOrFailureOption: none(),
+        status: result.isRight()
+            ? OrderListStatus.success
+            : OrderListStatus.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _OrderListRefreshed event,
+    Emitter<OrderListState> emit,
+  ) {
+    emit(OrderListState.initial());
+    add(const OrderListEvent.started());
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/review/presentation/blocs/review_history/review_history_bloc.dart';
 import 'package:wisatabumnag/features/review/presentation/widgets/review_list_item.dart';
@@ -13,35 +15,20 @@ class ReviewHistoryPage extends StatefulWidget {
 }
 
 class _ReviewHistoryPageState extends State<ReviewHistoryPage> {
-  late final ScrollController _scrollController;
   late final ReviewHistoryBloc _reviewHistoryBloc;
+  late final RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    _refreshController = RefreshController();
     _reviewHistoryBloc = getIt<ReviewHistoryBloc>();
     _reviewHistoryBloc.add(const ReviewHistoryEvent.started());
   }
 
-  void _onScroll() {
-    if (_isBottom) {
-      _reviewHistoryBloc.add(const ReviewHistoryEvent.started());
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.8);
-  }
-
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _refreshController.dispose();
     _reviewHistoryBloc.close();
     super.dispose();
   }
@@ -52,7 +39,27 @@ class _ReviewHistoryPageState extends State<ReviewHistoryPage> {
       create: (context) => _reviewHistoryBloc,
       child: Padding(
         padding: Dimension.aroundPadding,
-        child: BlocBuilder<ReviewHistoryBloc, ReviewHistoryState>(
+        child: BlocConsumer<ReviewHistoryBloc, ReviewHistoryState>(
+          listener: (context, state) {
+            switch (state.status) {
+              case ReviewHistory.initial:
+                break;
+              case ReviewHistory.failure:
+                state.isLoadMore
+                    ? _refreshController.loadFailed()
+                    : _refreshController.refreshFailed();
+                break;
+              case ReviewHistory.success:
+                state.isLoadMore
+                    ? _refreshController.loadComplete()
+                    : _refreshController.refreshCompleted();
+                break;
+            }
+
+            if (state.hasReachedMax) {
+              _refreshController.loadNoData();
+            }
+          },
           builder: (context, state) {
             switch (state.status) {
               case ReviewHistory.initial:
@@ -64,11 +71,32 @@ class _ReviewHistoryPageState extends State<ReviewHistoryPage> {
                   child: Text('failed to fetch Waiting for Review'),
                 );
               case ReviewHistory.success:
-                return ListView.builder(
-                  itemCount: state.orderDetails.length,
-                  itemBuilder: (context, index) => ReviewListItem(
-                    orderDetail: state.orderDetails[index],
-                    isReviewed: true,
+                return SmartRefresher(
+                  controller: _refreshController,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(
+                    waterDropColor: AppColor.primary,
+                  ),
+                  footer: const ClassicFooter(
+                    loadStyle: LoadStyle.ShowWhenLoading,
+                  ),
+                  onRefresh: () {
+                    context
+                        .read<ReviewHistoryBloc>()
+                        .add(const ReviewHistoryEvent.refreshed());
+                  },
+                  onLoading: () {
+                    if (state.hasReachedMax) return;
+                    context
+                        .read<ReviewHistoryBloc>()
+                        .add(const ReviewHistoryEvent.started());
+                  },
+                  child: ListView.builder(
+                    itemCount: state.orderDetails.length,
+                    itemBuilder: (context, index) => ReviewListItem(
+                      orderDetail: state.orderDetails[index],
+                      isReviewed: true,
+                    ),
                   ),
                 );
             }

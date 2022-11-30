@@ -20,6 +20,7 @@ class ReviewHistoryBloc extends Bloc<ReviewHistoryEvent, ReviewHistoryState> {
   ReviewHistoryBloc(this._getReviewHistory)
       : super(ReviewHistoryState.initial()) {
     on<_ReviewHistoryStarted>(_onStarted);
+    on<_ReviewHistoryRefreshed>(_onRefreshed);
   }
 
   final GetReviewHistory _getReviewHistory;
@@ -51,6 +52,7 @@ class ReviewHistoryBloc extends Bloc<ReviewHistoryEvent, ReviewHistoryState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
     final result = await _getReviewHistory(
       GetReviewHistoryParams(
         page: state.pagination.currentPage + 1,
@@ -74,14 +76,23 @@ class ReviewHistoryBloc extends Bloc<ReviewHistoryEvent, ReviewHistoryState> {
     emit(
       state.copyWith(
         orderDetailPaginationOrFailureOption: optionOf(result),
-        status:
-            result.isRight() ? ReviewHistory.success : ReviewHistory.failure,
       ),
     );
     emit(
       state.copyWith(
         orderDetailPaginationOrFailureOption: none(),
+        status:
+            result.isRight() ? ReviewHistory.success : ReviewHistory.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _ReviewHistoryRefreshed event,
+    Emitter<ReviewHistoryState> emit,
+  ) {
+    emit(ReviewHistoryState.initial());
+    add(const ReviewHistoryEvent.started());
   }
 }

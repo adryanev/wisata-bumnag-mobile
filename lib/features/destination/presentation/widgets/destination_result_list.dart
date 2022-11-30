@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/features/destination/presentation/blocs/destination_result/destination_result_bloc.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
@@ -19,74 +21,99 @@ class DestinationResultList extends StatefulWidget {
 }
 
 class _DestinationResultListState extends State<DestinationResultList> {
-  late final ScrollController _scrollController;
+  late final RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    _refreshController = RefreshController();
     context
         .read<DestinationResultBloc>()
         .add(DestinationResultEvent.fetched(widget.category));
   }
 
-  void _onScroll() {
-    if (_isBottom) {
-      context
-          .read<DestinationResultBloc>()
-          .add(DestinationResultEvent.fetched(widget.category));
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.8);
-  }
-
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DestinationResultBloc, DestinationResultState>(
+    return BlocConsumer<DestinationResultBloc, DestinationResultState>(
+      listener: (context, state) {
+        switch (state.status) {
+          case DestinationResultStatus.initial:
+            // _refreshController.refreshToIdle();
+            break;
+          case DestinationResultStatus.success:
+            state.isLoadMore
+                ? _refreshController.loadComplete()
+                : _refreshController.refreshCompleted();
+            break;
+          case DestinationResultStatus.failure:
+            state.isLoadMore
+                ? _refreshController.loadFailed()
+                : _refreshController.refreshFailed();
+            break;
+        }
+
+        if (state.hasReachedMax) {
+          _refreshController.loadNoData();
+        }
+      },
       builder: (context, state) {
         switch (state.status) {
           case DestinationResultStatus.initial:
             return const Center(child: CircularProgressIndicator.adaptive());
 
           case DestinationResultStatus.success:
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+            return SmartRefresher(
+              controller: _refreshController,
+              enablePullUp: true,
+              header: const WaterDropHeader(
+                waterDropColor: AppColor.primary,
               ),
-              shrinkWrap: true,
-              itemBuilder: (context, index) => InkWell(
-                onTap: () {
-                  context.pushNamed(
-                    AppRouter.destinationDetail,
-                    queryParams: {
-                      'id': state.destinations[index].id.toString(),
-                    },
-                  );
-                },
-                child:
-                    (widget.category.id == 1 || widget.category.parentId == 1)
-                        ? DestinationCard(
-                            destination: state.destinations[index],
-                          )
-                        : DestinationNonTicketCard(
-                            destination: state.destinations[index],
-                          ),
+              footer: const ClassicFooter(
+                loadStyle: LoadStyle.ShowWhenLoading,
               ),
-              itemCount: state.destinations.length,
-              controller: _scrollController,
+              onRefresh: () {
+                context
+                    .read<DestinationResultBloc>()
+                    .add(DestinationResultEvent.refreshed(widget.category));
+              },
+              onLoading: () {
+                if (state.hasReachedMax) return;
+                context
+                    .read<DestinationResultBloc>()
+                    .add(DestinationResultEvent.fetched(widget.category));
+              },
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    context.pushNamed(
+                      AppRouter.destinationDetail,
+                      queryParams: {
+                        'id': state.destinations[index].id.toString(),
+                      },
+                    );
+                  },
+                  child:
+                      (widget.category.id == 1 || widget.category.parentId == 1)
+                          ? DestinationCard(
+                              destination: state.destinations[index],
+                            )
+                          : DestinationNonTicketCard(
+                              destination: state.destinations[index],
+                            ),
+                ),
+                itemCount: state.destinations.length,
+                // controller: _scrollController,
+              ),
             );
           case DestinationResultStatus.failure:
             return const Center(child: Text('failed to fetch Destination'));

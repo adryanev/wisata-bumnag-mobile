@@ -10,6 +10,7 @@ class ReviewWaitingState with _$ReviewWaitingState {
     required Option<Either<Failure, Paginable<OrderDetail>>>
         orderDetailPaginationOrFailureOption,
     required List<OrderDetail> orderDetails,
+    required bool isLoadMore,
   }) = _ReviewWaitingState;
   factory ReviewWaitingState.initial() => ReviewWaitingState(
         status: ReviewWaiting.initial,
@@ -23,6 +24,7 @@ class ReviewWaitingState with _$ReviewWaitingState {
         ),
         orderDetailPaginationOrFailureOption: none(),
         orderDetails: [],
+        isLoadMore: false,
       );
 }
 
