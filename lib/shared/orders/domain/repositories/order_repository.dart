@@ -8,7 +8,6 @@ import 'package:wisatabumnag/shared/orders/domain/entities/payment_form.entity.d
 
 abstract class OrderRepository {
   Future<Either<Failure, Order>> createOrder(OrderForm form);
-  Future<Either<Failure, Order>> paymentOnSite(PaymentForm form);
   Future<Either<Failure, MidtransPayment>> paymentOnline(PaymentForm form);
   Future<Either<Failure, Paginable<Order>>> orderHistories({required int page});
 }

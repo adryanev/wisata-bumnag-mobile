@@ -42,7 +42,7 @@ class OrderableDetail with _$OrderableDetail {
   }) = _OrderableDetail;
 }
 
-enum PaymentType { onsite, online }
+enum PaymentType { online }
 
 enum OrderStatus {
   created,

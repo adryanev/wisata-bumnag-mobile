@@ -96,7 +96,7 @@ class SplashPage extends StatelessWidget with FailureMessageHandler {
         child: Scaffold(
           body: SafeArea(
             child: Center(
-              child: Assets.images.appIconRedText.svg(),
+              child: Assets.images.appIcon.image(),
             ),
           ),
         ),
