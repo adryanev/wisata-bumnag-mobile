@@ -30,8 +30,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<Either<Failure, User>> loginUser(LoginForm loginForm) async {
-    final loginPayload = await LoginPayloadFactory(_deviceInfoService)
-        .createFromLoginForm(loginForm);
+    final loginPayload =
+        await LoginPayloadFactory(_deviceInfoService, _localSource)
+            .createFromLoginForm(loginForm);
 
     final result = await _remoteDataSource.loginUser(loginPayload);
     if (result.isLeft()) {

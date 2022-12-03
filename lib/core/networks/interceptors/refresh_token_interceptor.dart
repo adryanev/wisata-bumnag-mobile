@@ -10,8 +10,7 @@ import 'package:wisatabumnag/features/authentication/data/models/login/login_res
 class RefreshTokenInterceptor extends Interceptor {
   RefreshTokenInterceptor(
     this._localStorage,
-    this._dio,
-  );
+  ) : _dio = Dio();
 
   final LocalStorage _localStorage;
   final Dio _dio;
@@ -19,7 +18,6 @@ class RefreshTokenInterceptor extends Interceptor {
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == HttpStatus.unauthorized) {
-      _dio.interceptors.remove(this);
       final url = await _localStorage.getBaseUrl();
 
       try {

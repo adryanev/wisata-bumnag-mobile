@@ -10,6 +10,7 @@ abstract class AuthenticationLocalDataSource {
   Future<Either<Failure, Unit>> logoutUser();
   Future<Either<Failure, Unit>> saveLogin(UserLocalModel localModel);
   Future<Either<Failure, Unit>> saveToken(String token);
+  Future<Either<Failure, String?>> getFcmToken();
 }
 
 @LazySingleton(as: AuthenticationLocalDataSource)
@@ -66,6 +67,20 @@ class AuthenticationLocalDataSourceImpl
         },
         exceptionCallBack: () async {
           return left(const Failure.localFailure(message: 'cannot save token'));
+        },
+      );
+
+  @override
+  Future<Either<Failure, String?>> getFcmToken() => safeCall(
+        tryCallback: () async {
+          return right(await _storage.getFcmToken());
+        },
+        exceptionCallBack: () async {
+          return left(
+            const Failure.localFailure(
+              message: 'cannot get fcm token',
+            ),
+          );
         },
       );
 }
