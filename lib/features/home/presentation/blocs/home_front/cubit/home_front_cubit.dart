@@ -11,6 +11,8 @@ import 'package:wisatabumnag/features/home/domain/entities/ad_banner.entity.dart
 import 'package:wisatabumnag/features/home/domain/entities/recommendation.entity.dart';
 import 'package:wisatabumnag/features/home/domain/usecases/get_ad_banners.dart';
 import 'package:wisatabumnag/features/home/domain/usecases/get_recommendations.dart';
+import 'package:wisatabumnag/features/notification/domain/entities/notification.entity.dart';
+import 'package:wisatabumnag/features/notification/domain/usecases/get_notifications.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/categories/domain/usecases/get_main_categories.dart';
 import 'package:wisatabumnag/shared/location/domain/entities/location.entity.dart';
@@ -36,7 +38,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   FutureOr<void> getAdBanners() async {
     final result = await _getAdBanners(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(adBanners: result.getRight()));
+      emit(state.copyWith(adBanners: result.getRight()!));
     }
     emit(
       state.copyWith(
@@ -53,7 +55,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   FutureOr<void> getRecommendations() async {
     final result = await _getRecommendations(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(recommendations: result.getRight()));
+      emit(state.copyWith(recommendations: result.getRight()!));
     }
     emit(
       state.copyWith(
@@ -87,7 +89,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   Future<void> getMainCategories() async {
     final result = await _getMainCategories(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(category: result.getRight()));
+      emit(state.copyWith(category: result.getRight()!));
     }
 
     emit(

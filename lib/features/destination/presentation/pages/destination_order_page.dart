@@ -254,7 +254,11 @@ class DetailPesananTanggalWidget extends StatelessWidget {
               );
               log(date.toString());
               if (date != null) {
-                bloc.add(DestinationOrderEvent.orderForDateChanged(date));
+                bloc.add(
+                  DestinationOrderEvent.orderForDateChanged(
+                    date.toUtc(),
+                  ),
+                );
               }
             },
             child: Container(
