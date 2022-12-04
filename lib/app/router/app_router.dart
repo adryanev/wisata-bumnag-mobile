@@ -17,6 +17,7 @@ import 'package:wisatabumnag/features/event/presentation/pages/event_order_page.
 import 'package:wisatabumnag/features/home/domain/entities/order_history_item.entity.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/order_history/order_detail_page.dart';
+import 'package:wisatabumnag/features/notification/presentation/pages/notification_page.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
@@ -67,6 +68,7 @@ class AppRouter {
   static const scanDetail = 'scan-detail';
   static const scanSuccess = 'scan-success';
   static const webview = 'webview';
+  static const notification = 'notification';
 }
 
 final appRouter = GoRouter(
@@ -340,6 +342,11 @@ final appRouter = GoRouter(
         final params = state.queryParams;
         return WebViewPage(url: params['url']!, title: params['title']!);
       },
+    ),
+    GoRoute(
+      path: '/notifications',
+      name: AppRouter.notification,
+      builder: (context, state) => const NotificationPage(),
     ),
   ],
 );

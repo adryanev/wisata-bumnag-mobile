@@ -4,4 +4,5 @@ class RemoteConfigKey {
   static const apiKey = 'api_key';
   static const salt = 'salt';
   static const mapApiKey = 'google_maps_api_key';
+  static const vapidKey = 'fcm_vapid_key';
 }

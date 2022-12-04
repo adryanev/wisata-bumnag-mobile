@@ -72,7 +72,9 @@ class PrivateDio with DioMixin implements Dio {
       _urlInterceptor,
       _apiKeyInterceptor,
       _tokenInterceptor,
-      RefreshTokenInterceptor(getIt<LocalStorage>(), this),
+      RefreshTokenInterceptor(
+        getIt<LocalStorage>(),
+      ),
       _signatureInterceptor,
       PrettyDioLogger(
         requestHeader: true,

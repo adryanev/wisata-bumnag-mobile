@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +20,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
   final listMenu = [
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'wisata');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'wisata',
+        );
         return category;
       },
       builder: (context, state) {
@@ -35,8 +37,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'package');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'package',
+        );
         return category;
       },
       builder: (context, state) {
@@ -51,8 +54,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'event');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'event',
+        );
         return category;
       },
       builder: (context, state) {
@@ -67,8 +71,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'kuliner');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'kuliner',
+        );
         return category;
       },
       builder: (context, state) {
@@ -83,7 +88,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category?.firstWhere(
+        final category = state.category.firstWhereOrNull(
           (element) => element.name.toLowerCase() == 'akomodasi',
         );
         return category;
@@ -100,7 +105,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category?.firstWhere(
+        final category = state.category.firstWhereOrNull(
           (element) => element.name.toLowerCase() == 'event',
         );
         return category;

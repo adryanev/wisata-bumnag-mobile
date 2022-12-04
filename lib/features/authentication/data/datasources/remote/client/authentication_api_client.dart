@@ -22,4 +22,5 @@ abstract class AuthenticationApiClient {
 
   @POST('v1/auth/login')
   Future<BaseResponse<LoginResponse>> loginUser(@Body() LoginPayload payload);
+
 }

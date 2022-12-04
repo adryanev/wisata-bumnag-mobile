@@ -36,7 +36,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   FutureOr<void> getAdBanners() async {
     final result = await _getAdBanners(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(adBanners: result.getRight()));
+      emit(state.copyWith(adBanners: result.getRight()!));
     }
     emit(
       state.copyWith(
@@ -53,7 +53,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   FutureOr<void> getRecommendations() async {
     final result = await _getRecommendations(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(recommendations: result.getRight()));
+      emit(state.copyWith(recommendations: result.getRight()!));
     }
     emit(
       state.copyWith(
@@ -87,7 +87,7 @@ class HomeFrontCubit extends Cubit<HomeFrontState> {
   Future<void> getMainCategories() async {
     final result = await _getMainCategories(NoParams());
     if (result.isRight()) {
-      emit(state.copyWith(category: result.getRight()));
+      emit(state.copyWith(category: result.getRight()!));
     }
 
     emit(

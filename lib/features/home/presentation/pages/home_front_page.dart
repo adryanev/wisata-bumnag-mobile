@@ -11,6 +11,7 @@ import 'package:wisatabumnag/features/home/presentation/widgets/home/ads_banner_
 import 'package:wisatabumnag/features/home/presentation/widgets/home/home_app_bar.dart';
 import 'package:wisatabumnag/features/home/presentation/widgets/home/home_menu_widget.dart';
 import 'package:wisatabumnag/features/home/presentation/widgets/home/popular_destination_widget.dart';
+import 'package:wisatabumnag/features/notification/presentation/blocs/notification_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 
 class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
@@ -21,44 +22,61 @@ class HomeFrontPage extends StatelessWidget with FailureMessageHandler {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          lazy: false,
           create: (context) => getIt<HomeFrontCubit>()
             ..getCurrentLocation()
             ..getAdBanners()
             ..getRecommendations()
             ..getMainCategories(),
         ),
+        BlocProvider(
+          create: (context) => getIt<NotificationBloc>(),
+        ),
       ],
-      child: BlocListener<HomeFrontCubit, HomeFrontState>(
-        listener: (context, state) {
-          state.adBannerOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) => null,
-            ),
-          );
-          state.locationOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) => null,
-            ),
-          );
-          state.recommendationsOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) => null,
-            ),
-          );
-          state.categoryOrFailureOption.fold(
-            () => null,
-            (either) => either.fold(
-              (l) => handleFailure(context, l),
-              (r) => null,
-            ),
-          );
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<HomeFrontCubit, HomeFrontState>(
+            listener: (context, state) {
+              state.adBannerOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => null,
+                ),
+              );
+              state.locationOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => null,
+                ),
+              );
+              state.recommendationsOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => null,
+                ),
+              );
+              state.categoryOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => null,
+                ),
+              );
+            },
+          ),
+          BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+              if (state is AuthenticationAuthenticated) {
+                context
+                    .read<NotificationBloc>()
+                    .add(const NotificationEvent.started());
+              }
+            },
+          ),
+        ],
         child: SingleChildScrollView(
           child: SizedBox(
             height: 1.sh,

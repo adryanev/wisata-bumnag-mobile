@@ -24,15 +24,13 @@ class AdsBannerWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
-                child: state.adBanners != null
-                    ? CachedNetworkImage(
-                        imageUrl: state.adBanners![index].media,
-                        fit: BoxFit.fill,
-                      )
-                    : const SizedBox(),
+                child: CachedNetworkImage(
+                  imageUrl: state.adBanners[index].media,
+                  fit: BoxFit.fill,
+                ),
               );
             },
-            itemCount: state.adBanners?.length ?? 0,
+            itemCount: state.adBanners.length,
             pagination: SwiperPagination(
               builder: DotSwiperPaginationBuilder(
                 activeColor: AppColor.primary,
