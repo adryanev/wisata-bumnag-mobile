@@ -68,6 +68,9 @@ class AppRouter {
   static const scanDetail = 'scan-detail';
   static const scanSuccess = 'scan-success';
   static const webview = 'webview';
+  static const editProfile = 'edit-profile';
+  static const profileForm = 'profile-form';
+  static const passwordForm = 'password-form';
   static const notification = 'notification';
 }
 
