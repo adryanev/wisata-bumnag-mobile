@@ -1,13 +1,21 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
+import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/features/authentication/data/models/login/login_response.model.dart';
+
+part 'profile_api_client.g.dart';
 
 @lazySingleton
 @RestApi()
 abstract class ProfileApiClient {
+  @factoryMethod
+  factory ProfileApiClient(@Named(InjectionConstants.privateDio) Dio dio) =
+      _ProfileApiClient;
+
   @PUT('v1/profiles/update')
   @FormUrlEncoded()
   Future<BaseResponse<UserDataResponse>> updateProfile({
