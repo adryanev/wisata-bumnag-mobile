@@ -33,10 +33,10 @@ extension NotificationResponseX on NotificationResponse {
 @freezed
 class NotificationDataResponse with _$NotificationDataResponse {
   const factory NotificationDataResponse({
-    required int id,
+    @JsonKey(name: 'object_id') required int id,
     required String body,
     required String title,
-    required String type,
+    @JsonKey(name: 'object_type') required String type,
     required String? action,
   }) = _NotificationDataResponse;
 

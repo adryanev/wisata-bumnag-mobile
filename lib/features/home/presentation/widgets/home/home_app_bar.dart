@@ -52,17 +52,17 @@ class HomeNotificationWidget extends StatelessWidget {
             builder: (context, state) {
               if (state.notifications.isNotEmpty &&
                   (state.notifications.firstWhereOrNull(
-                        (element) => element.isRead,
+                        (element) => !element.isRead,
                       ) !=
                       null)) {
-                return Assets.icons.icNotificationActive.svg();
-              } else {
                 return InkWell(
                   onTap: () {
                     context.pushNamed(AppRouter.notification);
                   },
-                  child: Assets.icons.icNotification.svg(),
+                  child: Assets.icons.icNotificationActive.svg(),
                 );
+              } else {
+                return Assets.icons.icNotification.svg();
               }
             },
           );

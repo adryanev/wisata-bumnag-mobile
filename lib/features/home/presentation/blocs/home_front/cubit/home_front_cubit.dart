@@ -11,8 +11,6 @@ import 'package:wisatabumnag/features/home/domain/entities/ad_banner.entity.dart
 import 'package:wisatabumnag/features/home/domain/entities/recommendation.entity.dart';
 import 'package:wisatabumnag/features/home/domain/usecases/get_ad_banners.dart';
 import 'package:wisatabumnag/features/home/domain/usecases/get_recommendations.dart';
-import 'package:wisatabumnag/features/notification/domain/entities/notification.entity.dart';
-import 'package:wisatabumnag/features/notification/domain/usecases/get_notifications.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/categories/domain/usecases/get_main_categories.dart';
 import 'package:wisatabumnag/shared/location/domain/entities/location.entity.dart';
