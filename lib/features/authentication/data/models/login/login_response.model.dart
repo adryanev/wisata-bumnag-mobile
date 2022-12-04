@@ -35,13 +35,14 @@ class UserDataResponse with _$UserDataResponse {
 
 extension UserDataResponseX on UserDataResponse {
   User toDomain() => User(
-      id: id,
-      emailAddress: EmailAddress(email!),
-      nik: nik == null ? null : Nik(nik!),
-      phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
-      name: StringSingleLine(name!),
-      roles: roles,
-      avatar: avatar);
+        id: id,
+        emailAddress: EmailAddress(email!),
+        nik: nik == null ? null : Nik(nik!),
+        phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
+        name: StringSingleLine(name!),
+        roles: roles,
+        avatar: avatar,
+      );
 }
 
 @freezed

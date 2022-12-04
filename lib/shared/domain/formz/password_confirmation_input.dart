@@ -22,7 +22,6 @@ class PasswordConfirmationInput
 
 extension PasswordConfirmationValidationErrorX
     on PasswordConfirmationValidationError {
-  // ignore: unused_element
   String errorMessage(AppLocalizations i10n) {
     switch (this) {
       case PasswordConfirmationValidationError.mismatch:
