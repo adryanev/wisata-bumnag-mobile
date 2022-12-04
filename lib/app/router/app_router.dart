@@ -28,6 +28,8 @@ import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_pag
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_success_page.dart';
 import 'package:wisatabumnag/features/settings/presentation/pages/account_setting_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_password_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_profile_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
@@ -356,6 +358,18 @@ final appRouter = GoRouter(
       path: '/profiles',
       name: AppRouter.editProfile,
       builder: (context, state) => const AccountSettingPage(),
-    )
+      routes: [
+        GoRoute(
+          path: 'profile',
+          name: AppRouter.profileForm,
+          builder: (context, state) => const UpdateProfilePage(),
+        ),
+        GoRoute(
+          path: 'password',
+          name: AppRouter.passwordForm,
+          builder: (context, state) => const UpdatePasswordPage(),
+        ),
+      ],
+    ),
   ],
 );

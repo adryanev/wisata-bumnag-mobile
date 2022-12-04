@@ -14,15 +14,9 @@ class PasswordInput extends FormzInput<String, PasswordValidationError> {
     final hasUppercase = value.contains(RegExp('[A-Z]'));
     final hasDigits = value.contains(RegExp('[0-9]'));
     final hasLowercase = value.contains(RegExp('[a-z]'));
-    final hasSpecialCharacters =
-        value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     final hasMinLength = value.length > minLength;
 
-    if (hasDigits &
-        hasUppercase &
-        hasLowercase &
-        hasSpecialCharacters &
-        hasMinLength) {
+    if (hasDigits & hasUppercase & hasLowercase & hasMinLength) {
       return null;
     }
     return PasswordValidationError.invalid;

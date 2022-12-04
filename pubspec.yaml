@@ -30,6 +30,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_hooks: ^0.18.5+1
+  flutter_libphonenumber: ^1.2.4
   flutter_local_notifications: ^12.0.4
   flutter_localizations:
     sdk: flutter
