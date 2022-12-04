@@ -27,6 +27,7 @@ import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_success_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/account_setting_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
@@ -351,5 +352,10 @@ final appRouter = GoRouter(
       name: AppRouter.notification,
       builder: (context, state) => const NotificationPage(),
     ),
+    GoRoute(
+      path: '/profiles',
+      name: AppRouter.editProfile,
+      builder: (context, state) => const AccountSettingPage(),
+    )
   ],
 );

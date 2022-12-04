@@ -108,63 +108,65 @@ class _NotificationPageState extends State<NotificationPage>
               )
             ],
           ),
-          body: BlocBuilder<NotificationBloc, NotificationState>(
-            builder: (context, state) {
-              if (state.isRefreshing) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }
-              return SmartRefresher(
-                controller: _refreshController,
-                enablePullUp: true,
-                header: const WaterDropHeader(
-                  waterDropColor: AppColor.primary,
-                ),
-                footer: const ClassicFooter(
-                  loadStyle: LoadStyle.ShowWhenLoading,
-                ),
-                onRefresh: () {
-                  context
-                      .read<NotificationBloc>()
-                      .add(const NotificationEvent.refreshed());
-                },
-                onLoading: () {
-                  if (state.hasReachedMax) return;
-                  context
-                      .read<NotificationBloc>()
-                      .add(const NotificationEvent.started());
-                },
-                child: ListView.builder(
-                  itemCount: state.notifications.length,
-                  itemBuilder: (context, index) => InkWell(
-                    onTap: () {
-                      context.read<NotificationBloc>().add(
-                            NotificationEvent.notificationClicked(
-                              index: index,
-                              id: state.notifications[index].id,
-                            ),
-                          );
-                    },
-                    child: ListTile(
-                      leading: state.notifications[index].isRead
-                          ? null
-                          : const Icon(
-                              Icons.noise_control_off,
-                              color: AppColor.primary,
-                            ),
-                      title: Text(state.notifications[index].data.title),
-                      subtitle: Text(state.notifications[index].data.body),
-                      trailing: Text(
-                        DateTimeFormat.completeDateWithTime.format(
-                          state.notifications[index].createdAt,
+          body: SafeArea(
+            child: BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                if (state.isRefreshing) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+                return SmartRefresher(
+                  controller: _refreshController,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(
+                    waterDropColor: AppColor.primary,
+                  ),
+                  footer: const ClassicFooter(
+                    loadStyle: LoadStyle.ShowWhenLoading,
+                  ),
+                  onRefresh: () {
+                    context
+                        .read<NotificationBloc>()
+                        .add(const NotificationEvent.refreshed());
+                  },
+                  onLoading: () {
+                    if (state.hasReachedMax) return;
+                    context
+                        .read<NotificationBloc>()
+                        .add(const NotificationEvent.started());
+                  },
+                  child: ListView.builder(
+                    itemCount: state.notifications.length,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        context.read<NotificationBloc>().add(
+                              NotificationEvent.notificationClicked(
+                                index: index,
+                                id: state.notifications[index].id,
+                              ),
+                            );
+                      },
+                      child: ListTile(
+                        leading: state.notifications[index].isRead
+                            ? null
+                            : const Icon(
+                                Icons.noise_control_off,
+                                color: AppColor.primary,
+                              ),
+                        title: Text(state.notifications[index].data.title),
+                        subtitle: Text(state.notifications[index].data.body),
+                        trailing: Text(
+                          DateTimeFormat.completeDateWithTime.format(
+                            state.notifications[index].createdAt,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
