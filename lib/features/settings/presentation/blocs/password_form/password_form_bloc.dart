@@ -54,6 +54,7 @@ class PasswordFormBloc extends Bloc<PasswordFormEvent, PasswordFormState> {
         oldPassword: PasswordInput.dirty(event.oldPasswordString),
       ),
     );
+    emit(state.copyWith(isValid: _isValid));
   }
 
   FutureOr<void> _onNewPasswordChanged(
@@ -67,6 +68,7 @@ class PasswordFormBloc extends Bloc<PasswordFormEvent, PasswordFormState> {
         ),
       ),
     );
+    emit(state.copyWith(isValid: _isValid));
   }
 
   FutureOr<void> _onConfirmPasswordChanged(
@@ -76,10 +78,12 @@ class PasswordFormBloc extends Bloc<PasswordFormEvent, PasswordFormState> {
     emit(
       state.copyWith(
         confirmPassword: PasswordConfirmationInput.dirty(
+          state.newPassword.value,
           event.passwordConfirmString,
         ),
       ),
     );
+    emit(state.copyWith(isValid: _isValid));
   }
 
   FutureOr<void> _onUpdatePasswordButton(
@@ -124,4 +128,9 @@ class PasswordFormBloc extends Bloc<PasswordFormEvent, PasswordFormState> {
       ),
     );
   }
+
+  bool get _isValid =>
+      state.oldPassword.isValid &&
+      state.newPassword.isValid &&
+      state.confirmPassword.isValid;
 }

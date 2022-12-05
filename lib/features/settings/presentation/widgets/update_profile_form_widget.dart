@@ -159,9 +159,7 @@ class _UpdateProfileFormWidgetState extends State<UpdateProfileFormWidget> {
 }
 
 class _PhotoProfile extends StatelessWidget {
-  const _PhotoProfile({
-    super.key,
-  });
+  const _PhotoProfile();
 
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,7 @@ class PasswordFormState with _$PasswordFormState {
     required PasswordConfirmationInput confirmPassword,
     required Option<Either<Failure, Unit>> updateOrFailureOption,
     required FormzSubmissionStatus formStatus,
+    required bool isValid,
   }) = _PasswordFormState;
   factory PasswordFormState.initial() => PasswordFormState(
         isLoading: false,
@@ -17,5 +18,6 @@ class PasswordFormState with _$PasswordFormState {
         confirmPassword: const PasswordConfirmationInput.pure(),
         updateOrFailureOption: none(),
         formStatus: FormzSubmissionStatus.initial,
+        isValid: false,
       );
 }
