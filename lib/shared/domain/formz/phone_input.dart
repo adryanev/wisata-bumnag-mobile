@@ -13,6 +13,9 @@ class PhoneInput extends FormzInput<String, PhoneInputValidationError> {
   static const maximumLength = 15;
   @override
   PhoneInputValidationError? validator(String value) {
+    if (value.isEmpty) {
+      return null;
+    }
     if (!regexPhone.hasMatch(value)) {
       return PhoneInputValidationError.invalid;
     }

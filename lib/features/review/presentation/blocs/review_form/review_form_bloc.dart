@@ -25,6 +25,7 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
   ReviewFormBloc(
     this._addReview,
     this._getLoggedInUser,
+    this._imagePicker,
   ) : super(ReviewFormState.initial()) {
     on<_ReviewFormStarted>(_onStarted);
     on<_ReviewFormTitleChanged>(
@@ -59,6 +60,7 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
 
   final AddReview _addReview;
   final GetLoggedInUser _getLoggedInUser;
+  final ImagePicker _imagePicker;
 
   FutureOr<void> _onTitleChanged(
     _ReviewFormTitleChanged event,
@@ -88,9 +90,8 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
     _ReviewFormPhotoPicked event,
     Emitter<ReviewFormState> emit,
   ) async {
-    final _picker = ImagePicker();
     // Pick an image
-    final image = await _picker.pickMultiImage();
+    final image = await _imagePicker.pickMultiImage();
     emit(state.copyWith(media: [...state.media, ...image]));
   }
 

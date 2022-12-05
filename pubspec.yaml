@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   ai_barcode_scanner: ^0.0.2+1
+  alice: ^0.3.2
   bloc: ^8.1.0
   bloc_concurrency: ^0.2.0
   bubble_tab_indicator: ^0.1.6
@@ -45,6 +46,7 @@ dependencies:
   google_fonts: ^3.0.1
   google_geocoding_api: ^1.0.1+2
   google_maps_flutter: ^2.2.1
+  image_cropper: ^3.0.1
   image_picker: ^0.8.6
   injectable: ^1.5.3
   internet_connection_checker: ^1.0.0+1

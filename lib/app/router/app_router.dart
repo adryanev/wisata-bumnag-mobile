@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
@@ -35,6 +36,7 @@ import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.d
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
+import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/online_payment_page.dart';
@@ -79,6 +81,8 @@ class AppRouter {
 
 final appRouter = GoRouter(
   debugLogDiagnostics: kDebugMode || kProfileMode,
+  navigatorKey:
+      kDebugMode || kProfileMode ? getIt<Alice>().getNavigatorKey() : null,
   routes: [
     GoRoute(
       path: '/',

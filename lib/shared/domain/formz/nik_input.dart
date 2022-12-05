@@ -13,6 +13,9 @@ class NikInput extends FormzInput<String, NikValidationError> {
   static const maximumLength = 16;
   @override
   NikValidationError? validator(String value) {
+    if (value.isEmpty) {
+      return null;
+    }
     if (!regexPhone.hasMatch(value)) {
       return NikValidationError.invalid;
     }

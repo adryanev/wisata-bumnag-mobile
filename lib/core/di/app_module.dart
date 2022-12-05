@@ -1,6 +1,9 @@
+import 'package:alice/alice.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wisatabumnag/core/networks/middlewares/connectivity_middleware.dart';
@@ -33,4 +36,13 @@ abstract class AppModule {
   @lazySingleton
   FlutterLocalNotificationsPlugin proviceFlutterNotification() =>
       FlutterLocalNotificationsPlugin();
+
+  @lazySingleton
+  ImagePicker get picker => ImagePicker();
+
+  @lazySingleton
+  ImageCropper get cropper => ImageCropper();
+
+  @lazySingleton
+  Alice get alice => Alice();
 }
