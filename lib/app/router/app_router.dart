@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
@@ -27,11 +28,15 @@ import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
 import 'package:wisatabumnag/features/scanner/presentation/pages/scan_success_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/account_setting_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_password_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_profile_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
+import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/online_payment_page.dart';
@@ -68,11 +73,16 @@ class AppRouter {
   static const scanDetail = 'scan-detail';
   static const scanSuccess = 'scan-success';
   static const webview = 'webview';
+  static const editProfile = 'edit-profile';
+  static const profileForm = 'profile-form';
+  static const passwordForm = 'password-form';
   static const notification = 'notification';
 }
 
 final appRouter = GoRouter(
   debugLogDiagnostics: kDebugMode || kProfileMode,
+  navigatorKey:
+      kDebugMode || kProfileMode ? getIt<Alice>().getNavigatorKey() : null,
   routes: [
     GoRoute(
       path: '/',
@@ -347,6 +357,23 @@ final appRouter = GoRouter(
       path: '/notifications',
       name: AppRouter.notification,
       builder: (context, state) => const NotificationPage(),
+    ),
+    GoRoute(
+      path: '/profiles',
+      name: AppRouter.editProfile,
+      builder: (context, state) => const AccountSettingPage(),
+      routes: [
+        GoRoute(
+          path: 'profile',
+          name: AppRouter.profileForm,
+          builder: (context, state) => const UpdateProfilePage(),
+        ),
+        GoRoute(
+          path: 'password',
+          name: AppRouter.passwordForm,
+          builder: (context, state) => const UpdatePasswordPage(),
+        ),
+      ],
     ),
   ],
 );

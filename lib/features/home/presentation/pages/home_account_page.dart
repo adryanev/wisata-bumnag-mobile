@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
@@ -13,10 +15,19 @@ class HomeAccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Spacer(),
-        ProfileWidget(),
-        Spacer(
+      children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            onPressed: () {
+              context.pushNamed(AppRouter.editProfile);
+            },
+            icon: const Icon(Icons.settings_rounded, color: AppColor.darkGrey),
+          ),
+        ),
+        const Spacer(),
+        const ProfileWidget(),
+        const Spacer(
           flex: 3,
         )
       ],
@@ -38,9 +49,10 @@ class ProfileWidget extends StatelessWidget {
             child: Column(
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.transparent,
                   radius: 60.r,
-                  backgroundImage: const CachedNetworkImageProvider(
-                    'https://source.unsplash.com/random',
+                  backgroundImage: CachedNetworkImageProvider(
+                    user.avatar ?? 'https://source.unsplash.com/random',
                   ),
                 ),
                 SizedBox(

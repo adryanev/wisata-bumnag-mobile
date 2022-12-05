@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:alice/alice.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
@@ -10,10 +11,12 @@ import 'package:wisatabumnag/features/authentication/data/models/login/login_res
 class RefreshTokenInterceptor extends Interceptor {
   RefreshTokenInterceptor(
     this._localStorage,
+    this._alice,
   ) : _dio = Dio();
 
   final LocalStorage _localStorage;
   final Dio _dio;
+  final Alice _alice;
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
@@ -21,6 +24,8 @@ class RefreshTokenInterceptor extends Interceptor {
       final url = await _localStorage.getBaseUrl();
 
       try {
+        _dio.interceptors.clear();
+        _dio.interceptors.add(_alice.getDioInterceptor());
         final apiKey = await _localStorage.getApiKey();
         final token = await _localStorage.getAccessToken();
         final accessTime = DateTime.now().millisecondsSinceEpoch / 1000;

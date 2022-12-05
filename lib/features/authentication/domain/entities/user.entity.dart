@@ -12,5 +12,6 @@ class User with _$User {
     required PhoneNumber? phoneNumber,
     required StringSingleLine name,
     required String? roles,
+    required String? avatar,
   }) = _User;
 }

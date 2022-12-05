@@ -62,15 +62,9 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
   final hasUppercase = input.contains(RegExp('[A-Z]'));
   final hasDigits = input.contains(RegExp('[0-9]'));
   final hasLowercase = input.contains(RegExp('[a-z]'));
-  final hasSpecialCharacters =
-      input.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-  final hasMinLength = input.length > minLength;
+  final hasMinLength = input.length >= minLength;
 
-  if (hasDigits &
-      hasUppercase &
-      hasLowercase &
-      hasSpecialCharacters &
-      hasMinLength) {
+  if (hasDigits & hasUppercase & hasLowercase & hasMinLength) {
     return right(input);
   }
   return left(ValueFailure.invalidPassword(failedValue: input));
