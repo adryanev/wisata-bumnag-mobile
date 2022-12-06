@@ -46,6 +46,7 @@ class LocalStorageKey {
   static const mapApiKey = 'map_api_key';
   static const cartKey = 'cart';
   static const fcmTokenKey = 'fcm_token_key';
+  static const tncUrl = 'tnc_url_key';
 }
 
 class InjectionConstants {

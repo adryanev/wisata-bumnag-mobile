@@ -77,4 +77,21 @@ class SplashRepositoryImpl implements SplashRepository {
     RemoteConfig<String, String> config,
   ) =>
       _localSource.saveMapApiKey(config.value);
+
+  @override
+  Future<Either<Failure, RemoteConfig<String, String>>> fetchTncUrl() =>
+      _remoteSource.getTermAndConditionsUrl().then(
+            (value) => value.map(
+              (r) => RemoteConfig(
+                key: RemoteConfigKey.tncUrl,
+                value: r,
+              ),
+            ),
+          );
+
+  @override
+  Future<Either<Failure, Unit>> saveTncUrl(
+    RemoteConfig<String, String> config,
+  ) =>
+      _localSource.saveTncUrl(config.value);
 }

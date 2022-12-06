@@ -9,6 +9,7 @@ abstract class SplashLocalDataSource {
   Future<Either<Failure, Unit>> saveApiUrl(String apiUrl);
   Future<Either<Failure, Unit>> saveSalt(String salt);
   Future<Either<Failure, Unit>> saveMapApiKey(String mapApiKey);
+  Future<Either<Failure, Unit>> saveTncUrl(String url);
 }
 
 @LazySingleton(as: SplashLocalDataSource)
@@ -66,5 +67,16 @@ class SplashLocalDataSourceImpl implements SplashLocalDataSource {
             const Failure.localFailure(message: 'cannot set map api key'),
           );
         },
+      );
+
+  @override
+  Future<Either<Failure, Unit>> saveTncUrl(String url) async => safeCall(
+        tryCallback: () async {
+          await _storage.saveTncUrl(url);
+          return right(unit);
+        },
+        exceptionCallBack: () => left(
+          const Failure.localFailure(message: 'cannot set TNC url'),
+        ),
       );
 }

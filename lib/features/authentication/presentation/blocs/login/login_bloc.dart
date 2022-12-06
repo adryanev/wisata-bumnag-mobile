@@ -21,24 +21,24 @@ part 'login_bloc.freezed.dart';
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUser) : super(LoginState.initial()) {
-    on<LoginEmailInputChanged>(
+    on<_LoginEmailInputChanged>(
       _loginEmailChanged,
       transformer: debounceRestartable(duration: _debounceDuration),
     );
-    on<LoginPasswordInputChanged>(
+    on<_LoginPasswordInputChanged>(
       _passwordInputChanged,
       transformer: debounceRestartable(
         duration: _debounceDuration,
       ),
     );
-    on<LoginButtonPressed>(_loginButtonPressed);
+    on<_LoginButtonPressed>(_loginButtonPressed);
   }
   static const _debounceDuration = Duration(milliseconds: 350);
 
   final LoginUser _loginUser;
 
   FutureOr<void> _loginEmailChanged(
-    LoginEmailInputChanged event,
+    _LoginEmailInputChanged event,
     Emitter<LoginState> emit,
   ) {
     emit(
@@ -46,10 +46,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emailInput: EmailInput.dirty(event.emailString),
       ),
     );
+    emit(state.copyWith(isValid: _isValid));
   }
 
   FutureOr<void> _passwordInputChanged(
-    LoginPasswordInputChanged event,
+    _LoginPasswordInputChanged event,
     Emitter<LoginState> emit,
   ) {
     emit(
@@ -57,15 +58,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         passwordInput: PasswordInput.dirty(event.passwordString),
       ),
     );
+    emit(state.copyWith(isValid: _isValid));
   }
 
   FutureOr<void> _loginButtonPressed(
-    LoginButtonPressed event,
+    _LoginButtonPressed event,
     Emitter<LoginState> emit,
   ) async {
-    final isEmailValid = state.emailInput.isValid;
-    final isPasswordValid = state.passwordInput.isValid;
-    if (!isEmailValid && !isPasswordValid) {
+    if (!state.isValid) {
       return;
     }
 
@@ -91,4 +91,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       ),
     );
   }
+
+  bool get _isValid => state.emailInput.isValid && state.passwordInput.isValid;
 }

@@ -2,6 +2,7 @@ import 'package:alice/alice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/features/authentication/presentation/pages/forgot_password/forgot_password_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/login/login_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/register/register_page.dart';
 import 'package:wisatabumnag/features/cart/domain/entities/cart_souvenir.entity.dart';
@@ -77,6 +78,7 @@ class AppRouter {
   static const profileForm = 'profile-form';
   static const passwordForm = 'password-form';
   static const notification = 'notification';
+  static const forgotPassword = 'forgot-password';
 }
 
 final appRouter = GoRouter(
@@ -103,6 +105,11 @@ final appRouter = GoRouter(
       path: '/auth/register',
       name: AppRouter.register,
       builder: (context, state) => const RegisterPage(),
+    ),
+    GoRoute(
+      path: '/auth/forgot-password',
+      name: AppRouter.forgotPassword,
+      builder: (context, state) => const ForgotPasswordPage(),
     ),
     GoRoute(
       path: '/destinations',

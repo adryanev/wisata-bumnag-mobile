@@ -11,6 +11,9 @@ class RegisterState with _$RegisterState {
     required FormzSubmissionStatus formStatus,
     required RegisterStatus status,
     required Option<Either<Failure, Unit>> registerOrFailureOption,
+    required Option<Either<Failure, String>> tncOrFailureOption,
+    required String tncUrl,
+    required bool isValid,
   }) = _RegisterState;
   factory RegisterState.initial() => RegisterState(
         nameInput: const NameInput.pure(),
@@ -21,6 +24,9 @@ class RegisterState with _$RegisterState {
         status: RegisterStatus.initial,
         registerOrFailureOption: none(),
         isAgreeToToC: false,
+        tncOrFailureOption: none(),
+        tncUrl: '',
+        isValid: false,
       );
 }
 

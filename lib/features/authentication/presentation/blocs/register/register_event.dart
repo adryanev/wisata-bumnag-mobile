@@ -2,16 +2,17 @@ part of 'register_bloc.dart';
 
 @freezed
 class RegisterEvent with _$RegisterEvent {
+  const factory RegisterEvent.started() = _RegisterStarted;
   const factory RegisterEvent.nameInputChanged(String nameString) =
-      RegisterNameInputChanged;
+      _RegisterNameInputChanged;
   const factory RegisterEvent.emailInputChanged(String emailString) =
-      RegisterEmailInputChanged;
+      _RegisterEmailInputChanged;
   const factory RegisterEvent.passwordInputChanged(String passwordString) =
-      RegisterPasswordInputChanged;
+      _RegisterPasswordInputChanged;
   const factory RegisterEvent.confirmPasswordInputChanged(
     String confirmPassword,
-  ) = RegisterConfirmPasswordInputChanged;
-  const factory RegisterEvent.tocAgreed() = RegisterTocAgreed;
-  const factory RegisterEvent.tocDisagreed() = RegisterTocDisaggred;
-  const factory RegisterEvent.registerButtonPressed() = RegisterButtonPressed;
+  ) = _RegisterConfirmPasswordInputChanged;
+  const factory RegisterEvent.tocAgreed() = _RegisterTocAgreed;
+  const factory RegisterEvent.tocDisagreed() = _RegisterTocDisaggred;
+  const factory RegisterEvent.registerButtonPressed() = _RegisterButtonPressed;
 }

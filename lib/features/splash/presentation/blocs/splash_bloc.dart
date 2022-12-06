@@ -17,21 +17,23 @@ part 'splash_bloc.freezed.dart';
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc(this._fetchRemoteConfig, this._saveRemoteConfig)
       : super(SplashState.initial()) {
-    on<SplashFetchApiUrl>(_fetchApiUrl);
-    on<SplashSaveApiUrl>(_saveApiUrl);
-    on<SplashFetchApiKey>(_fetchApiKey);
-    on<SplashSaveApiKey>(_saveApiKey);
-    on<SplashFetchSalt>(_fetchSalt);
-    on<SplashSaveSalt>(_saveSalt);
-    on<SplashFetchMapApiKey>(_fetchMapApiKey);
-    on<SplashSaveMapApiKey>(_saveMapApiKey);
+    on<_SplashFetchApiUrl>(_fetchApiUrl);
+    on<_SplashSaveApiUrl>(_saveApiUrl);
+    on<_SplashFetchApiKey>(_fetchApiKey);
+    on<_SplashSaveApiKey>(_saveApiKey);
+    on<_SplashFetchSalt>(_fetchSalt);
+    on<_SplashSaveSalt>(_saveSalt);
+    on<_SplashFetchMapApiKey>(_fetchMapApiKey);
+    on<_SplashSaveMapApiKey>(_saveMapApiKey);
+    on<_SplashFetchTncUrl>(_fetchTncUrl);
+    on<_SplashSaveTncUrl>(_saveTncUrl);
   }
 
   final FetchRemoteConfig _fetchRemoteConfig;
   final SaveRemoteConfig _saveRemoteConfig;
 
   FutureOr<void> _fetchApiUrl(
-    SplashFetchApiUrl event,
+    _SplashFetchApiUrl event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _fetchRemoteConfig(
@@ -52,7 +54,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _saveApiUrl(
-    SplashSaveApiUrl event,
+    _SplashSaveApiUrl event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _saveRemoteConfig(
@@ -76,7 +78,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _fetchApiKey(
-    SplashFetchApiKey event,
+    _SplashFetchApiKey event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _fetchRemoteConfig(
@@ -98,7 +100,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _saveApiKey(
-    SplashSaveApiKey event,
+    _SplashSaveApiKey event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _saveRemoteConfig(
@@ -122,7 +124,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _fetchSalt(
-    SplashFetchSalt event,
+    _SplashFetchSalt event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _fetchRemoteConfig(
@@ -144,7 +146,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _saveSalt(
-    SplashSaveSalt event,
+    _SplashSaveSalt event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _saveRemoteConfig(
@@ -168,7 +170,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _fetchMapApiKey(
-    SplashFetchMapApiKey event,
+    _SplashFetchMapApiKey event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _fetchRemoteConfig(
@@ -190,7 +192,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _saveMapApiKey(
-    SplashSaveMapApiKey event,
+    _SplashSaveMapApiKey event,
     Emitter<SplashState> emit,
   ) async {
     final result = await _saveRemoteConfig(
@@ -209,6 +211,51 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     emit(
       state.copyWith(
         saveMapApiKeyOrFailureOption: none(),
+      ),
+    );
+  }
+
+  FutureOr<void> _fetchTncUrl(
+    _SplashFetchTncUrl event,
+    Emitter<SplashState> emit,
+  ) async {
+    final result = await _fetchRemoteConfig(
+      const FetchRemoteConfigParams(
+        remoteConfigType: RemoteConfigType.tncUrl,
+      ),
+    );
+    emit(
+      state.copyWith(
+        tncUrlOrFailureOption: optionOf(result),
+      ),
+    );
+    emit(
+      state.copyWith(
+        tncUrlOrFailureOption: none(),
+      ),
+    );
+  }
+
+  FutureOr<void> _saveTncUrl(
+    _SplashSaveTncUrl event,
+    Emitter<SplashState> emit,
+  ) async {
+    final result = await _saveRemoteConfig(
+      SaveRemoteConfigParams(
+        config: event.config,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        saveTncUrlOrFailureOption: optionOf(
+          result,
+        ),
+      ),
+    );
+    emit(
+      state.copyWith(
+        saveTncUrlOrFailureOption: none(),
       ),
     );
   }

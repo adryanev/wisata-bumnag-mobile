@@ -40,11 +40,13 @@ class RefreshTokenInterceptor extends Interceptor {
           options: Options(
             headers: {
               ..._dio.options.headers,
+              'Accept': 'application/json',
               'X-API-KEY': apiKey,
               'Authorization': 'Bearer $token',
               'X-REQUEST-SIGNATURE': signature,
               'X-ACCESS-TIME': accessTime,
             },
+            contentType: 'application/json',
           ),
         );
         if (newToken.data?.data?.accessToken != null) {

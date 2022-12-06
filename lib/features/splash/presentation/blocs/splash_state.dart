@@ -11,10 +11,13 @@ class SplashState with _$SplashState {
         saltOrFailureOption,
     required Option<Either<Failure, RemoteConfig<String, String>>>
         mapApiKeyOrFailureOption,
+    required Option<Either<Failure, RemoteConfig<String, String>>>
+        tncUrlOrFailureOption,
     required Option<Either<Failure, Unit>> saveApiUrlOrFailureOption,
     required Option<Either<Failure, Unit>> saveApiKeyOrFailureOption,
     required Option<Either<Failure, Unit>> saveSaltOrFailureOption,
     required Option<Either<Failure, Unit>> saveMapApiKeyOrFailureOption,
+    required Option<Either<Failure, Unit>> saveTncUrlOrFailureOption,
   }) = _SplashState;
   factory SplashState.initial() => SplashState(
         apiKeyOrFailureOption: none(),
@@ -25,5 +28,7 @@ class SplashState with _$SplashState {
         saveApiUrlOrFailureOption: none(),
         saveSaltOrFailureOption: none(),
         saveMapApiKeyOrFailureOption: none(),
+        saveTncUrlOrFailureOption: none(),
+        tncUrlOrFailureOption: none(),
       );
 }
