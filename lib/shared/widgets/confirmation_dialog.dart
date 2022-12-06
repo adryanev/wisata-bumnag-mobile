@@ -19,7 +19,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String confirmText;
   final String dismissText;
   final VoidCallback onDismiss;
-  final VoidCallback onConfirm;
+  final VoidCallback? onConfirm;
   @override
   Widget build(BuildContext context) {
     return Dialog(

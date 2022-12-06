@@ -61,7 +61,7 @@ class DestinationSouvenirCard extends StatelessWidget
               height: 8.h,
             ),
             SizedBox(
-              height: 240.h,
+              height: 220.h,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: destinationSouvenir.souvenirs.length,
