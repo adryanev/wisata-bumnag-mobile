@@ -715,7 +715,7 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 1.sw,
-            height: 210.h,
+            height: 220.h,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: destinationDetail.recommendations.length,

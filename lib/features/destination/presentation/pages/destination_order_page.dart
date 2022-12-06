@@ -143,12 +143,14 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                             onDismiss: () {
                               Navigator.pop(context);
                             },
-                            onConfirm: () {
-                              context.read<DestinationOrderBloc>().add(
-                                    const DestinationOrderEvent
-                                        .proceedToPaymentButtonPressed(),
-                                  );
-                            },
+                            onConfirm: state.isLoading
+                                ? null
+                                : () {
+                                    context.read<DestinationOrderBloc>().add(
+                                          const DestinationOrderEvent
+                                              .proceedToPaymentButtonPressed(),
+                                        );
+                                  },
                             confirmText: 'Lanjut',
                             dismissText: 'Batal',
                           ),

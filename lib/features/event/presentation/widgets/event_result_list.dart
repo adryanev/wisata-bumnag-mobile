@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
@@ -83,8 +84,9 @@ class _EventResultListState extends State<EventResultList> {
                     .read<EventListBloc>()
                     .add(const EventListEvent.started());
               },
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              child: AlignedGridView.custom(
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
                 shrinkWrap: true,

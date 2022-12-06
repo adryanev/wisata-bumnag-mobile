@@ -156,12 +156,17 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: Text(
-              'Butuh bantuan masuk?',
-              style: TextStyle(
-                color: AppColor.primary,
-                fontWeight: FontWeight.w500,
-                fontSize: 12.sp,
+            child: InkWell(
+              onTap: () {
+                context.pushNamed(AppRouter.forgotPassword);
+              },
+              child: Text(
+                'Butuh bantuan masuk?',
+                style: TextStyle(
+                  color: AppColor.primary,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12.sp,
+                ),
               ),
             ),
           ),
@@ -172,12 +177,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             width: 1.sw,
             child: BlocBuilder<LoginBloc, LoginState>(
               builder: (context, state) {
-                return state.status == LoginStatus.loading
-                    ? WisataButton.loading()
-                    : WisataButton.primary(
-                        onPressed: _onSubmitForm,
-                        text: 'Masuk',
-                      );
+                return SizedBox(
+                  height: 48.h,
+                  child: state.status == LoginStatus.loading
+                      ? WisataButton.loading()
+                      : WisataButton.primary(
+                          onPressed: state.isValid ? _onSubmitForm : null,
+                          text: 'Masuk',
+                        ),
+                );
               },
             ),
           ),

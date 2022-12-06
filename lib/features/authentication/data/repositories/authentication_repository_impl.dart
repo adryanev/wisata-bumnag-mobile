@@ -12,6 +12,7 @@ import 'package:wisatabumnag/features/authentication/domain/entities/register/re
 import 'package:wisatabumnag/features/authentication/domain/entities/user.entity.dart';
 import 'package:wisatabumnag/features/authentication/domain/repositories/authentication_repository.dart';
 import 'package:wisatabumnag/services/device_info/device_info_service.dart';
+import 'package:wisatabumnag/shared/domain/entities/value_objects.dart';
 
 @LazySingleton(as: AuthenticationRepository)
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -65,4 +66,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       _remoteDataSource.registerUser(
         RegisterPayload.fromDomain(registerForm),
       );
+
+  @override
+  Future<Either<Failure, String>> getTnc() => _localSource.getTnc();
+
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(EmailAddress emailAddress) =>
+      _remoteDataSource.forgotPassword(emailAddress.getOrCrash());
 }

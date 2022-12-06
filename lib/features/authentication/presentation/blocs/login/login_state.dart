@@ -7,6 +7,7 @@ class LoginState with _$LoginState {
     required EmailInput emailInput,
     required PasswordInput passwordInput,
     required Option<Either<Failure, User>> loginOrFailureOption,
+    required bool isValid,
     required FormzSubmissionStatus formStatus,
   }) = _LoginState;
   factory LoginState.initial() => LoginState(
@@ -15,6 +16,7 @@ class LoginState with _$LoginState {
         passwordInput: const PasswordInput.pure(),
         loginOrFailureOption: none(),
         formStatus: FormzSubmissionStatus.initial,
+        isValid: false,
       );
 }
 
