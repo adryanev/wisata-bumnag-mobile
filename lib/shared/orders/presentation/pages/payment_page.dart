@@ -33,7 +33,12 @@ class PaymentPage extends StatelessWidget with FailureMessageHandler {
               (l) {
                 handleFailure(context, l);
               },
-              (r) => context.pushNamed(AppRouter.onlinePayment, extra: r.url),
+              (r) {
+                if (r.url.isEmpty) {
+                  return context.goNamed(AppRouter.paymentDone, extra: true);
+                }
+                return context.pushNamed(AppRouter.onlinePayment, extra: r.url);
+              },
             ),
           );
         },
