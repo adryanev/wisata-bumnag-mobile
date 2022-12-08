@@ -17,8 +17,7 @@ class EmailInput extends FormzInput<String, EmailValidationError> {
   }
 }
 
-extension on EmailValidationError {
-  // ignore: unused_element
+extension EmailValidationErrorX on EmailValidationError {
   String errorMessage(AppLocalizations i10n) {
     switch (this) {
       case EmailValidationError.invalid:

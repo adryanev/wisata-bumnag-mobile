@@ -5,7 +5,7 @@
 		<key>CFBundleLocalizations</key>
 		<array>
 			<string>en</string>
-			<string>es</string>
+			<string>id</string>
 		</array>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -18,7 +18,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>Wisata Bumnag</string>
+		<string>Wisata Pulau Setan</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
@@ -47,6 +47,10 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>
 </plist>

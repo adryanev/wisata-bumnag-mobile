@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "551333187612",
+    "project_id": "wisata-bumnag-stag",
+    "storage_bucket": "wisata-bumnag-stag.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551333187612:android:a5306da9c7c9017ef78fd9",
+        "android_client_info": {
+          "package_name": "dev.bumnag.wisata.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551333187612-gthgv4h0slgqopjo4832o4huuiabgvf3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.bumnag.wisata.stg",
+            "certificate_hash": "25185c49bf99c48ad44ddad4903eed0a60803f8b"
+          }
+        },
+        {
+          "client_id": "551333187612-8aru12i0d5d0agqjsmvbhk18tm7tnm01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6JdwYSSdg4iX7p129pZwrD95N3tKW03w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551333187612-8aru12i0d5d0agqjsmvbhk18tm7tnm01.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "551333187612-dbt2688sctbg63ck5osc36al11t32l9s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.bumnag.wisata.stg"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

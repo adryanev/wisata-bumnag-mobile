@@ -8,7 +8,12 @@
 import 'package:wisatabumnag/app/app.dart';
 import 'package:wisatabumnag/bootstrap.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/firebase_options_stg.dart';
 
 void main() {
-  bootstrap(() => const App(), environment: Environment.staging);
+  bootstrap(
+    () => const App(),
+    environment: Environment.staging,
+    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
+  );
 }

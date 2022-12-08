@@ -20,8 +20,8 @@ class PasswordConfirmationInput
   }
 }
 
-extension on PasswordConfirmationValidationError {
-  // ignore: unused_element
+extension PasswordConfirmationValidationErrorX
+    on PasswordConfirmationValidationError {
   String errorMessage(AppLocalizations i10n) {
     switch (this) {
       case PasswordConfirmationValidationError.mismatch:

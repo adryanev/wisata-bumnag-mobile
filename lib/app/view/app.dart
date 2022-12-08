@@ -12,12 +12,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/extensions/context_extensions.dart';
+import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/core/utils/constants.dart';
+import 'package:wisatabumnag/core/utils/utils.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
+import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
+import 'package:wisatabumnag/features/home/presentation/blocs/home_bloc.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/flash/presentation/blocs/cubit/flash_cubit.dart';
 
-class App extends StatelessWidget {
+class App extends StatelessWidget with FailureMessageHandler {
   const App({super.key});
 
   @override
@@ -26,6 +32,15 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => getIt<FlashCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<AuthenticationBloc>(),
+        ),
+        BlocProvider<HomeBloc>(
+          create: (_) => getIt<HomeBloc>(),
+        ),
+        BlocProvider<CartBloc>(
+          create: (_) => getIt<CartBloc>(),
         ),
       ],
       child: MultiBlocListener(
@@ -40,6 +55,19 @@ class App extends StatelessWidget {
               );
             },
           ),
+          BlocListener<CartBloc, CartState>(
+            listener: (context, state) {
+              state.cartSavedOrFailureOption.fold(
+                () => null,
+                (either) => either.fold(
+                  (l) => handleFailure(context, l),
+                  (r) => context.showSnackbar(
+                    message: 'Berhasil meyimpan souvenir ke keranjang',
+                  ),
+                ),
+              );
+            },
+          ),
         ],
         child: ScreenUtilInit(
           designSize: const Size(ScreenUtilSize.width, ScreenUtilSize.height),
@@ -49,9 +77,22 @@ class App extends StatelessWidget {
             return MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
               theme: ThemeData(
-                appBarTheme: const AppBarTheme(color: Colors.blue),
-                primarySwatch: Colors.blue,
+                appBarTheme: AppBarTheme(
+                  iconTheme: const IconThemeData(
+                    color: AppColor.secondBlack,
+                  ),
+                  color: AppColor.white,
+                  elevation: 0,
+                  titleTextStyle: GoogleFonts.poppins(
+                    color: AppColor.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.sp,
+                  ),
+                ),
+                primarySwatch: createMaterialColor(AppColor.primary),
+                scaffoldBackgroundColor: const Color(0xFFFFFFFF),
                 fontFamily: GoogleFonts.poppins().fontFamily,
+                cardTheme: const CardTheme(shadowColor: Color(0xFFDFDFDF)),
                 textTheme:
                     Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               ),

@@ -76,4 +76,76 @@ void main() {
       );
     });
   });
+
+  group('Validate Email Address', () {
+    test(
+      'should return failure when invalid email.',
+      () async {
+        // arrange
+        const input = 'ad1312';
+        // act
+        final validation = validateEmailAddress(input);
+        final output = validation.getRight();
+        final failure = validation.getLeft();
+
+        // assert
+        expect(validation.isLeft(), isTrue);
+        expect(output, isNull);
+        expect(failure, isA<ValueInvalidEmailAddress<String>>());
+      },
+    );
+
+    test(
+      'should return String when validated',
+      () async {
+        // arrange
+        const input = 'email@example.com';
+        // act
+        final validation = validateEmailAddress(input);
+        final output = validation.getRight();
+        final failure = validation.getLeft();
+        // assert
+        expect(validation.isRight(), isTrue);
+        expect(output, isA<String>());
+        expect(output, equals(input));
+        expect(failure, isNull);
+      },
+    );
+  });
+
+  group('Validate Password', () {
+    test(
+      'should return failure when invalid password.',
+      () async {
+        // arrange
+        const input = 'ad1312';
+        // act
+        final validation = validatePassword(input);
+        final output = validation.getRight();
+        final failure = validation.getLeft();
+
+        // assert
+        expect(validation.isLeft(), isTrue);
+        expect(output, isNull);
+        expect(failure, isA<ValueInvalidPassword<String>>());
+      },
+    );
+
+    test(
+      'should return String when validated',
+      () async {
+        // arrange
+        const input = 'Asdf123@Baby';
+        // act
+        final validation = validatePassword(input);
+        final output = validation.getRight();
+        final failure = validation.getLeft();
+        // assert
+        expect(validation.isRight(), isTrue);
+        expect(output, isA<String>());
+        expect(output, equals(input));
+        expect(failure, isNull);
+      },
+    );
+  });
 }

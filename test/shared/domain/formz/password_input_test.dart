@@ -17,7 +17,7 @@ void main() {
       'should return status pure and valid when initiated with value',
       () async {
         // arrange
-        const oldPassword = 'Asdf1234';
+        const oldPassword = 'Asdf1234@yeah';
         // act
         const form = PasswordInput.pure(oldPassword);
         // assert
@@ -47,7 +47,7 @@ void main() {
       'should return status dirty and valid when initiated with value',
       () async {
         // arrange
-        const oldPassword = 'Asdf1234';
+        const oldPassword = 'Asdf1234@yeah';
         // act
         const form = PasswordInput.dirty(oldPassword);
         // assert

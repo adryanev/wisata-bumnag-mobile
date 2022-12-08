@@ -9,14 +9,20 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:wisatabumnag/injector.dart';
+import 'package:wisatabumnag/services/cloud_messaging/cloud_messaging_service.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
-  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-    super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
+    log('onTransition(${bloc.runtimeType}, $transition)');
+
+    super.onTransition(bloc, transition);
   }
 
   @override
@@ -29,10 +35,14 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
   FutureOr<Widget> Function() builder, {
   required String environment,
+  required FirebaseOptions firebaseOptions,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(options: firebaseOptions);
   await configureDependencies(environment: environment);
+
+  await CloudMessagingService.listenNotification();
+
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
