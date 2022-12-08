@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
@@ -113,22 +115,32 @@ class EventOrderPage extends StatelessWidget with FailureMessageHandler {
                     : () {
                         showDialog<dynamic>(
                           context: context,
-                          builder: (_) => ConfirmationDialog(
-                            title: 'Konfirmasi Pesanan',
-                            description: 'Apakah pesanan sudah benar? '
-                                'Jika sudah silahkan lanjut untuk melakukan '
-                                'pembayaran pesanan yang sudah dibuat',
-                            onDismiss: () {
-                              Navigator.pop(context);
-                            },
-                            onConfirm: () {
-                              context.read<EventOrderBloc>().add(
-                                    const EventOrderEvent
-                                        .proceedToPaymentButtonPressed(),
-                                  );
-                            },
-                            confirmText: 'Lanjut',
-                            dismissText: 'Batal',
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<EventOrderBloc>(),
+                            child: BlocBuilder<EventOrderBloc, EventOrderState>(
+                              builder: (context, state) {
+                                return ConfirmationDialog(
+                                  title: 'Konfirmasi Pesanan',
+                                  description: 'Apakah pesanan sudah benar? '
+                                      'Jika sudah silahkan lanjut untuk melakukan '
+                                      'pembayaran pesanan yang sudah dibuat',
+                                  onDismiss: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onConfirm: state.isSubmitting
+                                      ? null
+                                      : () {
+                                          context.read<EventOrderBloc>().add(
+                                                const EventOrderEvent
+                                                    .proceedToPaymentButtonPressed(),
+                                              );
+                                        },
+                                  confirmText:
+                                      state.isSubmitting ? 'Loading' : 'Lanjut',
+                                  dismissText: 'Batal',
+                                );
+                              },
+                            ),
                           ),
                         );
                       },

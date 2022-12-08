@@ -216,28 +216,39 @@ class CartOrderPage extends StatelessWidget with FailureMessageHandler {
                 ),
               ],
             ),
-            child: BlocBuilder<CartBloc, CartState>(
+            child: BlocBuilder<CartOrderBloc, CartOrderState>(
               builder: (context, state) {
                 return WisataButton.primary(
                   onPressed: () {
                     showDialog<dynamic>(
                       context: context,
-                      builder: (_) => ConfirmationDialog(
-                        title: 'Konfirmasi Pesanan',
-                        description: 'Apakah pesanan sudah benar? '
-                            'Jika sudah silahkan lanjut untuk melakukan '
-                            'pembayaran pesanan yang sudah dibuat.\n\n '
-                            'Item ini akan dihapus dari keranjang anda',
-                        onDismiss: () {
-                          Navigator.pop(context);
-                        },
-                        onConfirm: () {
-                          context.read<CartOrderBloc>().add(
-                                const CartOrderEvent.proceedToPaymentPressed(),
-                              );
-                        },
-                        confirmText: 'Lanjut',
-                        dismissText: 'Batal',
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<CartOrderBloc>(),
+                        child: BlocBuilder<CartOrderBloc, CartOrderState>(
+                          builder: (context, state) {
+                            return ConfirmationDialog(
+                              title: 'Konfirmasi Pesanan',
+                              description: 'Apakah pesanan sudah benar? '
+                                  'Jika sudah silahkan lanjut untuk melakukan '
+                                  'pembayaran pesanan yang sudah dibuat.\n\n '
+                                  'Item ini akan dihapus dari keranjang anda',
+                              onDismiss: () {
+                                Navigator.pop(context);
+                              },
+                              onConfirm: state.isSubmitting
+                                  ? null
+                                  : () {
+                                      context.read<CartOrderBloc>().add(
+                                            const CartOrderEvent
+                                                .proceedToPaymentPressed(),
+                                          );
+                                    },
+                              confirmText:
+                                  state.isSubmitting ? 'Loading' : 'Lanjut',
+                              dismissText: 'Batal',
+                            );
+                          },
+                        ),
                       ),
                     );
                   },
