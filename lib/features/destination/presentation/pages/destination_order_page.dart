@@ -135,24 +135,35 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
                     : () {
                         showDialog<dynamic>(
                           context: context,
-                          builder: (_) => ConfirmationDialog(
-                            title: 'Konfirmasi Pesanan',
-                            description: 'Apakah pesanan sudah benar? '
-                                'Jika sudah silahkan lanjut untuk melakukan '
-                                'pembayaran pesanan yang sudah dibuat',
-                            onDismiss: () {
-                              Navigator.pop(context);
-                            },
-                            onConfirm: state.isLoading
-                                ? null
-                                : () {
-                                    context.read<DestinationOrderBloc>().add(
-                                          const DestinationOrderEvent
-                                              .proceedToPaymentButtonPressed(),
-                                        );
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<DestinationOrderBloc>(),
+                            child: BlocBuilder<DestinationOrderBloc,
+                                DestinationOrderState>(
+                              builder: (context, state) {
+                                return ConfirmationDialog(
+                                  title: 'Konfirmasi Pesanan',
+                                  description: 'Apakah pesanan sudah benar? '
+                                      'Jika sudah silahkan lanjut untuk melakukan '
+                                      'pembayaran pesanan yang sudah dibuat',
+                                  onDismiss: () {
+                                    Navigator.pop(context);
                                   },
-                            confirmText: 'Lanjut',
-                            dismissText: 'Batal',
+                                  onConfirm: state.isSubmitting
+                                      ? null
+                                      : () {
+                                          context
+                                              .read<DestinationOrderBloc>()
+                                              .add(
+                                                const DestinationOrderEvent
+                                                    .proceedToPaymentButtonPressed(),
+                                              );
+                                        },
+                                  confirmText:
+                                      state.isSubmitting ? 'Loading' : 'Lanjut',
+                                  dismissText: 'Batal',
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
