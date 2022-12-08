@@ -34,8 +34,7 @@ class RefreshTokenInterceptor extends Interceptor {
         final payload = '$salt$accessTime$apiKey';
         final signature = sha256.convert(utf8.encode(payload)).toString();
 
-        final newToken =
-            await _dio.post<BaseResponse<AuthorizationDataResponse>>(
+        final newToken = await _dio.post<Map<String, dynamic>>(
           '${url}v1/auth/refresh',
           options: Options(
             headers: {
@@ -49,8 +48,14 @@ class RefreshTokenInterceptor extends Interceptor {
             contentType: 'application/json',
           ),
         );
-        if (newToken.data?.data?.accessToken != null) {
-          final token = newToken.data!.data!.accessToken!;
+        final authorization = BaseResponse<AuthorizationDataResponse>.fromJson(
+          newToken.data!,
+          (json) => AuthorizationDataResponse.fromJson(
+            json! as Map<String, dynamic>,
+          ),
+        );
+        if (authorization.data?.accessToken != null) {
+          final token = authorization.data!.accessToken!;
           final headers = err.requestOptions.headers;
           await _localStorage.setAccessToken(token);
           headers['Authorization'] = 'Bearer $token';
