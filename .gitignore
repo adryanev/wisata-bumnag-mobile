@@ -65,6 +65,7 @@ unlinked_spec.ds
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
+**/android/secret.properties
 **/android/.idea/
 *.jks
 
