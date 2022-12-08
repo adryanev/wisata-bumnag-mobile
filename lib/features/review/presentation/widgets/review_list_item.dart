@@ -51,11 +51,11 @@ class ReviewListItem extends StatelessWidget {
               Row(
                 children: [
                   const Spacer(
-                    flex: 2,
+                    flex: 3,
                   ),
                   Expanded(
+                    flex: 2,
                     child: SizedBox(
-                      height: 35.h,
                       child: WisataButton.primary(
                         onPressed: () {
                           context.pushNamed(
