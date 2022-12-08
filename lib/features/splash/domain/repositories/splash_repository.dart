@@ -16,4 +16,8 @@ abstract class SplashRepository {
   Future<Either<Failure, Unit>> saveMapApiKey(
     RemoteConfig<String, String> config,
   );
+  Future<Either<Failure, RemoteConfig<String, String>>> fetchTncUrl();
+  Future<Either<Failure, Unit>> saveTncUrl(
+    RemoteConfig<String, String> config,
+  );
 }

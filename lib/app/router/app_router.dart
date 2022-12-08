@@ -1,6 +1,8 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/features/authentication/presentation/pages/forgot_password/forgot_password_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/login/login_page.dart';
 import 'package:wisatabumnag/features/authentication/presentation/pages/register/register_page.dart';
 import 'package:wisatabumnag/features/cart/domain/entities/cart_souvenir.entity.dart';
@@ -14,21 +16,34 @@ import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.
 import 'package:wisatabumnag/features/event/presentation/pages/event_detail_page.dart';
 import 'package:wisatabumnag/features/event/presentation/pages/event_list_page.dart';
 import 'package:wisatabumnag/features/event/presentation/pages/event_order_page.dart';
+import 'package:wisatabumnag/features/home/domain/entities/order_history_item.entity.dart';
 import 'package:wisatabumnag/features/home/presentation/pages/home_page.dart';
+import 'package:wisatabumnag/features/home/presentation/pages/order_history/order_detail_page.dart';
+import 'package:wisatabumnag/features/notification/presentation/pages/notification_page.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_detail_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_list_page.dart';
 import 'package:wisatabumnag/features/packages/presentation/pages/package_order_page.dart';
+import 'package:wisatabumnag/features/review/presentation/pages/review_form_page.dart';
+import 'package:wisatabumnag/features/review/presentation/pages/review_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_detail_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_page.dart';
+import 'package:wisatabumnag/features/scanner/presentation/pages/scan_success_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/account_setting_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_password_page.dart';
+import 'package:wisatabumnag/features/settings/presentation/pages/update_profile_page.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/destination_souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_detail_page.dart';
 import 'package:wisatabumnag/features/souvenir/presentation/pages/souvenir_list_page.dart';
 import 'package:wisatabumnag/features/splash/presentation/pages/splash_page.dart';
+import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/online_payment_page.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/payment_page.dart';
 import 'package:wisatabumnag/shared/orders/presentation/pages/payment_success_page.dart';
+import 'package:wisatabumnag/shared/widgets/web_view_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -52,10 +67,24 @@ class AppRouter {
   static const souvenirDetail = 'souvenir-detail';
   static const cart = 'cart';
   static const cartOrder = 'cart-order';
+  static const order = 'order';
+  static const review = 'review';
+  static const createReview = 'create-review';
+  static const scan = 'scan';
+  static const scanDetail = 'scan-detail';
+  static const scanSuccess = 'scan-success';
+  static const webview = 'webview';
+  static const editProfile = 'edit-profile';
+  static const profileForm = 'profile-form';
+  static const passwordForm = 'password-form';
+  static const notification = 'notification';
+  static const forgotPassword = 'forgot-password';
 }
 
 final appRouter = GoRouter(
   debugLogDiagnostics: kDebugMode || kProfileMode,
+  navigatorKey:
+      kDebugMode || kProfileMode ? getIt<Alice>().getNavigatorKey() : null,
   routes: [
     GoRoute(
       path: '/',
@@ -76,6 +105,11 @@ final appRouter = GoRouter(
       path: '/auth/register',
       name: AppRouter.register,
       builder: (context, state) => const RegisterPage(),
+    ),
+    GoRoute(
+      path: '/auth/forgot-password',
+      name: AppRouter.forgotPassword,
+      builder: (context, state) => const ForgotPasswordPage(),
     ),
     GoRoute(
       path: '/destinations',
@@ -252,6 +286,99 @@ final appRouter = GoRouter(
               cartSouvenir: cartSouvenir,
             );
           },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/order',
+      name: AppRouter.order,
+      builder: (context, state) {
+        final orderItem = state.extra as OrderHistoryItem?;
+        if (orderItem == null) {
+          return const SizedBox();
+        }
+
+        return OrderDetailPage(orderHistoryItem: orderItem);
+      },
+    ),
+    GoRoute(
+      path: '/review',
+      name: AppRouter.review,
+      builder: (context, state) {
+        return const ReviewPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'create-review',
+          name: AppRouter.createReview,
+          builder: (context, state) {
+            final orderDetail = state.extra as OrderDetail?;
+            if (orderDetail == null) {
+              return const SizedBox();
+            }
+
+            return ReviewFormPage(orderDetail: orderDetail);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/scan',
+      name: AppRouter.scan,
+      builder: (context, state) {
+        return const ScanPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'scan-detail',
+          name: AppRouter.scanDetail,
+          builder: (context, state) {
+            final orderItem = state.extra as OrderHistoryItem?;
+            if (orderItem == null) {
+              return const SizedBox();
+            }
+
+            return ScanDetailPage(orderHistoryItem: orderItem);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/scan-success',
+      name: AppRouter.scanSuccess,
+      builder: (context, state) {
+        final status = state.extra as bool?;
+        if (status == null) return const SizedBox();
+        return ScanSuccessPage(status: status);
+      },
+    ),
+    GoRoute(
+      path: '/webview',
+      name: AppRouter.webview,
+      builder: (context, state) {
+        final params = state.queryParams;
+        return WebViewPage(url: params['url']!, title: params['title']!);
+      },
+    ),
+    GoRoute(
+      path: '/notifications',
+      name: AppRouter.notification,
+      builder: (context, state) => const NotificationPage(),
+    ),
+    GoRoute(
+      path: '/profiles',
+      name: AppRouter.editProfile,
+      builder: (context, state) => const AccountSettingPage(),
+      routes: [
+        GoRoute(
+          path: 'profile',
+          name: AppRouter.profileForm,
+          builder: (context, state) => const UpdateProfilePage(),
+        ),
+        GoRoute(
+          path: 'password',
+          name: AppRouter.passwordForm,
+          builder: (context, state) => const UpdatePasswordPage(),
         ),
       ],
     ),

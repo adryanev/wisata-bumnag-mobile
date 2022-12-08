@@ -10,6 +10,7 @@ class EventListState with _$EventListState {
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _EventListState;
   factory EventListState.initial() => EventListState(
         status: EventListStatus.initial,
@@ -23,6 +24,7 @@ class EventListState with _$EventListState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 

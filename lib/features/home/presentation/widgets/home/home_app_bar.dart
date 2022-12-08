@@ -1,10 +1,13 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/cart/presentation/blocs/cart_bloc.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
+import 'package:wisatabumnag/features/notification/presentation/blocs/notification_bloc.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/l10n/l10n.dart';
 import 'package:wisatabumnag/shared/location/domain/entities/location.entity.dart';
@@ -24,11 +27,14 @@ class HomeAppBar extends StatelessWidget {
           },
         ),
         const Spacer(
-          flex: 10,
+          flex: 12,
         ),
         const HomeCartWidget(),
         const Spacer(),
+
         const HomeNotificationWidget(),
+        const Spacer(),
+        // const HomeNotificationWidget(),
       ],
     );
   }
@@ -39,7 +45,31 @@ class HomeNotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.icons.icNotificationActive.svg();
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        if (state is AuthenticationAuthenticated) {
+          return BlocBuilder<NotificationBloc, NotificationState>(
+            builder: (context, state) {
+              if (state.notifications.isNotEmpty &&
+                  (state.notifications.firstWhereOrNull(
+                        (element) => !element.isRead,
+                      ) !=
+                      null)) {
+                return InkWell(
+                  onTap: () {
+                    context.pushNamed(AppRouter.notification);
+                  },
+                  child: Assets.icons.icNotificationActive.svg(),
+                );
+              } else {
+                return Assets.icons.icNotification.svg();
+              }
+            },
+          );
+        }
+        return const SizedBox();
+      },
+    );
   }
 }
 
@@ -48,18 +78,25 @@ class HomeCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        if (state.cartSouvenir.isEmpty) {
-          return Assets.icons.icCart.svg();
-        } else {
-          return InkWell(
-            onTap: () {
-              context.pushNamed(AppRouter.cart);
+        if (state is AuthenticationAuthenticated) {
+          return BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              if (state.cartSouvenir.isEmpty) {
+                return Assets.icons.icCart.svg();
+              } else {
+                return InkWell(
+                  onTap: () {
+                    context.pushNamed(AppRouter.cart);
+                  },
+                  child: Assets.icons.icCartActive.svg(),
+                );
+              }
             },
-            child: Assets.icons.icCartActive.svg(),
           );
         }
+        return const SizedBox();
       },
     );
   }

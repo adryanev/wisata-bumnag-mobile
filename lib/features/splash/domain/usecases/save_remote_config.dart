@@ -24,6 +24,8 @@ class SaveRemoteConfig extends UseCase<Unit, SaveRemoteConfigParams> {
         return _repository.saveSalt(params.config);
       case RemoteConfigKey.mapApiKey:
         return _repository.saveMapApiKey(params.config);
+      case RemoteConfigKey.tncUrl:
+        return _repository.saveTncUrl(params.config);
     }
     return left(
       const Failure.unexpectedFailure(

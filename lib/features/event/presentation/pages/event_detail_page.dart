@@ -6,15 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
+import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/core/utils/dimensions.dart';
 import 'package:wisatabumnag/features/authentication/presentation/blocs/authentication_bloc.dart';
 import 'package:wisatabumnag/features/event/domain/entities/event_detail.entity.dart';
 import 'package:wisatabumnag/features/event/presentation/blocs/event_detail/event_detail_bloc.dart';
 import 'package:wisatabumnag/features/event/presentation/widgets/event_card.dart';
+import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
 import 'package:wisatabumnag/shared/widgets/confirmation_dialog.dart';
 import 'package:wisatabumnag/shared/widgets/destination_google_maps.dart';
@@ -307,8 +310,52 @@ class EventDetailHeaderWidget extends StatelessWidget {
                 style: const TextStyle(
                   color: AppColor.darkGrey,
                 ),
-              )
+              ),
+              if (eventDetail.instagram == null)
+                const SizedBox()
+              else ...[
+                SizedBox(
+                  height: 4.h,
+                ),
+                InkWell(
+                  onTap: () async {
+                    final url =
+                        'instagram://user?username=${eventDetail.instagram?.replaceFirst('@', '')}';
+                    await launchUrlString(
+                      url,
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Assets.icons.icInstagramSolid.svg(),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      Text(
+                        eventDetail.instagram!,
+                        style: const TextStyle(
+                          color: AppColor.darkGrey,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ]
             ],
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            // ignore: prefer_interpolation_to_compose_strings
+            DateTimeFormat.completeDateWithTime.format(eventDetail.startDate) +
+                ' - ' +
+                DateTimeFormat.completeDateWithTime.format(eventDetail.endDate),
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(
             height: 20.h,
@@ -414,8 +461,8 @@ class EventDetailReviewAndRecommendationWidget extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
               ),
-              const Spacer(),
-              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+              // const Spacer(),
+              // TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
           if (eventDetail.reviews.count > 0) ...[

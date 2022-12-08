@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -58,34 +59,6 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
                     _destinationDetail = r;
                   }),
                 ),
-              );
-            },
-          ),
-          BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              state.maybeWhen(
-                authenticated: (_) => context.pushNamed(
-                  AppRouter.destinationOrder,
-                  extra: _destinationDetail,
-                ),
-                unauthenticated: () => showDialog<void>(
-                  context: context,
-                  builder: (_) => ConfirmationDialog(
-                    title: 'Harus Masuk',
-                    description: 'Untuk memesan item ini anda harus masuk '
-                        'terlebih dahulu.',
-                    confirmText: 'Masuk',
-                    dismissText: 'Batal',
-                    onDismiss: () {
-                      Navigator.pop(context);
-                    },
-                    onConfirm: () {
-                      context.pushNamed(AppRouter.login);
-                    },
-                  ),
-                ),
-                failed: (failure) => handleFailure(context, failure),
-                orElse: () => null,
               );
             },
           ),
@@ -241,14 +214,43 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
                     const Spacer(),
                     SizedBox(
                       width: 120.w,
-                      child: WisataButton.primary(
-                        onPressed: () {
-                          context.read<AuthenticationBloc>().add(
-                                const AuthenticationEvent
-                                    .checkAuthenticationStatus(),
+                      child:
+                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                        builder: (context, state) {
+                          if (state is AuthenticationAuthenticated) {
+                            return WisataButton.primary(
+                              onPressed: () {
+                                context.pushNamed(
+                                  AppRouter.destinationOrder,
+                                  extra: _destinationDetail,
+                                );
+                              },
+                              text: 'Beli Tiket',
+                            );
+                          }
+                          return WisataButton.primary(
+                            onPressed: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (_) => ConfirmationDialog(
+                                  title: 'Harus Masuk',
+                                  description:
+                                      'Untuk memesan item ini anda harus masuk '
+                                      'terlebih dahulu.',
+                                  confirmText: 'Masuk',
+                                  dismissText: 'Batal',
+                                  onDismiss: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onConfirm: () {
+                                    context.pushNamed(AppRouter.login);
+                                  },
+                                ),
                               );
+                            },
+                            text: 'Beli Tiket',
+                          );
                         },
-                        text: 'Beli Tiket',
                       ),
                     )
                   ],
@@ -324,19 +326,29 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
                 else
                   Flexible(
                     flex: 6,
-                    child: Row(
-                      children: [
-                        Assets.icons.icInstagramSolid.svg(),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Text(
-                          destinationDetail.instagram!,
-                          style: const TextStyle(
-                            color: AppColor.darkGrey,
+                    child: InkWell(
+                      onTap: () async {
+                        final url =
+                            'instagram://user?username=${destinationDetail.instagram?.replaceFirst('@', '')}';
+                        await launchUrlString(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Assets.icons.icInstagramSolid.svg(),
+                          SizedBox(
+                            width: 4.w,
                           ),
-                        )
-                      ],
+                          Text(
+                            destinationDetail.instagram!,
+                            style: const TextStyle(
+                              color: AppColor.darkGrey,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
               ] else ...[
@@ -385,19 +397,30 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
                 else
                   Flexible(
                     flex: 6,
-                    child: Row(
-                      children: [
-                        Assets.icons.icInstagramSolid.svg(),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Text(
-                          destinationDetail.instagram!,
-                          style: const TextStyle(
-                            color: AppColor.darkGrey,
+                    child: InkWell(
+                      onTap: () async {
+                        debugPrint('instagram tapped');
+                        final url =
+                            'instagram://user?username=${destinationDetail.instagram?.replaceFirst('@', '')}';
+                        await launchUrlString(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Assets.icons.icInstagramSolid.svg(),
+                          SizedBox(
+                            width: 4.w,
                           ),
-                        )
-                      ],
+                          Text(
+                            destinationDetail.instagram!,
+                            style: const TextStyle(
+                              color: AppColor.darkGrey,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
               ]
@@ -612,8 +635,8 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
               ),
-              const Spacer(),
-              TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
+              // const Spacer(),
+              // TextButton(onPressed: () {}, child: const Text('Lihat Semua'))
             ],
           ),
           if (destinationDetail.reviews.count > 0) ...[
@@ -692,7 +715,7 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 1.sw,
-            height: 210.h,
+            height: 220.h,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: destinationDetail.recommendations.length,

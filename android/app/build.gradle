@@ -50,7 +50,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "dev.bumnag.wisata"
-        minSdkVersion 20
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -79,17 +79,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "Wisata Pulau Setan"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "[STG] Wisata Pulau Setan"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Wisata Pulau Sultan"]
+            manifestPlaceholders = [appName: "[DEV] Wisata Pulau Setan"]
         }
     }
 

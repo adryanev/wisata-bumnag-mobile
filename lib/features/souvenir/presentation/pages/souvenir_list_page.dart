@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -25,37 +26,21 @@ class SouvenirListPage extends StatefulWidget {
 class _SouvenirListPageState extends State<SouvenirListPage>
     with FailureMessageHandler {
   late SouvenirListBloc _souvenirListBloc;
+  late final RefreshController _refreshController;
 
-  late final ScrollController _scrollController;
   final ValueNotifier<bool> showBottomSheet = ValueNotifier(true);
 
   @override
   void initState() {
     super.initState();
-
+    _refreshController = RefreshController();
     _souvenirListBloc = getIt<SouvenirListBloc>();
-    _scrollController = ScrollController()..addListener(_onScroll);
     _souvenirListBloc.add(const SouvenirListEvent.started());
-  }
-
-  void _onScroll() {
-    if (_isBottom) {
-      _souvenirListBloc.add(const SouvenirListEvent.started());
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.8);
   }
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _refreshController.dispose();
     _souvenirListBloc.close();
     super.dispose();
   }
@@ -78,6 +63,23 @@ class _SouvenirListPageState extends State<SouvenirListPage>
                   (r) => null,
                 ),
               );
+              switch (state.status) {
+                case SouvenirListStatus.initial:
+                  break;
+                case SouvenirListStatus.failure:
+                  state.isLoadMore
+                      ? _refreshController.loadFailed()
+                      : _refreshController.refreshFailed();
+                  break;
+                case SouvenirListStatus.success:
+                  state.isLoadMore
+                      ? _refreshController.loadComplete()
+                      : _refreshController.refreshCompleted();
+                  break;
+              }
+              if (state.hasReachedMax) {
+                _refreshController.loadNoData();
+              }
             },
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -176,12 +178,32 @@ class _SouvenirListPageState extends State<SouvenirListPage>
                         child: Text('Failed to fetch Souvenirs'),
                       );
                     case SouvenirListStatus.success:
-                      return ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.souvenirs.length,
-                        itemBuilder: (context, index) =>
-                            DestinationSouvenirCard(
-                          destinationSouvenir: state.souvenirs[index],
+                      return SmartRefresher(
+                        controller: _refreshController,
+                        enablePullUp: true,
+                        header: const WaterDropHeader(
+                          waterDropColor: AppColor.primary,
+                        ),
+                        footer: const ClassicFooter(
+                          loadStyle: LoadStyle.ShowWhenLoading,
+                        ),
+                        onRefresh: () {
+                          context
+                              .read<SouvenirListBloc>()
+                              .add(const SouvenirListEvent.refreshed());
+                        },
+                        onLoading: () {
+                          if (state.hasReachedMax) return;
+                          context
+                              .read<SouvenirListBloc>()
+                              .add(const SouvenirListEvent.started());
+                        },
+                        child: ListView.builder(
+                          itemCount: state.souvenirs.length,
+                          itemBuilder: (context, index) =>
+                              DestinationSouvenirCard(
+                            destinationSouvenir: state.souvenirs[index],
+                          ),
                         ),
                       );
                   }

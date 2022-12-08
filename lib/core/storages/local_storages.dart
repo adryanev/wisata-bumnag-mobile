@@ -29,6 +29,12 @@ abstract class LocalStorage {
 
   Future<void> saveCart(List<CartSouvenirModel> carts);
   Future<List<CartSouvenirModel>?> getUserCart();
+
+  Future<void> saveFcmToken(String fcmToken);
+  Future<String?> getFcmToken();
+
+  Future<void> saveTncUrl(String tncUrl);
+  Future<String?> getTnC();
 }
 
 @LazySingleton(as: LocalStorage)
@@ -135,5 +141,25 @@ class LocalStorageImpl implements LocalStorage {
   Future<void> saveCart(List<CartSouvenirModel> carts) {
     final data = jsonEncode(carts);
     return _storage.setString(LocalStorageKey.cartKey, data);
+  }
+
+  @override
+  Future<String?> getFcmToken() {
+    return Future.value(_storage.getString(LocalStorageKey.fcmTokenKey));
+  }
+
+  @override
+  Future<void> saveFcmToken(String fcmToken) {
+    return _storage.setString(LocalStorageKey.fcmTokenKey, fcmToken);
+  }
+
+  @override
+  Future<String?> getTnC() {
+    return Future.value(_storage.getString(LocalStorageKey.tncUrl));
+  }
+
+  @override
+  Future<void> saveTncUrl(String tncUrl) {
+    return _storage.setString(LocalStorageKey.tncUrl, tncUrl);
   }
 }

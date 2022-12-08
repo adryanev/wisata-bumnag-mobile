@@ -1,5 +1,7 @@
+import 'package:alice/alice.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:wisatabumnag/core/networks/interceptors/api_key_interceptor.dart';
@@ -18,6 +20,7 @@ class PublicDio with DioMixin implements Dio {
     this._urlInterceptor,
     this._apiKeyInterceptor,
     this._signatureInterceptor,
+    this._alice,
   ) {
     final newOptions = BaseOptions(
       contentType: 'application/json',
@@ -38,6 +41,7 @@ class PublicDio with DioMixin implements Dio {
         requestHeader: true,
         requestBody: true,
       ),
+      if (kDebugMode || kProfileMode) _alice.getDioInterceptor(),
     ]);
 
     httpClientAdapter = DefaultHttpClientAdapter();
@@ -46,6 +50,7 @@ class PublicDio with DioMixin implements Dio {
   final ApiKeyInterceptor _apiKeyInterceptor;
   final UrlInterceptor _urlInterceptor;
   final SignatureInterceptor _signatureInterceptor;
+  final Alice _alice;
 }
 
 @LazySingleton(as: Dio)
@@ -56,6 +61,7 @@ class PrivateDio with DioMixin implements Dio {
     this._apiKeyInterceptor,
     this._tokenInterceptor,
     this._signatureInterceptor,
+    this._alice,
   ) {
     final newOptions = BaseOptions(
       contentType: 'application/json',
@@ -72,12 +78,16 @@ class PrivateDio with DioMixin implements Dio {
       _urlInterceptor,
       _apiKeyInterceptor,
       _tokenInterceptor,
-      RefreshTokenInterceptor(getIt<LocalStorage>(), this),
+      RefreshTokenInterceptor(
+        getIt<LocalStorage>(),
+        _alice,
+      ),
       _signatureInterceptor,
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
       ),
+      if (kDebugMode || kProfileMode) _alice.getDioInterceptor(),
     ]);
 
     httpClientAdapter = DefaultHttpClientAdapter();
@@ -87,4 +97,5 @@ class PrivateDio with DioMixin implements Dio {
   final UrlInterceptor _urlInterceptor;
   final TokenInterceptor _tokenInterceptor;
   final SignatureInterceptor _signatureInterceptor;
+  final Alice _alice;
 }

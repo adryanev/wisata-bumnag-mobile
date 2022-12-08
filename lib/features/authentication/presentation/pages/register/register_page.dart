@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/core/extensions/context_extensions.dart';
 import 'package:wisatabumnag/core/presentation/mixins/failure_message_handler.dart';
 import 'package:wisatabumnag/core/utils/colors.dart';
@@ -23,7 +24,10 @@ class RegisterPage extends StatelessWidget with FailureMessageHandler {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<RegisterBloc>(),
+      create: (context) => getIt<RegisterBloc>()
+        ..add(
+          const RegisterEvent.started(),
+        ),
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           state.registerOrFailureOption.fold(
@@ -234,13 +238,30 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         color: AppColor.black,
                       ),
                     ),
-                    Text(
-                      'Syarat dan Ketentuan',
-                      style: TextStyle(
-                        color: AppColor.primary,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
-                      ),
+                    BlocBuilder<RegisterBloc, RegisterState>(
+                      builder: (context, state) {
+                        return InkWell(
+                          onTap: state.tncUrl.isEmpty
+                              ? null
+                              : () {
+                                  context.pushNamed(
+                                    AppRouter.webview,
+                                    queryParams: {
+                                      'url': state.tncUrl,
+                                      'title': 'Syarat dan Ketentuan',
+                                    },
+                                  );
+                                },
+                          child: Text(
+                            'Syarat dan Ketentuan',
+                            style: TextStyle(
+                              color: AppColor.primary,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                        );
+                      },
                     )
                   ],
                 ),
@@ -272,12 +293,15 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             width: 1.sw,
             child: BlocBuilder<RegisterBloc, RegisterState>(
               builder: (context, state) {
-                return state.status == RegisterStatus.loading
-                    ? WisataButton.loading()
-                    : WisataButton.primary(
-                        onPressed: _onSubmit,
-                        text: 'Daftar',
-                      );
+                return SizedBox(
+                  height: 48.h,
+                  child: state.status == RegisterStatus.loading
+                      ? WisataButton.loading()
+                      : WisataButton.primary(
+                          onPressed: state.isValid ? _onSubmit : null,
+                          text: 'Daftar',
+                        ),
+                );
               },
             ),
           ),

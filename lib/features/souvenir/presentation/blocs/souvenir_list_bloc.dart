@@ -27,6 +27,7 @@ class SouvenirListBloc extends Bloc<SouvenirListEvent, SouvenirListState> {
         ),
       ),
     );
+    on<_SouvenirListRefreshed>(_onRefreshed);
   }
 
   final GetSouvenirs _getSouvenirs;
@@ -59,6 +60,7 @@ class SouvenirListBloc extends Bloc<SouvenirListEvent, SouvenirListState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
     final result = await _getSouvenirs(
       GetSouvenirsParams(
         page: state.pagination.currentPage + 1,
@@ -82,15 +84,24 @@ class SouvenirListBloc extends Bloc<SouvenirListEvent, SouvenirListState> {
     emit(
       state.copyWith(
         souvenirsPaginationOrFailureOption: optionOf(result),
-        status: result.isRight()
-            ? SouvenirListStatus.success
-            : SouvenirListStatus.failure,
       ),
     );
     emit(
       state.copyWith(
         souvenirsPaginationOrFailureOption: none(),
+        status: result.isRight()
+            ? SouvenirListStatus.success
+            : SouvenirListStatus.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _SouvenirListRefreshed event,
+    Emitter<SouvenirListState> emit,
+  ) {
+    emit(SouvenirListState.initial());
+    add(const SouvenirListEvent.started());
   }
 }

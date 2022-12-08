@@ -15,6 +15,7 @@ abstract class AuthenticationRemoteDataSource {
   Future<Either<Failure, LoginResponse>> loginUser(
     LoginPayload payload,
   );
+  Future<Either<Failure, Unit>> forgotPassword(String email);
 }
 
 @LazySingleton(as: AuthenticationRemoteDataSource)
@@ -43,6 +44,14 @@ class AuthenticationRemoteDataSourceImpl
       safeRemoteCall(
         middlewares: _middlewareProvider.getAll(),
         retrofitCall: () async => _client.registerUser(payload).then(
+              (value) => unit,
+            ),
+      );
+
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(String email) => safeRemoteCall(
+        middlewares: _middlewareProvider.getAll(),
+        retrofitCall: () => _client.forgotPassword(email).then(
               (value) => unit,
             ),
       );

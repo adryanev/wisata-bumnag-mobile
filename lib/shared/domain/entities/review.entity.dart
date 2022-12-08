@@ -11,7 +11,7 @@ class Review with _$Review {
     required String reviewableId,
     required String reviewableType,
     required List<String> media,
-    required String rating,
+    required double rating,
     required User user,
     required DateTime createdAt,
     required DateTime updatedAt,

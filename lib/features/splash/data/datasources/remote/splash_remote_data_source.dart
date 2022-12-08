@@ -8,6 +8,7 @@ abstract class SplashRemoteDataSource {
   Future<Either<Failure, String>> getApiUrl();
   Future<Either<Failure, String>> getSalt();
   Future<Either<Failure, String>> getMapApiKey();
+  Future<Either<Failure, String>> getTermAndConditionsUrl();
 }
 
 @LazySingleton(as: SplashRemoteDataSource)
@@ -56,5 +57,14 @@ class SplashRemoteDataSourceImpl implements SplashRemoteDataSource {
     return left(
       const Failure.remoteConfigFailure(message: 'Cannot get Map Api key'),
     );
+  }
+
+  @override
+  Future<Either<Failure, String>> getTermAndConditionsUrl() async {
+    final result = await _service.getTermAndConditionUrl();
+    if (result != null) {
+      return right(result);
+    }
+    return left(const Failure.remoteConfigFailure(message: 'Cannot get TnC'));
   }
 }

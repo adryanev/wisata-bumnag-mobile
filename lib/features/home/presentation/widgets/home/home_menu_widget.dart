@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
@@ -18,8 +20,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
   final listMenu = [
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'wisata');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'wisata',
+        );
         return category;
       },
       builder: (context, state) {
@@ -34,8 +37,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'package');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'package',
+        );
         return category;
       },
       builder: (context, state) {
@@ -50,8 +54,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'event');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'event',
+        );
         return category;
       },
       builder: (context, state) {
@@ -66,8 +71,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category
-            ?.firstWhere((element) => element.name.toLowerCase() == 'kuliner');
+        final category = state.category.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'kuliner',
+        );
         return category;
       },
       builder: (context, state) {
@@ -82,7 +88,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category?.firstWhere(
+        final category = state.category.firstWhereOrNull(
           (element) => element.name.toLowerCase() == 'akomodasi',
         );
         return category;
@@ -99,7 +105,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
     ),
     BlocSelector<HomeFrontCubit, HomeFrontState, Category?>(
       selector: (state) {
-        final category = state.category?.firstWhere(
+        final category = state.category.firstWhereOrNull(
           (element) => element.name.toLowerCase() == 'event',
         );
         return category;
@@ -114,15 +120,30 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
         );
       },
     ),
-    HomeMenuItem(
-      label: 'Profil Nagari',
-      icon: Assets.images.logo.profilNagari.svg(),
-      onClick: () {},
+    BlocBuilder<HomeFrontCubit, HomeFrontState>(
+      builder: (context, state) {
+        return HomeMenuItem(
+          label: 'Profil Nagari',
+          icon: Assets.images.logo.profilNagari.svg(),
+          onClick: () {
+            context.pushNamed(
+              AppRouter.webview,
+              queryParams: {
+                'url': 'https://id.wikipedia.org/wiki/Mandeh',
+                'title': 'Profil Nagari',
+              },
+            );
+          },
+        );
+      },
     ),
     HomeMenuItem(
       label: 'Instagram',
       icon: Assets.images.logo.instagram.image(),
-      onClick: () {},
+      onClick: () async {
+        const url = 'https://www.instagram.com/explore/tags/mandeh/';
+        await launchUrlString(url, mode: LaunchMode.externalApplication);
+      },
     ),
   ];
   @override

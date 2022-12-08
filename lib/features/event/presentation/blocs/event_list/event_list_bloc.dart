@@ -27,6 +27,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
         ),
       ),
     );
+    on<_EventListRefreshed>(_onRefreshed);
   }
   final GetEvent _getEvent;
 
@@ -58,6 +59,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
       );
     }
 
+    emit(state.copyWith(isLoadMore: true));
     final result = await _getEvent(
       GetEventParams(
         page: state.pagination.currentPage + 1,
@@ -81,15 +83,24 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
     emit(
       state.copyWith(
         eventPaginationOrFailureOption: optionOf(result),
-        status: result.isRight()
-            ? EventListStatus.success
-            : EventListStatus.failure,
       ),
     );
     emit(
       state.copyWith(
         eventPaginationOrFailureOption: none(),
+        status: result.isRight()
+            ? EventListStatus.success
+            : EventListStatus.failure,
+        isLoadMore: false,
       ),
     );
+  }
+
+  FutureOr<void> _onRefreshed(
+    _EventListRefreshed event,
+    Emitter<EventListState> emit,
+  ) {
+    emit(EventListState.initial());
+    add(const EventListEvent.started());
   }
 }

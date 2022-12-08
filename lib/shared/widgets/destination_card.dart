@@ -13,7 +13,6 @@ class DestinationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 190.h,
       width: 140.w,
       child: Card(
         child: Column(
@@ -94,7 +93,8 @@ class DestinationCard extends StatelessWidget {
                         color: AppColor.secondBlack,
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 3.h),
                 ],
               ),
             )

@@ -25,6 +25,7 @@ class DateTimeFormat {
   static DateFormat get hourMinutes => DateFormat.Hm();
   static DateFormat get standard => DateFormat('dd MMM yyyy', 'id');
   static DateFormat get completeDateWithDay => DateFormat.yMMMMEEEEd('id');
+  static DateFormat get completeDateWithTime => standard.add_jms();
 }
 
 enum MessageType {
@@ -44,6 +45,8 @@ class LocalStorageKey {
   static const baseUrlKey = 'base_url';
   static const mapApiKey = 'map_api_key';
   static const cartKey = 'cart';
+  static const fcmTokenKey = 'fcm_token_key';
+  static const tncUrl = 'tnc_url_key';
 }
 
 class InjectionConstants {

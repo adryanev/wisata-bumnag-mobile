@@ -12,7 +12,6 @@ import 'package:wisatabumnag/shared/orders/data/models/payment_payload.model.dar
 
 abstract class OrderRemoteDataSource {
   Future<Either<Failure, OrderResponse>> createOrder(OrderPayload payload);
-  Future<Either<Failure, OrderResponse>> payOnsite(PaymentPayload payload);
   Future<Either<Failure, MidtransPaymentResponse>> payOnline(
     PaymentPayload payload,
   );
@@ -42,14 +41,6 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       safeRemoteCall(
         middlewares: _provider.getAll(),
         retrofitCall: () => _client.payOnline(payload),
-      );
-
-  @override
-  Future<Either<Failure, OrderResponse>> payOnsite(PaymentPayload payload) =>
-      safeRemoteCall(
-        middlewares: _provider.getAll(),
-        retrofitCall: () =>
-            _client.payOnsite(payload).then((value) => value.data!),
       );
 
   @override

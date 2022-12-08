@@ -89,6 +89,24 @@ class SplashPage extends StatelessWidget with FailureMessageHandler {
             () => null,
             (either) => either.fold(
               (l) => handleFailure(context, l),
+              (r) => context.read<SplashBloc>().add(
+                    const SplashEvent.fetchTncUrl(),
+                  ),
+            ),
+          );
+          state.tncUrlOrFailureOption.fold(
+            () => null,
+            (a) => a.fold(
+              (l) => handleFailure(context, l),
+              (r) => context.read<SplashBloc>().add(
+                    SplashEvent.saveTncUrl(r),
+                  ),
+            ),
+          );
+          state.saveTncUrlOrFailureOption.fold(
+            () => null,
+            (a) => a.fold(
+              (l) => handleFailure(context, l),
               (r) => context.goNamed(AppRouter.home),
             ),
           );
@@ -96,7 +114,7 @@ class SplashPage extends StatelessWidget with FailureMessageHandler {
         child: Scaffold(
           body: SafeArea(
             child: Center(
-              child: Assets.images.appIconRedText.svg(),
+              child: Assets.images.appIcon.image(),
             ),
           ),
         ),

@@ -56,8 +56,6 @@ class PaymentTypeMapper {
 
   static String toText(PaymentType type) {
     switch (type) {
-      case PaymentType.onsite:
-        return 'Bayar di tempat';
       case PaymentType.online:
         return 'Bayar Online';
     }
@@ -65,8 +63,6 @@ class PaymentTypeMapper {
 
   static String toStringType(PaymentType type) {
     switch (type) {
-      case PaymentType.onsite:
-        return 'onsite';
       case PaymentType.online:
         return 'online';
     }
@@ -74,8 +70,6 @@ class PaymentTypeMapper {
 
   static PaymentType toPaymentType(String type) {
     switch (type) {
-      case 'onsite':
-        return PaymentType.onsite;
       case 'online':
         return PaymentType.online;
     }

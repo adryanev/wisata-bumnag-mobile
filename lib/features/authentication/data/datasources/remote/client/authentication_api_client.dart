@@ -22,4 +22,8 @@ abstract class AuthenticationApiClient {
 
   @POST('v1/auth/login')
   Future<BaseResponse<LoginResponse>> loginUser(@Body() LoginPayload payload);
+
+  @POST('v1/auth/forgot-password')
+  @FormUrlEncoded()
+  Future<BaseResponse<String>> forgotPassword(@Field('email') String email);
 }

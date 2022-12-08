@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/features/event/presentation/blocs/event_list/event_list_bloc.dart';
 import 'package:wisatabumnag/features/event/presentation/widgets/event_card.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
@@ -18,65 +21,90 @@ class EventResultList extends StatefulWidget {
 }
 
 class _EventResultListState extends State<EventResultList> {
-  late final ScrollController _scrollController;
+  late final RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    _refreshController = RefreshController();
     context.read<EventListBloc>().add(const EventListEvent.started());
-  }
-
-  void _onScroll() {
-    if (_isBottom) {
-      context.read<EventListBloc>().add(const EventListEvent.started());
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.8);
   }
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventListBloc, EventListState>(
+    return BlocConsumer<EventListBloc, EventListState>(
+      listener: (context, state) {
+        switch (state.status) {
+          case EventListStatus.initial:
+            break;
+          case EventListStatus.failure:
+            state.isLoadMore
+                ? _refreshController.loadFailed()
+                : _refreshController.refreshFailed();
+            break;
+          case EventListStatus.success:
+            state.isLoadMore
+                ? _refreshController.loadComplete()
+                : _refreshController.refreshCompleted();
+            break;
+        }
+        if (state.hasReachedMax) {
+          _refreshController.loadNoData();
+        }
+      },
       builder: (context, state) {
         switch (state.status) {
           case EventListStatus.initial:
             return const Center(child: CircularProgressIndicator.adaptive());
 
           case EventListStatus.success:
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+            return SmartRefresher(
+              controller: _refreshController,
+              enablePullUp: true,
+              header: const WaterDropHeader(
+                waterDropColor: AppColor.primary,
               ),
-              shrinkWrap: true,
-              itemBuilder: (context, index) => InkWell(
-                onTap: () {
-                  context.pushNamed(
-                    AppRouter.eventDetail,
-                    queryParams: {
-                      'id': state.events[index].id.toString(),
-                    },
-                  );
-                },
-                child: EventCard(
-                  event: state.events[index],
+              footer: const ClassicFooter(
+                loadStyle: LoadStyle.ShowWhenLoading,
+              ),
+              onRefresh: () {
+                context
+                    .read<EventListBloc>()
+                    .add(const EventListEvent.refreshed());
+              },
+              onLoading: () {
+                if (state.hasReachedMax) return;
+                context
+                    .read<EventListBloc>()
+                    .add(const EventListEvent.started());
+              },
+              child: AlignedGridView.custom(
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                 ),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    context.pushNamed(
+                      AppRouter.eventDetail,
+                      queryParams: {
+                        'id': state.events[index].id.toString(),
+                      },
+                    );
+                  },
+                  child: EventCard(
+                    event: state.events[index],
+                  ),
+                ),
+                itemCount: state.events.length,
               ),
-              itemCount: state.events.length,
-              controller: _scrollController,
             );
           case EventListStatus.failure:
             return const Center(child: Text('failed to fetch Events'));

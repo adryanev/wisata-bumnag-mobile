@@ -20,10 +20,13 @@ class LoginResponse with _$LoginResponse {
 @freezed
 class UserDataResponse with _$UserDataResponse {
   const factory UserDataResponse({
+    @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'email') required String? email,
     @JsonKey(name: 'nik') required String? nik,
     @JsonKey(name: 'phone_number') required String? phoneNumber,
     @JsonKey(name: 'name') required String? name,
+    @JsonKey(name: 'roles') required String? roles,
+    @JsonKey(name: 'avatar') required String? avatar,
   }) = _UserDataResponse;
 
   factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
@@ -32,10 +35,13 @@ class UserDataResponse with _$UserDataResponse {
 
 extension UserDataResponseX on UserDataResponse {
   User toDomain() => User(
+        id: id,
         emailAddress: EmailAddress(email!),
         nik: nik == null ? null : Nik(nik!),
         phoneNumber: phoneNumber == null ? null : PhoneNumber(phoneNumber!),
         name: StringSingleLine(name!),
+        roles: roles,
+        avatar: avatar,
       );
 }
 

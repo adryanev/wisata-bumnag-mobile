@@ -38,7 +38,7 @@ class ReviewableCard extends StatelessWidget {
                             style: const TextStyle(color: AppColor.black),
                             children: [
                               TextSpan(
-                                text: review.rating,
+                                text: review.rating.toString(),
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,

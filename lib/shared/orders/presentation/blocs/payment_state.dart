@@ -8,13 +8,11 @@ class PaymentState with _$PaymentState {
     required Order? order,
     required Option<Either<Failure, MidtransPayment>>
         successOnlineOrFailureOption,
-    required Option<Either<Failure, Order>> successOnsiteOrFailureOption,
   }) = _PaymentState;
   factory PaymentState.initial() => PaymentState(
         isLoading: false,
-        paymentType: PaymentType.onsite,
+        paymentType: PaymentType.online,
         order: null,
         successOnlineOrFailureOption: none(),
-        successOnsiteOrFailureOption: none(),
       );
 }

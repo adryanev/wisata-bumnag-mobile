@@ -16,4 +16,8 @@ abstract class RefreshTokenApiClient {
 
   @POST('v1/auth/refresh')
   Future<BaseResponse<AuthorizationDataResponse>> refresh();
+
+  @POST('v1/auth/fcm')
+  @FormUrlEncoded()
+  Future<BaseResponse<String>> updateFcm(@Field('fcm_token') String fcmToken);
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
@@ -113,22 +115,32 @@ class EventOrderPage extends StatelessWidget with FailureMessageHandler {
                     : () {
                         showDialog<dynamic>(
                           context: context,
-                          builder: (_) => ConfirmationDialog(
-                            title: 'Konfirmasi Pesanan',
-                            description: 'Apakah pesanan sudah benar? '
-                                'Jika sudah silahkan lanjut untuk melakukan '
-                                'pembayaran pesanan yang sudah dibuat',
-                            onDismiss: () {
-                              Navigator.pop(context);
-                            },
-                            onConfirm: () {
-                              context.read<EventOrderBloc>().add(
-                                    const EventOrderEvent
-                                        .proceedToPaymentButtonPressed(),
-                                  );
-                            },
-                            confirmText: 'Lanjut',
-                            dismissText: 'Batal',
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<EventOrderBloc>(),
+                            child: BlocBuilder<EventOrderBloc, EventOrderState>(
+                              builder: (context, state) {
+                                return ConfirmationDialog(
+                                  title: 'Konfirmasi Pesanan',
+                                  description: 'Apakah pesanan sudah benar? '
+                                      'Jika sudah silahkan lanjut untuk melakukan '
+                                      'pembayaran pesanan yang sudah dibuat',
+                                  onDismiss: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onConfirm: state.isSubmitting
+                                      ? null
+                                      : () {
+                                          context.read<EventOrderBloc>().add(
+                                                const EventOrderEvent
+                                                    .proceedToPaymentButtonPressed(),
+                                              );
+                                        },
+                                  confirmText:
+                                      state.isSubmitting ? 'Loading' : 'Lanjut',
+                                  dismissText: 'Batal',
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
@@ -294,7 +306,72 @@ class DetailPesananTicketWidget extends StatelessWidget {
                       final quantity = currentTicketsInCart?.quantity ?? 0;
                       return ListTile(
                         title: Text(e.name),
-                        subtitle: Text('${rupiahCurrency(e.price)}'),
+                        subtitle: Row(
+                          children: [
+                            Text('${rupiahCurrency(e.price)}'),
+                            IconButton(
+                              onPressed: () {
+                                showDialog<dynamic>(
+                                  context: context,
+                                  builder: (_) {
+                                    return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 20.h,
+                                          horizontal: 16.w,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              'Ketentuan Tiket',
+                                              style: TextStyle(
+                                                color: AppColor.secondBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Batas Umur: ${(e.settings?.isPerAge != null && e.settings!.isPerAge) ? e.settings?.ageConstraint : '-'}',
+                                            ),
+                                            Text(
+                                              'Batas Hari: ${(e.settings?.isPerDay != null && e.settings!.isPerDay) ? e.settings?.dayConstraint : '-'}',
+                                            ),
+                                            Text(
+                                              'Batas Pax: ${(e.settings?.isPerDay != null && e.settings!.isPerPax) ? e.settings?.paxConstraint : '-'}',
+                                            ),
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            Text(
+                                              'Syarat dan Ketentuan',
+                                              style: TextStyle(
+                                                color: AppColor.secondBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                            Text(e.termAndConditions ?? '-')
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.more_horiz_rounded,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

@@ -5,13 +5,16 @@ class OrderListState with _$OrderListState {
   const factory OrderListState({
     required OrderListStatus status,
     required List<Order> orders,
+    required List<OrderHistoryItem> orderHistories,
     required Option<Either<Failure, Paginable<Order>>>
         orderPaginationOrFailureOption,
     required bool hasReachedMax,
     required int currentPage,
     required Pagination pagination,
+    required bool isLoadMore,
   }) = _OrderListState;
   factory OrderListState.initial() => OrderListState(
+        orderHistories: [],
         status: OrderListStatus.initial,
         orders: [],
         orderPaginationOrFailureOption: none(),
@@ -23,6 +26,7 @@ class OrderListState with _$OrderListState {
           perPage: 10,
           total: 0,
         ),
+        isLoadMore: false,
       );
 }
 
