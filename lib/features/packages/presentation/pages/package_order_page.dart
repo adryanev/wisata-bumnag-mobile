@@ -301,7 +301,72 @@ class DetailPesananTicketWidget extends StatelessWidget {
                       final quantity = currentTicketsInCart?.quantity ?? 0;
                       return ListTile(
                         title: Text(e.name),
-                        subtitle: Text('${rupiahCurrency(e.price)}'),
+                        subtitle: Row(
+                          children: [
+                            Text('${rupiahCurrency(e.price)}'),
+                            IconButton(
+                              onPressed: () {
+                                showDialog<dynamic>(
+                                  context: context,
+                                  builder: (_) {
+                                    return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 20.h,
+                                          horizontal: 16.w,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              'Ketentuan Tiket',
+                                              style: TextStyle(
+                                                color: AppColor.secondBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Batas Umur: ${(e.settings?.isPerAge != null && e.settings!.isPerAge) ? e.settings?.ageConstraint : '-'}',
+                                            ),
+                                            Text(
+                                              'Batas Hari: ${(e.settings?.isPerDay != null && e.settings!.isPerDay) ? e.settings?.dayConstraint : '-'}',
+                                            ),
+                                            Text(
+                                              'Batas Pax: ${(e.settings?.isPerDay != null && e.settings!.isPerPax) ? e.settings?.paxConstraint : '-'}',
+                                            ),
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            Text(
+                                              'Syarat dan Ketentuan',
+                                              style: TextStyle(
+                                                color: AppColor.secondBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                            Text(e.termAndConditions ?? '-')
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.more_horiz_rounded,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
