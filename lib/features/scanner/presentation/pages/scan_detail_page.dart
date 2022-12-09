@@ -90,21 +90,35 @@ class ScanDetailPage extends StatelessWidget with FailureMessageHandler {
                             : () {
                                 showDialog<dynamic>(
                                   context: context,
-                                  builder: (_) => ConfirmationDialog(
-                                    title: 'Konfirmasi Setuju',
-                                    description:
-                                        'Apakah anda menyetujui tiket ini?',
-                                    onDismiss: () {
-                                      Navigator.pop(context);
-                                    },
-                                    onConfirm: () {
-                                      context.read<ScanDetailBloc>().add(
-                                            const ScanDetailEvent
-                                                .approveButtonPressed(),
-                                          );
-                                    },
-                                    confirmText: 'Setuju',
-                                    dismissText: 'Batal',
+                                  builder: (_) => BlocProvider.value(
+                                    value: context.read<ScanDetailBloc>(),
+                                    child: BlocBuilder<ScanDetailBloc,
+                                        ScanDetailState>(
+                                      builder: (context, state) {
+                                        return ConfirmationDialog(
+                                          title: 'Konfirmasi Setuju',
+                                          description:
+                                              'Apakah anda menyetujui tiket ini?',
+                                          onDismiss: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onConfirm: state.isLoading
+                                              ? null
+                                              : () {
+                                                  context
+                                                      .read<ScanDetailBloc>()
+                                                      .add(
+                                                        const ScanDetailEvent
+                                                            .approveButtonPressed(),
+                                                      );
+                                                },
+                                          confirmText: state.isLoading
+                                              ? 'Loading'
+                                              : 'Setuju',
+                                          dismissText: 'Batal',
+                                        );
+                                      },
+                                    ),
                                   ),
                                 );
                               },
@@ -116,22 +130,36 @@ class ScanDetailPage extends StatelessWidget with FailureMessageHandler {
                             : () {
                                 showDialog<dynamic>(
                                   context: context,
-                                  builder: (_) => ConfirmationDialog(
-                                    title: 'Konfirmasi Pembayaran',
-                                    description:
-                                        'Pastikan anda sudah menerima uang '
-                                        'dari pengunjung',
-                                    onDismiss: () {
-                                      Navigator.pop(context);
-                                    },
-                                    onConfirm: () {
-                                      context.read<ScanDetailBloc>().add(
-                                            const ScanDetailEvent
-                                                .payNowButtonPressed(),
-                                          );
-                                    },
-                                    confirmText: 'Konfirmasi',
-                                    dismissText: 'Batal',
+                                  builder: (_) => BlocProvider.value(
+                                    value: context.read<ScanDetailBloc>(),
+                                    child: BlocBuilder<ScanDetailBloc,
+                                        ScanDetailState>(
+                                      builder: (context, state) {
+                                        return ConfirmationDialog(
+                                          title: 'Konfirmasi Pembayaran',
+                                          description:
+                                              'Pastikan anda sudah menerima uang '
+                                              'dari pengunjung',
+                                          onDismiss: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onConfirm: state.isLoading
+                                              ? null
+                                              : () {
+                                                  context
+                                                      .read<ScanDetailBloc>()
+                                                      .add(
+                                                        const ScanDetailEvent
+                                                            .payNowButtonPressed(),
+                                                      );
+                                                },
+                                          confirmText: state.isLoading
+                                              ? 'Loading'
+                                              : 'Konfirmasi',
+                                          dismissText: 'Batal',
+                                        );
+                                      },
+                                    ),
                                   ),
                                 );
                               },
