@@ -10,7 +10,7 @@ class RecommendationResponse with _$RecommendationResponse {
   const factory RecommendationResponse({
     required int id,
     required String name,
-    required String rank,
+    required int rank,
     required DestinationResponse destination,
   }) = _RecommendationResponse;
 

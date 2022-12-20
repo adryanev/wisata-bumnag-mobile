@@ -7,11 +7,11 @@ class TicketSetting with _$TicketSetting {
     required int id,
     required int ticketId,
     required bool isPerPax,
-    required String? paxConstraint,
+    required int? paxConstraint,
     required bool isPerDay,
     required String? dayConstraint,
     required bool isPerAge,
-    required String? ageConstraint,
+    required int? ageConstraint,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _TicketSetting;

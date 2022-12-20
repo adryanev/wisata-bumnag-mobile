@@ -7,7 +7,7 @@ class Recommendation with _$Recommendation {
   const factory Recommendation({
     required int id,
     required String name,
-    required String rank,
+    required int rank,
     required Destination destination,
   }) = _Recommendation;
 }

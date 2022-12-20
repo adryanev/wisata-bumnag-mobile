@@ -20,7 +20,7 @@ class Destination with _$Destination {
     required String? workingDay,
     required String? instagram,
     required String? website,
-    required String? capacity,
+    required int? capacity,
     required List<Category> categories,
     required List<String> media,
     required ReviewAggregate reviews,

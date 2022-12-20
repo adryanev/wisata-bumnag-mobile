@@ -24,7 +24,7 @@ class DestinationDetailResponse with _$DestinationDetailResponse {
     required String? workingDay,
     required String? instagram,
     required String? website,
-    required String? capacity,
+    required int? capacity,
     required List<CategoryModel> categories,
     required List<String> media,
     required ReviewableResponse reviews,

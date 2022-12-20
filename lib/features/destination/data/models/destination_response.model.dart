@@ -23,7 +23,7 @@ class DestinationResponse with _$DestinationResponse {
     required String? workingDay,
     required String? instagram,
     required String? website,
-    required String? capacity,
+    required int? capacity,
     required List<CategoryModel> categories,
     required List<String> media,
     @JsonKey(name: 'reviews') required ReviewAggregateResponse reviews,
