@@ -18,6 +18,18 @@ class AdsBannerWidget extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.adBanners != current.adBanners,
         builder: (context, state) {
+          if (state.adBanners.isEmpty) {
+            return Center(
+              child: Text(
+                'Belum ada banner',
+                style: TextStyle(
+                  color: AppColor.darkGrey,
+                  fontSize: 12.sp,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            );
+          }
           return Swiper(
             autoplay: true,
             autoplayDelay: const Duration(seconds: 2).inMilliseconds,

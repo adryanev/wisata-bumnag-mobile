@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/features/home/domain/entities/recommendation.entity.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/shared/widgets/destination_card.dart';
@@ -39,6 +40,18 @@ class PopularDestinationWidget extends StatelessWidget {
               builder: (context, state) {
                 if (state == null) {
                   return const SizedBox();
+                }
+                if (state.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Belum ada rekomendasi',
+                      style: TextStyle(
+                        color: AppColor.darkGrey,
+                        fontSize: 12.sp,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  );
                 }
                 return ListView.builder(
                   shrinkWrap: true,

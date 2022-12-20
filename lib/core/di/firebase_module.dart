@@ -12,7 +12,7 @@ abstract class FirebaseModule {
     await instance.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(minutes: 5),
+        minimumFetchInterval: const Duration(minutes: 1),
       ),
     );
     await instance.setDefaults(const <String, dynamic>{
