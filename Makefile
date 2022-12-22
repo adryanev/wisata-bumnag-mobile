@@ -12,7 +12,7 @@ watch:
 
 .PHONY: apk-dev
 apk-dev:
-	@flutter build apk --debug --flavor development --target lib/main_development.dart
+	@flutter build apk --profile --flavor development --target lib/main_development.dart
 
 .PHONY: apk-stg
 apk-stg:
@@ -24,7 +24,7 @@ apk-prod:
 
 .PHONY: ipa-dev
 ipa-dev:
-	@flutter build ipa --debug --flavor development --target lib/main_development.dart
+	@flutter build ipa --profile --flavor development --target lib/main_development.dart
 
 .PHONY: ipa-stg
 ipa-stg:
