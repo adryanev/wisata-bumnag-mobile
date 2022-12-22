@@ -81,7 +81,6 @@ class _PackageResultListState extends State<PackageResultList> {
                     .add(PackageListEvent.refreshed(widget.category));
               },
               onLoading: () {
-                if (!state.hasReachedMax) return;
                 context
                     .read<PackageListBloc>()
                     .add(PackageListEvent.started(widget.category));

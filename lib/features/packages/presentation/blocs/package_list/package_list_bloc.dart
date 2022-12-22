@@ -38,7 +38,7 @@ class PackageListBloc extends Bloc<PackageListEvent, PackageListState> {
     _PackageListStarted event,
     Emitter<PackageListState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.packages.isEmpty) {
       final result =
           await _getPackages(GetPackagesParams(category: event.category));

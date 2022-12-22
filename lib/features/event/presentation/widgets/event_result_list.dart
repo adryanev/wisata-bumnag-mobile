@@ -79,7 +79,6 @@ class _EventResultListState extends State<EventResultList> {
                     .add(const EventListEvent.refreshed());
               },
               onLoading: () {
-                if (state.hasReachedMax) return;
                 context
                     .read<EventListBloc>()
                     .add(const EventListEvent.started());

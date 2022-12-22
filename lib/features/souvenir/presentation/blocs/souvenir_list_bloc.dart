@@ -36,7 +36,7 @@ class SouvenirListBloc extends Bloc<SouvenirListEvent, SouvenirListState> {
     _SouvenirListStarted event,
     Emitter<SouvenirListState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.souvenirs.isEmpty) {
       final result = await _getSouvenirs(const GetSouvenirsParams());
       if (result.isRight()) {

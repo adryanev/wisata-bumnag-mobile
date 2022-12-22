@@ -27,7 +27,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     _ExploreStarted event,
     Emitter<ExploreState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.explores.isEmpty) {
       final result = await _getExplore(const GetExploreParams());
       if (result.isRight()) {

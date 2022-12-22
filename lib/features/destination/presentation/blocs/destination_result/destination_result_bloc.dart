@@ -39,7 +39,7 @@ class DestinationResultBloc
     DestinationResultFetched event,
     Emitter<DestinationResultState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.destinations.isEmpty) {
       final result =
           await _getDestination(GetDestinationParams(category: event.category));

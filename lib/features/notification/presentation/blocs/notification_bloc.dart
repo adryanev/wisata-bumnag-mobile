@@ -43,7 +43,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     _NotificationStarted event,
     Emitter<NotificationState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.notifications.isEmpty) {
       emit(state.copyWith(isRefreshing: true));
       final result = await _getNotificationPagination(

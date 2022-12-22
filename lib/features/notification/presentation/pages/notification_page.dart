@@ -131,7 +131,6 @@ class _NotificationPageState extends State<NotificationPage>
                         .add(const NotificationEvent.refreshed());
                   },
                   onLoading: () {
-                    if (state.hasReachedMax) return;
                     context
                         .read<NotificationBloc>()
                         .add(const NotificationEvent.started());

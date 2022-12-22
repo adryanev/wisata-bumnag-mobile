@@ -84,7 +84,6 @@ class _DestinationResultListState extends State<DestinationResultList> {
                     .add(DestinationResultEvent.refreshed(widget.category));
               },
               onLoading: () {
-                if (state.hasReachedMax) return;
                 context
                     .read<DestinationResultBloc>()
                     .add(DestinationResultEvent.fetched(widget.category));

@@ -28,7 +28,7 @@ class ReviewHistoryBloc extends Bloc<ReviewHistoryEvent, ReviewHistoryState> {
     _ReviewHistoryStarted event,
     Emitter<ReviewHistoryState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.orderDetails.isEmpty) {
       final result = await _getReviewHistory(const GetReviewHistoryParams());
       if (result.isRight()) {

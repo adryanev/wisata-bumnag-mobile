@@ -32,7 +32,7 @@ class AdsBannerWidget extends StatelessWidget {
           }
           return Swiper(
             autoplay: true,
-            autoplayDelay: const Duration(seconds: 2).inMilliseconds,
+            autoplayDelay: const Duration(seconds: 5).inMilliseconds,
             itemBuilder: (context, index) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),

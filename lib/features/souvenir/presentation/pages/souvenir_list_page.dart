@@ -193,7 +193,6 @@ class _SouvenirListPageState extends State<SouvenirListPage>
                               .add(const SouvenirListEvent.refreshed());
                         },
                         onLoading: () {
-                          if (state.hasReachedMax) return;
                           context
                               .read<SouvenirListBloc>()
                               .add(const SouvenirListEvent.started());

@@ -86,7 +86,6 @@ class _ReviewWaitingPageState extends State<ReviewWaitingPage> {
                         .add(const ReviewWaitingEvent.refreshed());
                   },
                   onLoading: () {
-                    if (state.hasReachedMax) return;
                     context
                         .read<ReviewWaitingBloc>()
                         .add(const ReviewWaitingEvent.started());

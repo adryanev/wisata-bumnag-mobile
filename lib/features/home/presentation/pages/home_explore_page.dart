@@ -118,7 +118,6 @@ class _HomeExplorePageState extends State<HomeExplorePage> {
                                 .add(const ExploreEvent.refreshed());
                           },
                           onLoading: () {
-                            if (state.hasReachedMax) return;
                             context
                                 .read<ExploreBloc>()
                                 .add(const ExploreEvent.started());

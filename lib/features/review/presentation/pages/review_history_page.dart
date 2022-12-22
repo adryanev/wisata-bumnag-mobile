@@ -86,7 +86,6 @@ class _ReviewHistoryPageState extends State<ReviewHistoryPage> {
                         .add(const ReviewHistoryEvent.refreshed());
                   },
                   onLoading: () {
-                    if (state.hasReachedMax) return;
                     context
                         .read<ReviewHistoryBloc>()
                         .add(const ReviewHistoryEvent.started());

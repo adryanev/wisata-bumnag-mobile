@@ -28,7 +28,7 @@ class ReviewWaitingBloc extends Bloc<ReviewWaitingEvent, ReviewWaitingState> {
     _ReviewWaitingStarted event,
     Emitter<ReviewWaitingState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.orderDetails.isEmpty) {
       final result =
           await _getWaitingForReview(const GetWaitingForReviewParams());

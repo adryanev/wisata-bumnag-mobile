@@ -35,7 +35,7 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
     _EventListStarted event,
     Emitter<EventListState> emit,
   ) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) return emit(state.copyWith());
     if (state.events.isEmpty) {
       final result = await _getEvent(const GetEventParams());
       if (result.isRight()) {
