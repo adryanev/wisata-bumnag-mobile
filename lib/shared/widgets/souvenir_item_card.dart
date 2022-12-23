@@ -33,10 +33,12 @@ class SouvenirItemCard extends StatelessWidget {
               SizedBox(
                 height: 110.h,
                 width: 1.sw,
-                child: CachedNetworkImage(
-                  imageUrl: souvenir.media.first,
-                  fit: BoxFit.fill,
-                ),
+                child: souvenir.media.isEmpty
+                    ? const SizedBox()
+                    : CachedNetworkImage(
+                        imageUrl: souvenir.media.first,
+                        fit: BoxFit.fill,
+                      ),
               ),
               Padding(
                 padding: EdgeInsets.all(4.r),

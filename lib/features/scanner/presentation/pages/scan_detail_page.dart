@@ -280,10 +280,12 @@ class OrderDetailProdukWidget extends StatelessWidget {
                             width: 60.w,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(4.r),
-                              child: CachedNetworkImage(
-                                imageUrl: orderHistoryItem.media.first,
-                                fit: BoxFit.cover,
-                              ),
+                              child: orderHistoryItem.media.isEmpty
+                                  ? const SizedBox()
+                                  : CachedNetworkImage(
+                                      imageUrl: orderHistoryItem.media.first,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           )
                         : SizedBox(
@@ -291,10 +293,13 @@ class OrderDetailProdukWidget extends StatelessWidget {
                             width: 60.w,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(4.r),
-                              child: CachedNetworkImage(
-                                imageUrl: detail.orderableDetail.media.first,
-                                fit: BoxFit.cover,
-                              ),
+                              child: detail.orderableDetail.media.isEmpty
+                                  ? const SizedBox()
+                                  : CachedNetworkImage(
+                                      imageUrl:
+                                          detail.orderableDetail.media.first,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                     title: Text(

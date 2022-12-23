@@ -42,7 +42,9 @@ class SouvenirCartBottomSheet extends StatelessWidget {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: CachedNetworkImage(imageUrl: souvenir.media.first),
+            leading: souvenir.media.isEmpty
+                ? const SizedBox()
+                : CachedNetworkImage(imageUrl: souvenir.media.first),
             title: Text(souvenir.name.toTitleCase()),
             subtitle: Text('${rupiahCurrency(souvenir.price)}'),
             trailing: Row(
