@@ -29,10 +29,12 @@ class ReviewListItem extends StatelessWidget {
                 width: 50.w,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: CachedNetworkImage(
-                    imageUrl: orderDetail.orderableDetail.media.first,
-                    fit: BoxFit.cover,
-                  ),
+                  child: orderDetail.orderableDetail.media.isEmpty
+                      ? const SizedBox()
+                      : CachedNetworkImage(
+                          imageUrl: orderDetail.orderableDetail.media.first,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               title: Text(

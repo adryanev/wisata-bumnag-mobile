@@ -28,10 +28,12 @@ class OrderListItem extends StatelessWidget {
               width: 60.w,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6.r),
-                child: CachedNetworkImage(
-                  imageUrl: order.media.first,
-                  fit: BoxFit.cover,
-                ),
+                child: order.media.isEmpty
+                    ? const SizedBox()
+                    : CachedNetworkImage(
+                        imageUrl: order.media.first,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             title: Text(

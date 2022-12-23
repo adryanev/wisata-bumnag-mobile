@@ -20,10 +20,12 @@ class PackageCard extends StatelessWidget {
             SizedBox(
               width: 175.w,
               height: 125.h,
-              child: CachedNetworkImage(
-                imageUrl: package.media[0],
-                fit: BoxFit.fill,
-              ),
+              child: package.media.isEmpty
+                  ? const SizedBox()
+                  : CachedNetworkImage(
+                      imageUrl: package.media.first,
+                      fit: BoxFit.fill,
+                    ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),

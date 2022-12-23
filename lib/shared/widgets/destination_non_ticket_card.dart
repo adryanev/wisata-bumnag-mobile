@@ -19,10 +19,12 @@ class DestinationNonTicketCard extends StatelessWidget {
             SizedBox(
               width: 175.w,
               height: 150.h,
-              child: CachedNetworkImage(
-                imageUrl: destination.media[0],
-                fit: BoxFit.fill,
-              ),
+              child: destination.media.isEmpty
+                  ? const SizedBox()
+                  : CachedNetworkImage(
+                      imageUrl: destination.media.first,
+                      fit: BoxFit.fill,
+                    ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
