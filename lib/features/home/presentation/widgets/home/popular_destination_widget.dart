@@ -53,9 +53,12 @@ class PopularDestinationWidget extends StatelessWidget {
                     ),
                   );
                 }
+                final filteredRecommendation = state
+                    .where((element) => element.destination != null)
+                    .toList();
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: state.length,
+                  itemCount: filteredRecommendation.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return InkWell(
@@ -63,12 +66,15 @@ class PopularDestinationWidget extends StatelessWidget {
                         context.pushNamed(
                           AppRouter.destinationDetail,
                           queryParams: {
-                            'id': state[index].destination.id.toString(),
+                            'id': filteredRecommendation[index]
+                                .destination!
+                                .id
+                                .toString(),
                           },
                         );
                       },
                       child: DestinationCard(
-                        destination: state[index].destination,
+                        destination: filteredRecommendation[index].destination!,
                       ),
                     );
                   },
