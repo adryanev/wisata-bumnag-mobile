@@ -11,7 +11,7 @@ class RecommendationResponse with _$RecommendationResponse {
     required int id,
     required String name,
     required int rank,
-    required DestinationResponse destination,
+    required DestinationResponse? destination,
   }) = _RecommendationResponse;
 
   factory RecommendationResponse.fromJson(Map<String, dynamic> json) =>
@@ -23,6 +23,6 @@ extension RecommendationResponseX on RecommendationResponse {
         id: id,
         name: name,
         rank: rank,
-        destination: destination.toDomain(),
+        destination: destination?.toDomain(),
       );
 }

@@ -8,6 +8,6 @@ class Recommendation with _$Recommendation {
     required int id,
     required String name,
     required int rank,
-    required Destination destination,
+    required Destination? destination,
   }) = _Recommendation;
 }
