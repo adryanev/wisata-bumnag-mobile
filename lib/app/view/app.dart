@@ -76,26 +76,8 @@ class App extends StatelessWidget with FailureMessageHandler {
           builder: (context, child) {
             return MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
-              theme: ThemeData(
-                appBarTheme: AppBarTheme(
-                  iconTheme: const IconThemeData(
-                    color: AppColor.secondBlack,
-                  ),
-                  color: AppColor.white,
-                  elevation: 0,
-                  titleTextStyle: GoogleFonts.poppins(
-                    color: AppColor.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.sp,
-                  ),
-                ),
-                primarySwatch: createMaterialColor(AppColor.primary),
-                scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-                fontFamily: GoogleFonts.poppins().fontFamily,
-                cardTheme: const CardTheme(shadowColor: Color(0xFFDFDFDF)),
-                textTheme:
-                    Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
-              ),
+              theme: appTheme,
+              darkTheme: appTheme,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,

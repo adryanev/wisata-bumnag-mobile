@@ -127,7 +127,7 @@ class _CustomTabsState extends State<CustomTabView>
           ),
         ),
         SizedBox(
-          height: 0.8.sh,
+          height: 0.7.sh,
           child: TabBarView(
             controller: controller,
             children: List.generate(
