@@ -11,8 +11,8 @@ import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dar
 
 class PackageResultList extends StatefulWidget {
   const PackageResultList({
-    super.key,
     required this.category,
+    super.key,
   });
   final Category category;
 

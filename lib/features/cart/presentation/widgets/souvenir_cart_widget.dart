@@ -13,7 +13,10 @@ import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirCartWidget extends StatelessWidget {
-  const SouvenirCartWidget({super.key, required this.cartSouvenir});
+  const SouvenirCartWidget({
+    required this.cartSouvenir,
+    super.key,
+  });
   final CartSouvenir cartSouvenir;
   @override
   Widget build(BuildContext context) {
@@ -65,101 +68,96 @@ class SouvenirCartWidget extends StatelessWidget {
                     text: 'Bayar',
                   ),
                 ),
-                ...cartSouvenir.items
-                    .map(
-                      (e) => ListTile(
-                        leading: e.media == null
-                            ? null
-                            : SizedBox(
-                                height: 60.h,
-                                width: 60.w,
-                                child: CachedNetworkImage(
-                                  imageUrl: e.media!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                        title: Text(e.name),
-                        subtitle: Text('${rupiahCurrency(e.price)}'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 24.w,
-                              child: IconButton(
-                                onPressed: () {
-                                  context.read<CartBloc>().add(
-                                        CartEvent.deleteButtonPressed(
-                                          destinationSouvenir: cartSouvenir,
-                                          orderable: e,
-                                        ),
-                                      );
-                                },
-                                padding: EdgeInsets.zero,
-                                icon: const Icon(
-                                  Icons.delete,
-                                ),
-                              ),
+                ...cartSouvenir.items.map(
+                  (e) => ListTile(
+                    leading: e.media == null
+                        ? null
+                        : SizedBox(
+                            height: 60.h,
+                            width: 60.w,
+                            child: CachedNetworkImage(
+                              imageUrl: e.media!,
+                              fit: BoxFit.cover,
                             ),
-                            SizedBox(
-                              width: 10.w,
+                          ),
+                    title: Text(e.name),
+                    subtitle: Text('${rupiahCurrency(e.price)}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 24.w,
+                          child: IconButton(
+                            onPressed: () {
+                              context.read<CartBloc>().add(
+                                    CartEvent.deleteButtonPressed(
+                                      destinationSouvenir: cartSouvenir,
+                                      orderable: e,
+                                    ),
+                                  );
+                            },
+                            padding: EdgeInsets.zero,
+                            icon: const Icon(
+                              Icons.delete,
                             ),
-                            SizedBox(
-                              width: 24.w,
-                              child: ElevatedButton(
-                                onPressed: e.quantity == 1
-                                    ? null
-                                    : () {
-                                        context.read<CartBloc>().add(
-                                              CartEvent.removeButtonPressed(
-                                                destinationSouvenir:
-                                                    cartSouvenir,
-                                                orderable: e,
-                                              ),
-                                            );
-                                      },
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  backgroundColor: AppColor.primary,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  padding: EdgeInsets.zero,
-                                ),
-                                child: const Icon(Icons.remove),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 8.w,
-                            ),
-                            Text('${e.quantity}'),
-                            SizedBox(
-                              width: 8.w,
-                            ),
-                            SizedBox(
-                              width: 24.w,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.read<CartBloc>().add(
-                                        CartEvent.addButtonPressed(
-                                          destinationSouvenir: cartSouvenir,
-                                          orderable: e,
-                                        ),
-                                      );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  backgroundColor: AppColor.primary,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  padding: EdgeInsets.zero,
-                                ),
-                                child: const Icon(Icons.add),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    )
-                    .toList()
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        SizedBox(
+                          width: 24.w,
+                          child: ElevatedButton(
+                            onPressed: e.quantity == 1
+                                ? null
+                                : () {
+                                    context.read<CartBloc>().add(
+                                          CartEvent.removeButtonPressed(
+                                            destinationSouvenir: cartSouvenir,
+                                            orderable: e,
+                                          ),
+                                        );
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              backgroundColor: AppColor.primary,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: const Icon(Icons.remove),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Text('${e.quantity}'),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        SizedBox(
+                          width: 24.w,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              context.read<CartBloc>().add(
+                                    CartEvent.addButtonPressed(
+                                      destinationSouvenir: cartSouvenir,
+                                      orderable: e,
+                                    ),
+                                  );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              backgroundColor: AppColor.primary,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ),

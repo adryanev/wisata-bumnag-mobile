@@ -8,9 +8,9 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirItemCard extends StatelessWidget {
   const SouvenirItemCard({
-    super.key,
     required this.souvenir,
     required this.onAddToCart,
+    super.key,
     this.onTap,
   });
   final Souvenir souvenir;

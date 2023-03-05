@@ -14,7 +14,10 @@ import 'package:wisatabumnag/shared/widgets/custom_tab_view.dart';
 // import 'package:wisatabumnag/shared/widgets/search_widget.dart';
 
 class PackageListPage extends StatefulWidget {
-  const PackageListPage({super.key, required this.category});
+  const PackageListPage({
+    required this.category,
+    super.key,
+  });
   final Category? category;
 
   @override

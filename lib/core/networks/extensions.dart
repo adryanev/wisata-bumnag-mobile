@@ -9,8 +9,8 @@ import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/core/networks/middlewares/network_middleware.dart';
 
 Future<Either<Failure, T>> safeRemoteCall<T>({
-  List<NetworkMiddleware>? middlewares,
   required Future<T> Function() retrofitCall,
+  List<NetworkMiddleware>? middlewares,
 }) async {
   final failure = await _runMiddleware(middlewares ?? []);
   if (failure == null) return _executeRetrofitCall(retrofitCall: retrofitCall);

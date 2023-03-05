@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WisataButton extends StatelessWidget {
   const WisataButton({
-    super.key,
     required this.onPressed,
     required this.text,
+    super.key,
   });
 
   factory WisataButton.primary({

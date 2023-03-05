@@ -15,8 +15,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
 class PaymentPage extends StatelessWidget with FailureMessageHandler {
   const PaymentPage({
-    super.key,
     required this.order,
+    super.key,
   });
   final Order order;
 
@@ -143,7 +143,10 @@ class SelectPaymentMethodWidget extends StatelessWidget {
 }
 
 class RincianBiayaWidget extends StatelessWidget {
-  const RincianBiayaWidget({super.key, required this.order});
+  const RincianBiayaWidget({
+    required this.order,
+    super.key,
+  });
   final Order order;
   @override
   Widget build(BuildContext context) {
@@ -163,42 +166,40 @@ class RincianBiayaWidget extends StatelessWidget {
           SizedBox(
             height: 12.w,
           ),
-          ...order.orderDetails
-              .map(
-                (e) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                        e.orderableName,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '${e.quantity}x',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Text(
-                        '${rupiahCurrency(e.orderablePrice)}',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Text(
-                        '${rupiahCurrency(e.subtotal)}',
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+          ...order.orderDetails.map(
+            (e) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    e.orderableName,
+                  ),
                 ),
-              )
-              .toList(),
+                Expanded(
+                  child: Text(
+                    '${e.quantity}x',
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    '${rupiahCurrency(e.orderablePrice)}',
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    '${rupiahCurrency(e.subtotal)}',
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: 12.h,
           ),

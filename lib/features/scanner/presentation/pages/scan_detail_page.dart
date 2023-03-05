@@ -20,7 +20,10 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
 class ScanDetailPage extends StatelessWidget with FailureMessageHandler {
-  const ScanDetailPage({super.key, required this.orderHistoryItem});
+  const ScanDetailPage({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -175,7 +178,10 @@ class ScanDetailPage extends StatelessWidget with FailureMessageHandler {
 }
 
 class OrderDetailHeaderWidget extends StatelessWidget {
-  const OrderDetailHeaderWidget({super.key, required this.orderHistoryItem});
+  const OrderDetailHeaderWidget({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -215,9 +221,9 @@ class OrderDetailHeaderWidget extends StatelessWidget {
 
 class DetailHeaderItem extends StatelessWidget {
   const DetailHeaderItem({
-    super.key,
     required this.title,
     required this.value,
+    super.key,
   });
 
   final String title;
@@ -244,7 +250,10 @@ class DetailHeaderItem extends StatelessWidget {
 }
 
 class OrderDetailProdukWidget extends StatelessWidget {
-  const OrderDetailProdukWidget({super.key, required this.orderHistoryItem});
+  const OrderDetailProdukWidget({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -343,8 +352,8 @@ class OrderDetailProdukWidget extends StatelessWidget {
 
 class OrderDetailRincianPembayaran extends StatelessWidget {
   const OrderDetailRincianPembayaran({
-    super.key,
     required this.orderHistoryItem,
+    super.key,
   });
   final OrderHistoryItem orderHistoryItem;
   @override

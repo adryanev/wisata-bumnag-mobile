@@ -5,10 +5,10 @@ import 'package:wisatabumnag/core/utils/colors.dart';
 
 class CustomTabView extends StatefulWidget {
   const CustomTabView({
-    super.key,
     required this.itemCount,
     required this.tabBuilder,
     required this.pageBuilder,
+    super.key,
     this.stub,
     this.onPositionChange,
     this.onScroll,

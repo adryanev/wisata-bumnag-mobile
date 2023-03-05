@@ -12,8 +12,8 @@ import 'package:wisatabumnag/shared/widgets/destination_non_ticket_card.dart';
 
 class DestinationResultList extends StatefulWidget {
   const DestinationResultList({
-    super.key,
     required this.category,
+    super.key,
   });
   final Category category;
 

@@ -6,7 +6,10 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination.en
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
 class DestinationNonTicketCard extends StatelessWidget {
-  const DestinationNonTicketCard({super.key, required this.destination});
+  const DestinationNonTicketCard({
+    required this.destination,
+    super.key,
+  });
   final Destination destination;
   @override
   Widget build(BuildContext context) {

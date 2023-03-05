@@ -5,13 +5,13 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   const ConfirmationDialog({
-    super.key,
     required this.title,
     required this.description,
     required this.confirmText,
     required this.dismissText,
     required this.onDismiss,
     required this.onConfirm,
+    super.key,
   });
 
   final String title;

@@ -6,7 +6,10 @@ import 'package:wisatabumnag/core/utils/constants.dart';
 import 'package:wisatabumnag/shared/domain/entities/review.entity.dart';
 
 class ReviewableCard extends StatelessWidget {
-  const ReviewableCard({super.key, required this.review});
+  const ReviewableCard({
+    required this.review,
+    super.key,
+  });
   final Review review;
   @override
   Widget build(BuildContext context) {

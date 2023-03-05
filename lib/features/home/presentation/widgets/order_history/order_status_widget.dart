@@ -5,7 +5,10 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/orderable_mapper.dart';
 
 class OrderStatusWidget extends StatelessWidget {
-  const OrderStatusWidget({super.key, required this.status});
+  const OrderStatusWidget({
+    required this.status,
+    super.key,
+  });
   final OrderStatus status;
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,10 @@ import 'package:wisatabumnag/features/event/domain/entities/event.entity.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.event});
+  const EventCard({
+    required this.event,
+    super.key,
+  });
   final Event event;
   @override
   Widget build(BuildContext context) {

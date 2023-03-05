@@ -15,8 +15,8 @@ import 'package:wisatabumnag/shared/widgets/souvenir_item_card.dart';
 class DestinationSouvenirCard extends StatelessWidget
     with FailureMessageHandler {
   const DestinationSouvenirCard({
-    super.key,
     required this.destinationSouvenir,
+    super.key,
   });
   final DestinationSouvenir destinationSouvenir;
 

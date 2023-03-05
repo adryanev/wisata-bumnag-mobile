@@ -9,9 +9,9 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class ReviewListItem extends StatelessWidget {
   const ReviewListItem({
-    super.key,
     required this.orderDetail,
     required this.isReviewed,
+    super.key,
   });
   final OrderDetail orderDetail;
   final bool isReviewed;

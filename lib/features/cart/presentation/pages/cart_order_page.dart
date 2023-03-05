@@ -20,7 +20,10 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
 class CartOrderPage extends StatelessWidget with FailureMessageHandler {
-  const CartOrderPage({super.key, required this.cartSouvenir});
+  const CartOrderPage({
+    required this.cartSouvenir,
+    super.key,
+  });
 
   final CartSouvenir cartSouvenir;
   @override
@@ -72,33 +75,31 @@ class CartOrderPage extends StatelessWidget with FailureMessageHandler {
                           ),
                         ),
                         SizedBox(height: 8.h),
-                        ...cartSouvenir.items
-                            .map(
-                              (e) => ListTile(
-                                leading: e.media == null
-                                    ? null
-                                    : SizedBox(
-                                        height: 60.h,
-                                        width: 60.w,
-                                        child: CachedNetworkImage(
-                                          imageUrl: e.media!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                title: Text(e.name),
-                                subtitle: Text(
-                                  '${e.quantity}x ${rupiahCurrency(e.price)}',
-                                ),
-                                trailing: Text(
-                                  '${rupiahCurrency(e.subtotal)}',
-                                  style: const TextStyle(
-                                    color: AppColor.primary,
-                                    fontWeight: FontWeight.w600,
+                        ...cartSouvenir.items.map(
+                          (e) => ListTile(
+                            leading: e.media == null
+                                ? null
+                                : SizedBox(
+                                    height: 60.h,
+                                    width: 60.w,
+                                    child: CachedNetworkImage(
+                                      imageUrl: e.media!,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
+                            title: Text(e.name),
+                            subtitle: Text(
+                              '${e.quantity}x ${rupiahCurrency(e.price)}',
+                            ),
+                            trailing: Text(
+                              '${rupiahCurrency(e.subtotal)}',
+                              style: const TextStyle(
+                                color: AppColor.primary,
+                                fontWeight: FontWeight.w600,
                               ),
-                            )
-                            .toList(),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -121,49 +122,47 @@ class CartOrderPage extends StatelessWidget with FailureMessageHandler {
                         SizedBox(
                           height: 8.h,
                         ),
-                        ...cartSouvenir.items
-                            .map(
-                              (e) => Column(
+                        ...cartSouvenir.items.map(
+                          (e) => Column(
+                            children: [
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
-                                    height: 8.h,
+                                  Expanded(
+                                    flex: 8,
+                                    child: Text(
+                                      e.name,
+                                    ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 8,
-                                        child: Text(
-                                          e.name,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${e.quantity}x',
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Text(
-                                          '${rupiahCurrency(e.price)}',
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Text(
-                                          '${rupiahCurrency(e.subtotal)}',
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
-                                    ],
+                                  Expanded(
+                                    child: Text(
+                                      '${e.quantity}x',
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Text(
+                                      '${rupiahCurrency(e.price)}',
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Text(
+                                      '${rupiahCurrency(e.subtotal)}',
+                                      textAlign: TextAlign.right,
+                                    ),
                                   ),
                                 ],
                               ),
-                            )
-                            .toList(),
+                            ],
+                          ),
+                        ),
                         SizedBox(
                           height: 16.h,
                         ),

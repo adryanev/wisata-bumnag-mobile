@@ -18,7 +18,10 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 import 'package:wisatabumnag/shared/widgets/wisata_divider.dart';
 
 class OrderDetailPage extends StatelessWidget {
-  const OrderDetailPage({super.key, required this.orderHistoryItem});
+  const OrderDetailPage({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -163,7 +166,10 @@ class OrderDetailPage extends StatelessWidget {
 }
 
 class OrderDetailHeaderWidget extends StatelessWidget {
-  const OrderDetailHeaderWidget({super.key, required this.orderHistoryItem});
+  const OrderDetailHeaderWidget({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -203,9 +209,9 @@ class OrderDetailHeaderWidget extends StatelessWidget {
 
 class DetailHeaderItem extends StatelessWidget {
   const DetailHeaderItem({
-    super.key,
     required this.title,
     required this.value,
+    super.key,
   });
 
   final String title;
@@ -232,7 +238,10 @@ class DetailHeaderItem extends StatelessWidget {
 }
 
 class OrderDetailProdukWidget extends StatelessWidget {
-  const OrderDetailProdukWidget({super.key, required this.orderHistoryItem});
+  const OrderDetailProdukWidget({
+    required this.orderHistoryItem,
+    super.key,
+  });
   final OrderHistoryItem orderHistoryItem;
   @override
   Widget build(BuildContext context) {
@@ -331,8 +340,8 @@ class OrderDetailProdukWidget extends StatelessWidget {
 
 class OrderDetailRincianPembayaran extends StatelessWidget {
   const OrderDetailRincianPembayaran({
-    super.key,
     required this.orderHistoryItem,
+    super.key,
   });
   final OrderHistoryItem orderHistoryItem;
   @override

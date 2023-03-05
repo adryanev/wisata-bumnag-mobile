@@ -144,7 +144,10 @@ class _HomeExplorePageState extends State<HomeExplorePage> {
 }
 
 class ExploreItemWidget extends StatelessWidget {
-  const ExploreItemWidget({super.key, required this.explore});
+  const ExploreItemWidget({
+    required this.explore,
+    super.key,
+  });
   final Explore explore;
   @override
   Widget build(BuildContext context) {

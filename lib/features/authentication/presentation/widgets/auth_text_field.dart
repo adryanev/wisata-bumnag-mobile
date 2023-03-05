@@ -4,12 +4,12 @@ import 'package:wisatabumnag/core/utils/colors.dart';
 
 class AuthTextField extends StatefulWidget {
   const AuthTextField({
+    required this.controller,
+    required this.validator,
     super.key,
     this.hint,
     this.isPassword = false,
     this.label,
-    required this.controller,
-    required this.validator,
     this.textInputAction,
     this.keyboardType,
     this.maxLine = 1,

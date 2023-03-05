@@ -104,7 +104,10 @@ class HomeCartWidget extends StatelessWidget {
 }
 
 class YourLocationWidget extends StatelessWidget {
-  const YourLocationWidget({super.key, required this.location});
+  const YourLocationWidget({
+    required this.location,
+    super.key,
+  });
 
   final Location? location;
   @override

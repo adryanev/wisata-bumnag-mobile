@@ -4,11 +4,11 @@ import 'package:wisatabumnag/core/utils/colors.dart';
 
 class CheckboxFormField extends FormField<bool> {
   CheckboxFormField({
-    super.key,
     required Widget title,
     required FormFieldSetter<bool> onSaved,
     required FormFieldValidator<bool> validator,
     bool initialValue = false,
+    super.key,
   }) : super(
           onSaved: onSaved,
           validator: validator,

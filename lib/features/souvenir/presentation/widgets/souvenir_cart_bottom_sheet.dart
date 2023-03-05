@@ -10,8 +10,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirCartBottomSheet extends StatelessWidget {
   SouvenirCartBottomSheet({
-    super.key,
     required this.souvenir,
+    super.key,
   });
   final Souvenir souvenir;
   final ValueNotifier<int> counter = ValueNotifier(1);

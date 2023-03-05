@@ -163,10 +163,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
 
 class HomeMenuItem extends StatelessWidget {
   const HomeMenuItem({
-    super.key,
     required this.label,
     required this.icon,
     required this.onClick,
+    super.key,
   });
   final String label;
   final Widget icon;

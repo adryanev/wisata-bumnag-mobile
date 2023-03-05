@@ -3,9 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DestinationGoogleMaps extends StatefulWidget {
   const DestinationGoogleMaps({
-    super.key,
     required this.latitude,
     required this.longitude,
+    super.key,
   });
   final double latitude;
   final double longitude;
