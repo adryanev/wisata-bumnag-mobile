@@ -30,7 +30,7 @@ jobs:
         with:
           flutter-version: 3.7.7
           channel: stable
-          cache: true
+          cache: false
 
       - name: 📦 Install Dependencies
         run: |
