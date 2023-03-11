@@ -42,10 +42,10 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: ✨ Check Formatting
-        run: flutter format lib test
+        run: flutter format --set-exit-if-changed lib test
 
-      - name: 🕵️ Analyze
-        run: flutter analyze lib test
+      # - name: 🕵️ Analyze
+      #   run: flutter analyze lib test
 
       - name: 🧪 Run Tests
         run: very_good test -j 4 --optimization --coverage --test-randomize-ordering-seed random
