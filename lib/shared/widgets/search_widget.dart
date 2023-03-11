@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchWidget extends StatelessWidget {
-  const SearchWidget({super.key, required this.controller});
+  const SearchWidget({
+    required this.controller,
+    super.key,
+  });
   final TextEditingController controller;
 
   @override

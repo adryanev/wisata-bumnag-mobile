@@ -6,7 +6,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
 
 class OnlinePaymentPage extends StatefulWidget {
-  const OnlinePaymentPage({super.key, required this.url});
+  const OnlinePaymentPage({
+    required this.url,
+    super.key,
+  });
   final String url;
 
   @override

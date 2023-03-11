@@ -26,8 +26,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class EventDetailPage extends StatefulWidget {
   const EventDetailPage({
-    super.key,
     required this.eventId,
+    super.key,
   });
   final String? eventId;
 
@@ -255,8 +255,8 @@ class _EventDetailPageState extends State<EventDetailPage>
 
 class EventDetailHeaderWidget extends StatelessWidget {
   const EventDetailHeaderWidget({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
 
@@ -368,8 +368,8 @@ class EventDetailHeaderWidget extends StatelessWidget {
 
 class EventDetailContentWidget extends StatelessWidget {
   const EventDetailContentWidget({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
   @override
@@ -404,8 +404,8 @@ class EventDetailContentWidget extends StatelessWidget {
 
 class EventDetailInformationWidget extends StatelessWidget {
   const EventDetailInformationWidget({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
 
@@ -441,8 +441,8 @@ class EventDetailInformationWidget extends StatelessWidget {
 
 class EventDetailReviewAndRecommendationWidget extends StatelessWidget {
   const EventDetailReviewAndRecommendationWidget({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
   @override
@@ -571,8 +571,8 @@ class EventDetailReviewAndRecommendationWidget extends StatelessWidget {
 
 class EventDetailLocationWidget extends StatelessWidget {
   const EventDetailLocationWidget({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
 

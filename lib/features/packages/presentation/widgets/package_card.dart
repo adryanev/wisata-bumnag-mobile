@@ -7,7 +7,10 @@ import 'package:wisatabumnag/core/utils/currency_formatter.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
 
 class PackageCard extends StatelessWidget {
-  const PackageCard({super.key, required this.package});
+  const PackageCard({
+    required this.package,
+    super.key,
+  });
   final Package package;
   @override
   Widget build(BuildContext context) {

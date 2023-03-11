@@ -26,8 +26,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class DestinationDetailPage extends StatefulWidget {
   const DestinationDetailPage({
-    super.key,
     required this.destinationId,
+    super.key,
   });
   final String? destinationId;
 
@@ -266,8 +266,8 @@ class _DestinationDetailPageState extends State<DestinationDetailPage>
 
 class DestinationDetailHeaderWidget extends StatelessWidget {
   const DestinationDetailHeaderWidget({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
 
@@ -457,8 +457,8 @@ class DestinationDetailHeaderWidget extends StatelessWidget {
 
 class DestinationDetailContentWidget extends StatelessWidget {
   const DestinationDetailContentWidget({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
   @override
@@ -493,8 +493,8 @@ class DestinationDetailContentWidget extends StatelessWidget {
 
 class DestinationDetailLocationWidget extends StatelessWidget {
   const DestinationDetailLocationWidget({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
 
@@ -578,8 +578,8 @@ class DestinationDetailLocationWidget extends StatelessWidget {
 
 class DestinationDetailInformationWidget extends StatelessWidget {
   const DestinationDetailInformationWidget({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
 
@@ -615,8 +615,8 @@ class DestinationDetailInformationWidget extends StatelessWidget {
 
 class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
   const DestinationDetailReviewAndRecommendationWidget({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
   @override

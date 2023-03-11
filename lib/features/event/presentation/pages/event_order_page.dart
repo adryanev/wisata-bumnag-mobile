@@ -22,8 +22,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class EventOrderPage extends StatelessWidget with FailureMessageHandler {
   const EventOrderPage({
-    super.key,
     required this.eventDetail,
+    super.key,
   });
   final EventDetail eventDetail;
 
@@ -155,7 +155,10 @@ class EventOrderPage extends StatelessWidget with FailureMessageHandler {
 }
 
 class DetailPesananWidget extends StatelessWidget {
-  const DetailPesananWidget({super.key, required this.eventDetail});
+  const DetailPesananWidget({
+    required this.eventDetail,
+    super.key,
+  });
   final EventDetail eventDetail;
   @override
   Widget build(BuildContext context) {
@@ -427,7 +430,7 @@ class DetailPesananTicketWidget extends StatelessWidget {
                         ),
                       );
                     },
-                  ).toList()
+                  )
                 ],
               );
             },
@@ -473,41 +476,39 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
               }
               return Column(
                 children: [
-                  ...state.cart
-                      .map(
-                        (e) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 8,
-                              child: Text(
-                                e.name,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${e.quantity}x',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                '${rupiahCurrency(e.price)}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                '${rupiahCurrency(e.subtotal)}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ],
+                  ...state.cart.map(
+                    (e) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 8,
+                          child: Text(
+                            e.name,
+                          ),
                         ),
-                      )
-                      .toList(),
+                        Expanded(
+                          child: Text(
+                            '${e.quantity}x',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            '${rupiahCurrency(e.price)}',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            '${rupiahCurrency(e.subtotal)}',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 8.h,
                   ),

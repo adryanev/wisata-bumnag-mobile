@@ -5,9 +5,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({
-    super.key,
     required this.url,
     required this.title,
+    super.key,
   });
   final String url;
   final String title;

@@ -12,7 +12,10 @@ import 'package:wisatabumnag/features/home/presentation/widgets/order_history/or
 import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class OrderListItem extends StatelessWidget {
-  const OrderListItem({super.key, required this.order});
+  const OrderListItem({
+    required this.order,
+    super.key,
+  });
   final OrderHistoryItem order;
   @override
   Widget build(BuildContext context) {

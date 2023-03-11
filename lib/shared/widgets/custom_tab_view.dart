@@ -5,10 +5,10 @@ import 'package:wisatabumnag/core/utils/colors.dart';
 
 class CustomTabView extends StatefulWidget {
   const CustomTabView({
-    super.key,
     required this.itemCount,
     required this.tabBuilder,
     required this.pageBuilder,
+    super.key,
     this.stub,
     this.onPositionChange,
     this.onScroll,
@@ -127,7 +127,7 @@ class _CustomTabsState extends State<CustomTabView>
           ),
         ),
         SizedBox(
-          height: 0.8.sh,
+          height: 0.7.sh,
           child: TabBarView(
             controller: controller,
             children: List.generate(

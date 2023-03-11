@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wisatabumnag/app/router/app_router.dart';
+import 'package:wisatabumnag/core/utils/colors.dart';
 import 'package:wisatabumnag/features/home/presentation/blocs/home_front/cubit/home_front_cubit.dart';
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
@@ -162,10 +163,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
 
 class HomeMenuItem extends StatelessWidget {
   const HomeMenuItem({
-    super.key,
     required this.label,
     required this.icon,
     required this.onClick,
+    super.key,
   });
   final String label;
   final Widget icon;
@@ -184,7 +185,11 @@ class HomeMenuItem extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColor.black,
+            ),
           ),
         ],
       ),

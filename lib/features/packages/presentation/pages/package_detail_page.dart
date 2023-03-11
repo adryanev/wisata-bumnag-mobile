@@ -21,8 +21,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class PackageDetailPage extends StatefulWidget {
   const PackageDetailPage({
-    super.key,
     required this.packageId,
+    super.key,
   });
   final String? packageId;
 
@@ -253,8 +253,8 @@ class _PackageDetailPageState extends State<PackageDetailPage>
 
 class PackageDetailHeaderWidget extends StatelessWidget {
   const PackageDetailHeaderWidget({
-    super.key,
     required this.packageDetail,
+    super.key,
   });
   final PackageDetail packageDetail;
 
@@ -322,8 +322,8 @@ class PackageDetailHeaderWidget extends StatelessWidget {
 
 class PackageDetailDestinations extends StatelessWidget {
   const PackageDetailDestinations({
-    super.key,
     required this.packageDetail,
+    super.key,
   });
   final PackageDetail packageDetail;
   @override
@@ -367,8 +367,8 @@ class PackageDetailDestinations extends StatelessWidget {
 
 class PackageDetailInformationWidget extends StatelessWidget {
   const PackageDetailInformationWidget({
-    super.key,
     required this.packageDetail,
+    super.key,
   });
   final PackageDetail packageDetail;
 
@@ -410,8 +410,8 @@ class PackageDetailInformationWidget extends StatelessWidget {
 
 class PackageDetailContentWidget extends StatelessWidget {
   const PackageDetailContentWidget({
-    super.key,
     required this.packageDetail,
+    super.key,
   });
   final PackageDetail packageDetail;
   @override
@@ -478,8 +478,8 @@ class PackageDetailContentWidget extends StatelessWidget {
 
 class PackageDetailReviewAndRecommendationWidget extends StatelessWidget {
   const PackageDetailReviewAndRecommendationWidget({
-    super.key,
     required this.packageDetail,
+    super.key,
   });
   final PackageDetail packageDetail;
   @override

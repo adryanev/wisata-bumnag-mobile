@@ -9,8 +9,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   const PaymentSuccessPage({
-    super.key,
     required this.status,
+    super.key,
   });
   final bool status;
   @override

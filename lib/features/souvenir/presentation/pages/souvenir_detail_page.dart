@@ -27,9 +27,9 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class SouvenirDetailPage extends StatelessWidget with FailureMessageHandler {
   const SouvenirDetailPage({
-    super.key,
     required this.destinationSouvenir,
     required this.souvenir,
+    super.key,
   });
   final DestinationSouvenir destinationSouvenir;
   final Souvenir souvenir;
@@ -201,9 +201,9 @@ class SouvenirDetailPage extends StatelessWidget with FailureMessageHandler {
 
 class DestinationSouvenirHeaderWidget extends StatelessWidget {
   const DestinationSouvenirHeaderWidget({
-    super.key,
     required this.destinationSouvenir,
     required this.souvenir,
+    super.key,
   });
   final DestinationSouvenir destinationSouvenir;
   final SouvenirDetail souvenir;
@@ -357,8 +357,8 @@ class DestinationSouvenirHeaderWidget extends StatelessWidget {
 
 class DestinationSouvenirContentWidget extends StatelessWidget {
   const DestinationSouvenirContentWidget({
-    super.key,
     required this.souvenirDetail,
+    super.key,
   });
   final SouvenirDetail souvenirDetail;
   @override
@@ -393,8 +393,8 @@ class DestinationSouvenirContentWidget extends StatelessWidget {
 
 class DestinationSouvenirLocationWidget extends StatelessWidget {
   const DestinationSouvenirLocationWidget({
-    super.key,
     required this.destinationSouvenir,
+    super.key,
   });
   final DestinationSouvenir destinationSouvenir;
 
@@ -478,8 +478,8 @@ class DestinationSouvenirLocationWidget extends StatelessWidget {
 
 class DestinationSouvenirInformationWidget extends StatelessWidget {
   const DestinationSouvenirInformationWidget({
-    super.key,
     required this.souvenirDetail,
+    super.key,
   });
   final SouvenirDetail souvenirDetail;
 
@@ -515,9 +515,9 @@ class DestinationSouvenirInformationWidget extends StatelessWidget {
 
 class DestinationSouvenirReviewAndRecommendationWidget extends StatelessWidget {
   const DestinationSouvenirReviewAndRecommendationWidget({
-    super.key,
     required this.souvenirDetail,
     required this.destinationSouvenir,
+    super.key,
   });
   final SouvenirDetail souvenirDetail;
   final DestinationSouvenir destinationSouvenir;

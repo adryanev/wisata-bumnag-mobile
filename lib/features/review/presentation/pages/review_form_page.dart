@@ -19,8 +19,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class ReviewFormPage extends StatefulWidget {
   const ReviewFormPage({
-    super.key,
     required this.orderDetail,
+    super.key,
   });
   final OrderDetail orderDetail;
 

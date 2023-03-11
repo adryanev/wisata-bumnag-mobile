@@ -24,8 +24,8 @@ import 'package:wisatabumnag/shared/widgets/wisata_button.dart';
 
 class DestinationOrder extends StatelessWidget with FailureMessageHandler {
   const DestinationOrder({
-    super.key,
     required this.destinationDetail,
+    super.key,
   });
   final DestinationDetail destinationDetail;
 
@@ -178,7 +178,10 @@ class DestinationOrder extends StatelessWidget with FailureMessageHandler {
 }
 
 class DetailPesananWidget extends StatelessWidget {
-  const DetailPesananWidget({super.key, required this.destinationDetail});
+  const DetailPesananWidget({
+    required this.destinationDetail,
+    super.key,
+  });
   final DestinationDetail destinationDetail;
   @override
   Widget build(BuildContext context) {
@@ -473,7 +476,7 @@ class DetailPesananTicketWidget extends StatelessWidget {
                         ),
                       );
                     },
-                  ).toList()
+                  )
                 ],
               );
             },
@@ -598,93 +601,87 @@ class DetailPesananSouvenirCartWidget extends StatelessWidget {
               }
               return Column(
                 children: [
-                  ...list
-                      .map(
-                        (e) => ListTile(
-                          leading: e.media == null
-                              ? null
-                              : CachedNetworkImage(imageUrl: e.media!),
-                          title: Text(e.name),
-                          subtitle: Text('${rupiahCurrency(e.price)}'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 24.w,
-                                child: IconButton(
-                                  onPressed: () {
-                                    context.read<DestinationOrderBloc>().add(
-                                          DestinationOrderEvent
-                                              .souvenirCartDeleteButtonPressed(
-                                            e,
-                                          ),
-                                        );
-                                  },
-                                  padding: EdgeInsets.zero,
-                                  icon: const Icon(
-                                    Icons.delete,
-                                  ),
-                                ),
+                  ...list.map(
+                    (e) => ListTile(
+                      leading: e.media == null
+                          ? null
+                          : CachedNetworkImage(imageUrl: e.media!),
+                      title: Text(e.name),
+                      subtitle: Text('${rupiahCurrency(e.price)}'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 24.w,
+                            child: IconButton(
+                              onPressed: () {
+                                context.read<DestinationOrderBloc>().add(
+                                      DestinationOrderEvent
+                                          .souvenirCartDeleteButtonPressed(
+                                        e,
+                                      ),
+                                    );
+                              },
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.delete,
                               ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                                child: ElevatedButton(
-                                  onPressed: e.quantity == 1
-                                      ? null
-                                      : () {
-                                          context
-                                              .read<DestinationOrderBloc>()
-                                              .add(
-                                                DestinationOrderEvent
-                                                    .souvenirCartRemoveButtonPressed(
-                                                  e,
-                                                ),
-                                              );
-                                        },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    backgroundColor: AppColor.primary,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  child: const Icon(Icons.remove),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text('${e.quantity}'),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    context.read<DestinationOrderBloc>().add(
-                                          DestinationOrderEvent
-                                              .souvenirCartAddButtonPressed(e),
-                                        );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    backgroundColor: AppColor.primary,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  child: const Icon(Icons.add),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      )
-                      .toList()
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          SizedBox(
+                            width: 24.w,
+                            child: ElevatedButton(
+                              onPressed: e.quantity == 1
+                                  ? null
+                                  : () {
+                                      context.read<DestinationOrderBloc>().add(
+                                            DestinationOrderEvent
+                                                .souvenirCartRemoveButtonPressed(
+                                              e,
+                                            ),
+                                          );
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColor.primary,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: const Icon(Icons.remove),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Text('${e.quantity}'),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          SizedBox(
+                            width: 24.w,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                context.read<DestinationOrderBloc>().add(
+                                      DestinationOrderEvent
+                                          .souvenirCartAddButtonPressed(e),
+                                    );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColor.primary,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: const Icon(Icons.add),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               );
             },
@@ -730,41 +727,39 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
               }
               return Column(
                 children: [
-                  ...state.cart
-                      .map(
-                        (e) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 8,
-                              child: Text(
-                                e.name,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${e.quantity}x',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                '${rupiahCurrency(e.price)}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                '${rupiahCurrency(e.subtotal)}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ],
+                  ...state.cart.map(
+                    (e) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 8,
+                          child: Text(
+                            e.name,
+                          ),
                         ),
-                      )
-                      .toList(),
+                        Expanded(
+                          child: Text(
+                            '${e.quantity}x',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            '${rupiahCurrency(e.price)}',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            '${rupiahCurrency(e.subtotal)}',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 8.h,
                   ),

@@ -12,7 +12,10 @@ import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dar
 import 'package:wisatabumnag/shared/widgets/custom_tab_view.dart';
 
 class EventListPage extends StatefulWidget {
-  const EventListPage({super.key, required this.category});
+  const EventListPage({
+    required this.category,
+    super.key,
+  });
   final Category? category;
 
   @override
