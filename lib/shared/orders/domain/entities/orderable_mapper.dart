@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:wisatabumnag/features/packages/domain/entities/amenity.entity.dart';
 import 'package:wisatabumnag/features/souvenir/domain/entities/souvenir.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -25,6 +26,15 @@ class OrderableMapper {
         quantity: 1,
         subtotal: souvenir.price * 1,
       );
+  static Orderable fromAmenity(Amenity amenity) => Orderable(
+        type: OrderableType.amenity,
+        id: amenity.id,
+        name: amenity.name,
+        price: amenity.price,
+        quantity: 1,
+        media: null,
+        subtotal: amenity.price * 1,
+      );
 }
 
 class OrderableTypeMapper {
@@ -37,6 +47,9 @@ class OrderableTypeMapper {
 
       case r'App\Models\Ticket':
         return OrderableType.ticket;
+
+      case r'App\Models\Amenities':
+        return OrderableType.amenity;
     }
     throw UnimplementedError('Orderable type not implemented yet');
   }
@@ -47,6 +60,8 @@ class OrderableTypeMapper {
         return r'App\Models\Ticket';
       case OrderableType.souvenir:
         return r'App\Models\Souvenir';
+      case OrderableType.amenity:
+        return r'App\Models\Amenities';
     }
   }
 }

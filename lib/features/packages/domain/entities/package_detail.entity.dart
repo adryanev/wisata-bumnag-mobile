@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wisatabumnag/features/packages/domain/entities/amenity.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package.entity.dart';
 import 'package:wisatabumnag/shared/categories/domain/entity/category.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/reviewable.entity.dart';
@@ -20,5 +21,6 @@ class PackageDetail with _$PackageDetail {
     required Reviewable reviews,
     required List<Ticketable> tickets,
     required List<Package> recommendations,
+    required List<Amenity> amenities,
   }) = _PackageDetail;
 }

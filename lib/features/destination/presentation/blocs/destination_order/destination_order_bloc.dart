@@ -172,17 +172,17 @@ class DestinationOrderBloc
       final orderable = OrderableMapper.fromSouvenir(event.souvenir);
 
       emit(state.copyWith(cart: [...state.cart, orderable]));
-    } else {
-      final temporary = [...state.cart];
-      final newQuantity = current.quantity + 1;
-      final newSouvenir = current.copyWith(
-        quantity: newQuantity,
-        subtotal: current.price * newQuantity,
-      );
-      temporary[currentIndex] = newSouvenir;
-
-      emit(state.copyWith(cart: [...temporary]));
+      return null;
     }
+    final temporary = [...state.cart];
+    final newQuantity = current.quantity + 1;
+    final newSouvenir = current.copyWith(
+      quantity: newQuantity,
+      subtotal: current.price * newQuantity,
+    );
+    temporary[currentIndex] = newSouvenir;
+
+    emit(state.copyWith(cart: [...temporary]));
   }
 
   FutureOr<void> _onSouvenirCartAddButtonPressed(

@@ -14,7 +14,4 @@ class Orderable with _$Orderable {
   }) = _Orderable;
 }
 
-enum OrderableType {
-  ticket,
-  souvenir,
-}
+enum OrderableType { ticket, souvenir, amenity }
