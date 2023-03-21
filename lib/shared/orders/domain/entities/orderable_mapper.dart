@@ -48,7 +48,7 @@ class OrderableTypeMapper {
       case r'App\Models\Ticket':
         return OrderableType.ticket;
 
-      case r'App\Models\Amenities':
+      case r'App\Models\PackageAmenities':
         return OrderableType.amenity;
     }
     throw UnimplementedError('Orderable type not implemented yet');
@@ -61,7 +61,7 @@ class OrderableTypeMapper {
       case OrderableType.souvenir:
         return r'App\Models\Souvenir';
       case OrderableType.amenity:
-        return r'App\Models\Amenities';
+        return r'App\Models\PackageAmenities';
     }
   }
 }
