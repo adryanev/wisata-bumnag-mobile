@@ -90,7 +90,6 @@ class _PackageResultListState extends State<PackageResultList> {
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                shrinkWrap: true,
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
                     context.pushNamed(

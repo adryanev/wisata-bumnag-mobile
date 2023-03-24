@@ -80,6 +80,11 @@ class PackageOrderPage extends StatelessWidget with FailureMessageHandler {
                         thickness: 8.h,
                         color: AppColor.grey,
                       ),
+                      const DetailPesananAmenityWidget(),
+                      Divider(
+                        thickness: 8.h,
+                        color: AppColor.grey,
+                      ),
                       const DetailPesananRincianBiayaWidget(),
                       SizedBox(
                         height: 100.h,
@@ -435,6 +440,168 @@ class DetailPesananTicketWidget extends StatelessWidget {
   }
 }
 
+class DetailPesananAmenityWidget extends StatelessWidget {
+  const DetailPesananAmenityWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: Dimension.aroundPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Layanan',
+            style: TextStyle(
+              color: AppColor.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          BlocBuilder<PackageOrderBloc, PackageOrderState>(
+            builder: (context, state) {
+              if (state.amenities.isEmpty) {
+                return Text(
+                  'Tidak ada layanan tambahan.',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontStyle: FontStyle.italic,
+                    color: AppColor.darkGrey,
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  ...state.amenities.map(
+                    (e) {
+                      final currentAmenitiesInCart =
+                          state.cart.firstWhereOrNull(
+                        (element) =>
+                            element.id == e.id &&
+                            element.type == OrderableType.amenity,
+                      );
+                      final quantity = currentAmenitiesInCart?.quantity ?? 0;
+                      return ListTile(
+                        title: Text(e.name),
+                        subtitle: Row(
+                          children: [
+                            Text('${rupiahCurrency(e.price)}'),
+                            IconButton(
+                              onPressed: () {
+                                showDialog<dynamic>(
+                                  context: context,
+                                  builder: (_) {
+                                    return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 20.h,
+                                          horizontal: 16.w,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              'Ketentuan Layanan',
+                                              style: TextStyle(
+                                                color: AppColor.secondBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                            Text(
+                                              e.description,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.more_horiz_rounded,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 25.w,
+                              child: ElevatedButton(
+                                onPressed: quantity == 0
+                                    ? null
+                                    : () {
+                                        context.read<PackageOrderBloc>().add(
+                                              PackageOrderEvent
+                                                  .amenitiesDecreaseButtonPressed(
+                                                e,
+                                              ),
+                                            );
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  backgroundColor: AppColor.primary,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Icon(Icons.remove),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Text('$quantity'),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            SizedBox(
+                              width: 25.w,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.read<PackageOrderBloc>().add(
+                                        PackageOrderEvent
+                                            .amenitiesIncreaseButtonPressed(e),
+                                      );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  backgroundColor: AppColor.primary,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class DetailPesananRincianBiayaWidget extends StatelessWidget {
   const DetailPesananRincianBiayaWidget({super.key});
 
@@ -460,7 +627,7 @@ class DetailPesananRincianBiayaWidget extends StatelessWidget {
             builder: (context, state) {
               if (state.cart.isEmpty) {
                 return Text(
-                  'Keranjang kamu masih kosong',
+                  'Keranjang kamu masih .',
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontStyle: FontStyle.italic,

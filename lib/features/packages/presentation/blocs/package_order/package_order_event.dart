@@ -15,6 +15,14 @@ class PackageOrderEvent with _$PackageOrderEvent {
     Ticketable ticketable,
   ) = _PackageOrderTicketRemoveButtonPressed;
 
+  const factory PackageOrderEvent.amenitiesIncreaseButtonPressed(
+    Amenity amenity,
+  ) = _PackageOrderAmenitiesIncreaseButtonPressed;
+
+  const factory PackageOrderEvent.amenitiesDecreaseButtonPressed(
+    Amenity amenity,
+  ) = _PackageOrderAmenitiesDecreaseButtonPressed;
+
   const factory PackageOrderEvent.proceedToPaymentButtonPressed() =
       _PackageOrderProceedToPaymentButtonPressed;
 }

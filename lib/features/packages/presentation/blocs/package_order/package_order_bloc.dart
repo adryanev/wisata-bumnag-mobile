@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart' hide Order;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
+import 'package:wisatabumnag/features/packages/domain/entities/amenity.entity.dart';
 import 'package:wisatabumnag/features/packages/domain/entities/package_detail.entity.dart';
 import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
@@ -27,6 +28,9 @@ class PackageOrderBloc extends Bloc<PackageOrderEvent, PackageOrderState> {
     on<_PackageOrderTicketRemoveButtonPressed>(
       _onTicketRemoveButtonPressed,
     );
+    on<_PackageOrderAmenitiesIncreaseButtonPressed>(_onAmenitiesIncreased);
+    on<_PackageOrderAmenitiesDecreaseButtonPressed>(_onAmenitiesDecreased);
+
     on<_PackageOrderProceedToPaymentButtonPressed>(
       _onProceedToPaymentPressed,
     );
@@ -43,6 +47,7 @@ class PackageOrderBloc extends Bloc<PackageOrderEvent, PackageOrderState> {
 
     emit(
       state.copyWith(
+        amenities: details.amenities,
         tickets: details.tickets,
         packageDetail: details,
       ),
@@ -80,17 +85,17 @@ class PackageOrderBloc extends Bloc<PackageOrderEvent, PackageOrderState> {
       final orderable = OrderableMapper.fromTicket(event.ticketable);
 
       emit(state.copyWith(cart: [...state.cart, orderable]));
-    } else {
-      final temporary = [...state.cart];
-      final newQuantity = current.quantity + 1;
-      final newTicketable = current.copyWith(
-        quantity: newQuantity,
-        subtotal: current.price * newQuantity,
-      );
-      temporary[currentIndex] = newTicketable;
-
-      emit(state.copyWith(cart: [...temporary]));
+      return null;
     }
+    final temporary = [...state.cart];
+    final newQuantity = current.quantity + 1;
+    final newTicketable = current.copyWith(
+      quantity: newQuantity,
+      subtotal: current.price * newQuantity,
+    );
+    temporary[currentIndex] = newTicketable;
+
+    emit(state.copyWith(cart: [...temporary]));
   }
 
   FutureOr<void> _onTicketRemoveButtonPressed(
@@ -153,5 +158,74 @@ class PackageOrderBloc extends Bloc<PackageOrderEvent, PackageOrderState> {
     emit(
       state.copyWith(createOrderOfFailureOption: none(), isSubmitting: false),
     );
+  }
+
+  FutureOr<void> _onAmenitiesIncreased(
+    _PackageOrderAmenitiesIncreaseButtonPressed event,
+    Emitter<PackageOrderState> emit,
+  ) {
+    final current = state.cart.firstWhereOrNull(
+      (element) =>
+          element.id == event.amenity.id &&
+          element.type == OrderableType.amenity,
+    );
+    final currentIndex = state.cart.indexWhere(
+      (element) =>
+          element.id == event.amenity.id &&
+          element.type == OrderableType.amenity,
+    );
+    if (current == null) {
+      final orderable = OrderableMapper.fromAmenity(event.amenity);
+
+      emit(state.copyWith(cart: [...state.cart, orderable]));
+      return null;
+    }
+    final temporary = [...state.cart];
+    final newQuantity = current.quantity + 1;
+    final newAmenity = current.copyWith(
+      quantity: newQuantity,
+      subtotal: current.price * newQuantity,
+    );
+    temporary[currentIndex] = newAmenity;
+
+    emit(state.copyWith(cart: [...temporary]));
+  }
+
+  FutureOr<void> _onAmenitiesDecreased(
+    _PackageOrderAmenitiesDecreaseButtonPressed event,
+    Emitter<PackageOrderState> emit,
+  ) {
+    final current = state.cart.firstWhereOrNull(
+      (element) =>
+          element.id == event.amenity.id &&
+          element.type == OrderableType.amenity,
+    );
+    final currentIndex = state.cart.indexWhere(
+      (element) =>
+          element.id == event.amenity.id &&
+          element.type == OrderableType.amenity,
+    );
+    if (current == null) {
+      return null;
+    }
+    if (current.quantity > 1) {
+      final temporary = [...state.cart];
+      final newQuantity = current.quantity - 1;
+      final newAmenity = current.copyWith(
+        quantity: newQuantity,
+        subtotal: current.price * newQuantity,
+      );
+      temporary[currentIndex] = newAmenity;
+
+      emit(state.copyWith(cart: [...temporary]));
+      return null;
+    }
+
+    final temporary = [...state.cart]..removeWhere(
+        (element) =>
+            element.id == event.amenity.id &&
+            element.type == OrderableType.amenity,
+      );
+    emit(state.copyWith(cart: [...temporary]));
   }
 }
