@@ -7,6 +7,7 @@ import 'package:wisatabumnag/shared/categories/data/datasources/remote/clients/c
 import 'package:wisatabumnag/shared/categories/data/model/category.model.dart';
 
 abstract class CategoryRemoteDataSource {
+  Future<Either<Failure, List<CategoryModel>>> getParentCategories();
   Future<Either<Failure, List<CategoryModel>>> getChildrenCategoryOf(
     CategoryModel model,
   );
@@ -27,5 +28,14 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
         retrofitCall: () => _client
             .getChildrenCategoryById(model.id)
             .then((value) => value.data!),
+      );
+
+  @override
+  Future<Either<Failure, List<CategoryModel>>> getParentCategories() =>
+      safeRemoteCall(
+        middlewares: _middlewareProvider.getAll(),
+        retrofitCall: () => _client.getParentCategoies().then(
+              (value) => value.data!,
+            ),
       );
 }

@@ -18,4 +18,7 @@ abstract class CategoryApiClient {
   Future<BaseResponse<List<CategoryModel>>> getChildrenCategoryById(
     @Query('parent') int parent,
   );
+
+  @GET('v1/categories/main')
+  Future<BaseResponse<List<CategoryModel>>> getParentCategoies();
 }
