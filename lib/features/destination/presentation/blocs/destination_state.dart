@@ -1,7 +1,7 @@
 part of 'destination_bloc.dart';
 
 @freezed
-class DestinationState with _$DestinationState {
+abstract class DestinationState with _$DestinationState {
   const factory DestinationState({
     required bool isCategoryLoading,
     required Option<Either<Failure, List<Category>>> categoriesOrFailureOption,

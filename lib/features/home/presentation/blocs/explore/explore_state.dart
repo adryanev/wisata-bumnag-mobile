@@ -1,7 +1,7 @@
 part of 'explore_bloc.dart';
 
 @freezed
-class ExploreState with _$ExploreState {
+abstract class ExploreState with _$ExploreState {
   const factory ExploreState({
     required ExploreStatus status,
     required bool hasReachedMax,

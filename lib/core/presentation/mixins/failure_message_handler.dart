@@ -7,26 +7,37 @@ import 'package:wisatabumnag/core/extensions/context_extensions.dart';
 
 mixin FailureMessageHandler {
   void handleFailure(BuildContext context, Failure failure) {
-    failure.when(
-      localFailure: (message) => context.displayFlash(message),
-      serverFailure: (code, message) {
-        context.displayFlash(message);
-        if (code == 401) {
-          context.pushNamed(AppRouter.login);
-        }
-      },
-      networkMiddlewareFailure: (message) => context.displayFlash(message),
-      unexpectedFailure: (message) => context.displayFlash(message),
-      remoteConfigFailure: (message) => context.displayFlash(message),
-      serverValidationFailure: (Map<String, dynamic> errors) {
-        final errorText = <String>[];
-        errors.forEach((key, value) {
-          final error = (value as List<dynamic>).join(', ');
-          errorText.add('${key.toTitleCase()}: $error');
-        });
-        context.displayFlash(errorText.join('; '));
-      },
-      locationFailure: (message) => context.displayFlash(message),
-    );
+    if (failure is ServerFailure) {
+      if (failure.code == 401) {
+        context.pushNamed(AppRouter.login);
+      }
+    }
+    if (failure is ServerValidationFailure) {
+      final errorText = <String>[];
+      failure.errors.forEach((key, value) {
+        final error = (value as List<dynamic>).join(', ');
+        errorText.add('${key.toTitleCase()}: $error');
+      });
+    }
+
+    if (failure is LocalFailure) {
+      context.displayFlash(failure.message);
+    }
+
+    if (failure is NetworkMiddlewareFailure) {
+      context.displayFlash(failure.message);
+    }
+
+    if (failure is UnexpectedFailure) {
+      context.displayFlash(failure.message);
+    }
+
+    if (failure is RemoteConfigFailure) {
+      context.displayFlash(failure.message);
+    }
+
+    if (failure is LocationFailure) {
+      context.displayFlash(failure.message);
+    }
   }
 }

@@ -1,7 +1,7 @@
 part of 'review_form_bloc.dart';
 
 @freezed
-class ReviewFormEvent with _$ReviewFormEvent {
+abstract class ReviewFormEvent with _$ReviewFormEvent {
   const factory ReviewFormEvent.started(OrderDetail orderDetail) =
       _ReviewFormStarted;
   const factory ReviewFormEvent.titleChanged(String title) =

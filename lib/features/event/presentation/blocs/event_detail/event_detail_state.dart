@@ -1,7 +1,7 @@
 part of 'event_detail_bloc.dart';
 
 @freezed
-class EventDetailState with _$EventDetailState {
+abstract class EventDetailState with _$EventDetailState {
   const factory EventDetailState({
     required bool isLoading,
     required Option<Either<Failure, EventDetail>> eventDetailOrFailureOption,

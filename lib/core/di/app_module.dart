@@ -1,4 +1,5 @@
 import 'package:alice/alice.dart';
+import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -44,5 +45,9 @@ abstract class AppModule {
   ImageCropper get cropper => ImageCropper();
 
   @lazySingleton
-  Alice get alice => Alice();
+  Alice getAlice(AliceDioAdapter aliceDioAdapter) =>
+      Alice()..addAdapter(aliceDioAdapter);
+
+  @lazySingleton
+  AliceDioAdapter get aliceDioAdapter => AliceDioAdapter();
 }

@@ -8,7 +8,7 @@ import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'package_detail.entity.freezed.dart';
 
 @freezed
-class PackageDetail with _$PackageDetail {
+abstract class PackageDetail with _$PackageDetail {
   const factory PackageDetail({
     required int id,
     required String name,

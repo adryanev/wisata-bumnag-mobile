@@ -94,7 +94,7 @@ class _PackageResultListState extends State<PackageResultList> {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.packageDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id': state.packages[index].id.toString(),
                       },
                     );

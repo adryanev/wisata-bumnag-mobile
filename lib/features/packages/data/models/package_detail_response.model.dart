@@ -10,7 +10,7 @@ part 'package_detail_response.model.freezed.dart';
 part 'package_detail_response.model.g.dart';
 
 @freezed
-class PackageDetailResponse with _$PackageDetailResponse {
+abstract class PackageDetailResponse with _$PackageDetailResponse {
   const factory PackageDetailResponse({
     required int id,
     required String name,

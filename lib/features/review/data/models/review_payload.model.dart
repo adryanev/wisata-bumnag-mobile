@@ -5,7 +5,7 @@ import 'package:wisatabumnag/features/review/domain/entities/review_form.entity.
 part 'review_payload.model.freezed.dart';
 
 @freezed
-class ReviewPayload with _$ReviewPayload {
+abstract class ReviewPayload with _$ReviewPayload {
   const factory ReviewPayload({
     required String title,
     required String description,

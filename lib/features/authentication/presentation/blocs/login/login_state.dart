@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
 @freezed
-class LoginState with _$LoginState {
+abstract class LoginState with _$LoginState {
   const factory LoginState({
     required LoginStatus status,
     required EmailInput emailInput,

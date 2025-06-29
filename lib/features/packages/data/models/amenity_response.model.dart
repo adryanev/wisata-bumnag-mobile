@@ -5,7 +5,7 @@ part 'amenity_response.model.freezed.dart';
 part 'amenity_response.model.g.dart';
 
 @freezed
-class AmenityResponse with _$AmenityResponse {
+abstract class AmenityResponse with _$AmenityResponse {
   const factory AmenityResponse({
     required int? id,
     required int? packageId,

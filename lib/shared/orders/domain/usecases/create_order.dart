@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart' hide Order;
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -9,11 +9,11 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order_form.entity.dar
 import 'package:wisatabumnag/shared/orders/domain/repositories/order_repository.dart';
 
 @lazySingleton
-class CreateOrder extends UseCase<Order, CreateOrderParams> {
+class CreateOrder extends UseCase<UserOrder, CreateOrderParams> {
   const CreateOrder(this._repository);
   final OrderRepository _repository;
   @override
-  Future<Either<Failure, Order>> call(CreateOrderParams params) =>
+  Future<Either<Failure, UserOrder>> call(CreateOrderParams params) =>
       _repository.createOrder(params.form);
 }
 

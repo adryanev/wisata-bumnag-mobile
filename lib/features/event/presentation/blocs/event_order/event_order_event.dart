@@ -1,7 +1,7 @@
 part of 'event_order_bloc.dart';
 
 @freezed
-class EventOrderEvent with _$EventOrderEvent {
+abstract class EventOrderEvent with _$EventOrderEvent {
   const factory EventOrderEvent.started(
     EventDetail eventDetail,
   ) = _EventOrderStarted;

@@ -5,7 +5,7 @@ part 'notification_response.model.freezed.dart';
 part 'notification_response.model.g.dart';
 
 @freezed
-class NotificationResponse with _$NotificationResponse {
+abstract class NotificationResponse with _$NotificationResponse {
   const factory NotificationResponse({
     required String id,
     required String type,
@@ -31,7 +31,7 @@ extension NotificationResponseX on NotificationResponse {
 }
 
 @freezed
-class NotificationDataResponse with _$NotificationDataResponse {
+abstract class NotificationDataResponse with _$NotificationDataResponse {
   const factory NotificationDataResponse({
     @JsonKey(name: 'object_id') required int id,
     required String body,

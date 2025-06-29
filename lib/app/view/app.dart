@@ -45,12 +45,14 @@ class App extends StatelessWidget with FailureMessageHandler {
         listeners: [
           BlocListener<FlashCubit, FlashState>(
             listener: (context, state) {
-              state.when(
-                disappeared: () => null,
-                appeared: (message) => context.showSnackbar(
-                  message: message,
-                ),
-              );
+              if (state is FlashDisappeared) {
+                return;
+              }
+              if (state is FlashAppeared) {
+                context.showSnackbar(
+                  message: state.message,
+                );
+              }
             },
           ),
           BlocListener<CartBloc, CartState>(

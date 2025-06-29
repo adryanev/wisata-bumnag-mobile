@@ -5,7 +5,7 @@ part 'reviewable_response.model.freezed.dart';
 part 'reviewable_response.model.g.dart';
 
 @freezed
-class ReviewableResponse with _$ReviewableResponse {
+abstract class ReviewableResponse with _$ReviewableResponse {
   const factory ReviewableResponse({
     required int count,
     required double? rating,

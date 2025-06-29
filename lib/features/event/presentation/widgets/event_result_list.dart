@@ -93,7 +93,7 @@ class _EventResultListState extends State<EventResultList> {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.eventDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id': state.events[index].id.toString(),
                       },
                     );

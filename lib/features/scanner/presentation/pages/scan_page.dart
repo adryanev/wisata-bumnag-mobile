@@ -9,8 +9,21 @@ import 'package:wisatabumnag/features/scanner/presentation/blocs/scan_ticket/sca
 import 'package:wisatabumnag/gen/assets.gen.dart';
 import 'package:wisatabumnag/injector.dart';
 
-class ScanPage extends StatelessWidget with FailureMessageHandler {
+class ScanPage extends StatefulWidget with FailureMessageHandler {
   const ScanPage({super.key});
+
+  @override
+  State<ScanPage> createState() => _ScanPageState();
+}
+
+class _ScanPageState extends State<ScanPage> {
+  final MobileScannerController controller = MobileScannerController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +52,7 @@ class ScanPage extends StatelessWidget with FailureMessageHandler {
             (either) => either.fold(
               (l) {
                 Navigator.pop(context);
-                handleFailure(context, l);
+                widget.handleFailure(context, l);
               },
               (r) {
                 Navigator.pop(context);
@@ -58,12 +71,13 @@ class ScanPage extends StatelessWidget with FailureMessageHandler {
                 BlocBuilder<ScanTicketBloc, ScanTicketState>(
                   builder: (context, state) {
                     return AiBarcodeScanner(
-                      canPop: false,
-                      hintText: '',
-                      onScan: (value) {
+                      controller: controller,
+                      onDetect: (value) async {
                         debugPrint('detected: $value');
                         context.read<ScanTicketBloc>().add(
-                              ScanTicketEvent.barcodeScaned(value),
+                              ScanTicketEvent.barcodeScaned(
+                                value.barcodes.first.rawValue!,
+                              ),
                             );
                       },
                     );

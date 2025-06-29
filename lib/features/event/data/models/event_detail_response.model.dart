@@ -7,7 +7,7 @@ part 'event_detail_response.model.freezed.dart';
 part 'event_detail_response.model.g.dart';
 
 @freezed
-class EventDetailResponse with _$EventDetailResponse {
+abstract class EventDetailResponse with _$EventDetailResponse {
   const factory EventDetailResponse({
     required int id,
     required String name,

@@ -4,7 +4,7 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 class OrderHistoryItemMapper {
   const OrderHistoryItemMapper._();
 
-  static List<OrderHistoryItem> mapFromOrderList(List<Order> orders) {
+  static List<OrderHistoryItem> mapFromOrderList(List<UserOrder> orders) {
     final tempOrders = [...orders];
 
     final result = tempOrders
@@ -21,7 +21,7 @@ class OrderHistoryItemMapper {
     return result;
   }
 
-  static OrderHistoryItem mapFromOrder(Order order) {
+  static OrderHistoryItem mapFromOrder(UserOrder order) {
     final result = OrderHistoryItem(
       id: order.orderDetails.first.orderableDetail.id,
       type: order.orderDetails.first.orderableDetail.type,

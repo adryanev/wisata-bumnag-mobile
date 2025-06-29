@@ -4,7 +4,7 @@ part 'pagination_response.model.freezed.dart';
 part 'pagination_response.model.g.dart';
 
 @freezed
-class PaginationResponse with _$PaginationResponse {
+abstract class PaginationResponse with _$PaginationResponse {
   const factory PaginationResponse({
     @JsonKey(name: 'current_page') required int currentPage,
     @JsonKey(name: 'last_page') required int lastPage,

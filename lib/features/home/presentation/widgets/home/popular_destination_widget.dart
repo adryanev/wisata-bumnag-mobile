@@ -65,7 +65,7 @@ class PopularDestinationWidget extends StatelessWidget {
                       onTap: () {
                         context.pushNamed(
                           AppRouter.destinationDetail,
-                          queryParams: {
+                          queryParameters: {
                             'id': filteredRecommendation[index]
                                 .destination!
                                 .id

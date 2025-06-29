@@ -7,7 +7,7 @@ part 'update_password_payload.model.freezed.dart';
 part 'update_password_payload.model.g.dart';
 
 @freezed
-class UpdatePasswordPayload with _$UpdatePasswordPayload {
+abstract class UpdatePasswordPayload with _$UpdatePasswordPayload {
   const factory UpdatePasswordPayload({
     required String oldPassword,
     required String password,

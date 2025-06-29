@@ -3,7 +3,7 @@ import 'package:wisatabumnag/features/authentication/domain/entities/user.entity
 part 'review.entity.freezed.dart';
 
 @freezed
-class Review with _$Review {
+abstract class Review with _$Review {
   const factory Review({
     required int id,
     required String title,

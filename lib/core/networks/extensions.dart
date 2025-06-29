@@ -41,8 +41,8 @@ Future<Either<Failure, T>> _executeRetrofitCall<T>({
 }
 
 Failure _parseException(Object exception) {
-  if (exception is DioError) {
-    if (exception.type == DioErrorType.response) {
+  if (exception is DioException) {
+    if (exception.type == DioExceptionType.badResponse) {
       final response = exception.response;
       if (response != null) {
         if (response.statusCode == HttpStatus.unprocessableEntity) {

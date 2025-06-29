@@ -62,12 +62,11 @@ class _HomePageState extends State<HomePage> with FailureMessageHandler {
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        state.maybeWhen(
-          authenticated: (user) => context.read<CartBloc>().add(
+        if (state is AuthenticationAuthenticated) {
+          context.read<CartBloc>().add(
                 const CartEvent.started(),
-              ),
-          orElse: () => null,
-        );
+              );
+        }
       },
       child: Scaffold(
         body: SafeArea(
@@ -83,42 +82,46 @@ class _HomePageState extends State<HomePage> with FailureMessageHandler {
         bottomNavigationBar:
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-            return state.maybeWhen(
-              authenticated: (_) => BlocSelector<HomeBloc, HomeState, int>(
-                selector: (state) => state.navigationBarIndex,
-                builder: (context, state) {
-                  return BottomNavigationBar(
-                    showSelectedLabels: true,
-                    items: navigationItem,
-                    currentIndex: state,
-                    onTap: (value) {
-                      context
-                          .read<HomeBloc>()
-                          .add(HomeEvent.bottomNavigatonChanged(value));
-                    },
-                  );
-                },
-              ),
-              unauthenticated: () => BlocSelector<HomeBloc, HomeState, int>(
-                selector: (state) => state.navigationBarIndex,
-                builder: (context, state) {
-                  return BottomNavigationBar(
-                    showSelectedLabels: true,
-                    items: navigationItem,
-                    currentIndex: state,
-                    onTap: (value) {
-                      if (value == 2 || value == 3) {
-                        context.pushNamed(AppRouter.login);
-                      }
-                      context
-                          .read<HomeBloc>()
-                          .add(HomeEvent.bottomNavigatonChanged(value));
-                    },
-                  );
-                },
-              ),
-              orElse: () => const SizedBox(),
-            );
+            return switch (state) {
+              AuthenticationAuthenticated() =>
+                BlocSelector<HomeBloc, HomeState, int>(
+                  selector: (state) => state.navigationBarIndex,
+                  builder: (context, state) {
+                    return BottomNavigationBar(
+                      showSelectedLabels: true,
+                      items: navigationItem,
+                      currentIndex: state,
+                      onTap: (value) {
+                        context
+                            .read<HomeBloc>()
+                            .add(HomeEvent.bottomNavigatonChanged(value));
+                      },
+                    );
+                  },
+                ),
+              AuthenticationUnauthenticated() =>
+                BlocSelector<HomeBloc, HomeState, int>(
+                  selector: (state) => state.navigationBarIndex,
+                  builder: (context, state) {
+                    return BottomNavigationBar(
+                      showSelectedLabels: true,
+                      items: navigationItem,
+                      currentIndex: state,
+                      onTap: (value) {
+                        if (value == 2 || value == 3) {
+                          context.pushNamed(AppRouter.login);
+                        }
+                        context
+                            .read<HomeBloc>()
+                            .add(HomeEvent.bottomNavigatonChanged(value));
+                      },
+                    );
+                  },
+                ),
+              AuthenticationInitial() => const SizedBox(),
+              AuthenticationFailed() => const SizedBox(),
+              AuthenticationState() => const SizedBox(),
+            };
           },
         ),
       ),

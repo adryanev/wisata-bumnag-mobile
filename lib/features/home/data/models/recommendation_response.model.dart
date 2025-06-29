@@ -6,7 +6,7 @@ part 'recommendation_response.model.freezed.dart';
 part 'recommendation_response.model.g.dart';
 
 @freezed
-class RecommendationResponse with _$RecommendationResponse {
+abstract class RecommendationResponse with _$RecommendationResponse {
   const factory RecommendationResponse({
     required int id,
     required String name,

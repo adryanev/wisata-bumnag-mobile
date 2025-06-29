@@ -1,12 +1,12 @@
 part of 'order_list_bloc.dart';
 
 @freezed
-class OrderListState with _$OrderListState {
+abstract class OrderListState with _$OrderListState {
   const factory OrderListState({
     required OrderListStatus status,
-    required List<Order> orders,
+    required List<UserOrder> orders,
     required List<OrderHistoryItem> orderHistories,
-    required Option<Either<Failure, Paginable<Order>>>
+    required Option<Either<Failure, Paginable<UserOrder>>>
         orderPaginationOrFailureOption,
     required bool hasReachedMax,
     required int currentPage,

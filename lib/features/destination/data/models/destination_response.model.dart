@@ -8,7 +8,7 @@ part 'destination_response.model.freezed.dart';
 part 'destination_response.model.g.dart';
 
 @freezed
-class DestinationResponse with _$DestinationResponse {
+abstract class DestinationResponse with _$DestinationResponse {
   const factory DestinationResponse({
     required int id,
     required String name,

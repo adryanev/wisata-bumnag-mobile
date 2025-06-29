@@ -4,7 +4,7 @@ import 'package:wisatabumnag/shared/domain/entities/value_objects.dart';
 part 'user.entity.freezed.dart';
 
 @freezed
-class User with _$User {
+abstract class User with _$User {
   const factory User({
     required int id,
     required EmailAddress emailAddress,

@@ -246,7 +246,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                               : () {
                                   context.pushNamed(
                                     AppRouter.webview,
-                                    queryParams: {
+                                    queryParameters: {
                                       'url': state.tncUrl,
                                       'title': 'Syarat dan Ketentuan',
                                     },

@@ -1,7 +1,7 @@
 part of 'profile_form_bloc.dart';
 
 @freezed
-class ProfileFormState with _$ProfileFormState {
+abstract class ProfileFormState with _$ProfileFormState {
   const factory ProfileFormState({
     required ProfileFormStatus status,
     required NameInput nameInput,

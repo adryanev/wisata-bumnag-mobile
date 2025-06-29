@@ -4,7 +4,7 @@ part 'approve_ticket_payload.model.freezed.dart';
 part 'approve_ticket_payload.model.g.dart';
 
 @freezed
-class ApproveTicketPayload with _$ApproveTicketPayload {
+abstract class ApproveTicketPayload with _$ApproveTicketPayload {
   const factory ApproveTicketPayload({
     required String number,
     required DateTime orderDate,

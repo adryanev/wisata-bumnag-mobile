@@ -4,7 +4,7 @@ part 'midtrans_payment_response.model.freezed.dart';
 part 'midtrans_payment_response.model.g.dart';
 
 @freezed
-class MidtransPaymentResponse with _$MidtransPaymentResponse {
+abstract class MidtransPaymentResponse with _$MidtransPaymentResponse {
   const factory MidtransPaymentResponse({
     required String token,
     required String url,

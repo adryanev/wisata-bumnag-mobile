@@ -6,7 +6,7 @@ part 'souvenir_response.model.freezed.dart';
 part 'souvenir_response.model.g.dart';
 
 @freezed
-class SouvenirResponse with _$SouvenirResponse {
+abstract class SouvenirResponse with _$SouvenirResponse {
   const factory SouvenirResponse({
     required int id,
     required String name,

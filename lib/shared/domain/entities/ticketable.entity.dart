@@ -3,7 +3,7 @@ import 'package:wisatabumnag/shared/domain/entities/ticket_setting.entity.dart';
 part 'ticketable.entity.freezed.dart';
 
 @freezed
-class Ticketable with _$Ticketable {
+abstract class Ticketable with _$Ticketable {
   const factory Ticketable({
     required int id,
     required String name,

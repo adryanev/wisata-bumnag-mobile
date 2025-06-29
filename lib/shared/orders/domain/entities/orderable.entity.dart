@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'orderable.entity.freezed.dart';
 
 @freezed
-class Orderable with _$Orderable {
+abstract class Orderable with _$Orderable {
   const factory Orderable({
     required OrderableType type,
     required int id,

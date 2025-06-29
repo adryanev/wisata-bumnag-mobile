@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'explore.entity.freezed.dart';
 
 @freezed
-class Explore with _$Explore {
+abstract class Explore with _$Explore {
   const factory Explore({
     required int id,
     required double rating,
@@ -16,7 +16,7 @@ class Explore with _$Explore {
 }
 
 @freezed
-class ExploreUser with _$ExploreUser {
+abstract class ExploreUser with _$ExploreUser {
   const factory ExploreUser({
     required int id,
     required String name,
@@ -26,7 +26,7 @@ class ExploreUser with _$ExploreUser {
 }
 
 @freezed
-class ExploreReviewable with _$ExploreReviewable {
+abstract class ExploreReviewable with _$ExploreReviewable {
   const factory ExploreReviewable({
     required int id,
     required String? type,

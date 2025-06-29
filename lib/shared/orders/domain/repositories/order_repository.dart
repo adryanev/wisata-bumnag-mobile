@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart' hide Order;
+import 'package:dartz/dartz.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/shared/domain/entities/paginable.dart';
 import 'package:wisatabumnag/shared/orders/domain/entities/midtrans_payment.entity.dart';
@@ -7,7 +7,8 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order_form.entity.dar
 import 'package:wisatabumnag/shared/orders/domain/entities/payment_form.entity.dart';
 
 abstract class OrderRepository {
-  Future<Either<Failure, Order>> createOrder(OrderForm form);
+  Future<Either<Failure, UserOrder>> createOrder(OrderForm form);
   Future<Either<Failure, MidtransPayment>> paymentOnline(PaymentForm form);
-  Future<Either<Failure, Paginable<Order>>> orderHistories({required int page});
+  Future<Either<Failure, Paginable<UserOrder>>> orderHistories(
+      {required int page});
 }

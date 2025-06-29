@@ -4,7 +4,7 @@ part 'review_aggregate_response.model.freezed.dart';
 part 'review_aggregate_response.model.g.dart';
 
 @freezed
-class ReviewAggregateResponse with _$ReviewAggregateResponse {
+abstract class ReviewAggregateResponse with _$ReviewAggregateResponse {
   const factory ReviewAggregateResponse({
     required int count,
     required double? rating,

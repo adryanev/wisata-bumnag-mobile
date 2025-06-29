@@ -5,7 +5,7 @@ import 'package:wisatabumnag/shared/domain/entities/reviewable.entity.dart';
 part 'souvenir_detail.entity.freezed.dart';
 
 @freezed
-class SouvenirDetail with _$SouvenirDetail {
+abstract class SouvenirDetail with _$SouvenirDetail {
   const factory SouvenirDetail({
     required int id,
     required String name,

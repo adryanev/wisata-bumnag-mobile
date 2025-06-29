@@ -1,10 +1,10 @@
 part of 'cart_order_bloc.dart';
 
 @freezed
-class CartOrderState with _$CartOrderState {
+abstract class CartOrderState with _$CartOrderState {
   const factory CartOrderState({
     required CartSouvenir? cartSouvenir,
-    required Option<Either<Failure, Order>> createOrderOfFailureOption,
+    required Option<Either<Failure, UserOrder>> createOrderOfFailureOption,
     required DateTime orderDate,
     required bool isSubmitting,
     required bool isLoading,

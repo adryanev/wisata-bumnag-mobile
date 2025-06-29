@@ -1,7 +1,7 @@
 part of 'notification_bloc.dart';
 
 @freezed
-class NotificationEvent with _$NotificationEvent {
+abstract class NotificationEvent with _$NotificationEvent {
   const factory NotificationEvent.started() = _NotificationStarted;
   const factory NotificationEvent.refreshed() = _NotificationRefreshed;
   const factory NotificationEvent.notificationClicked({

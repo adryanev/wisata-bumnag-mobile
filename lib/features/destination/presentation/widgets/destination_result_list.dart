@@ -98,7 +98,7 @@ class _DestinationResultListState extends State<DestinationResultList> {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.destinationDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id': state.destinations[index].id.toString(),
                       },
                     );

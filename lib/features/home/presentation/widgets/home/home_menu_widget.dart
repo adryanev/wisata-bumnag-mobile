@@ -129,7 +129,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
           onClick: () {
             context.pushNamed(
               AppRouter.webview,
-              queryParams: {
+              queryParameters: {
                 'url': 'https://id.wikipedia.org/wiki/Mandeh',
                 'title': 'Profil Nagari',
               },

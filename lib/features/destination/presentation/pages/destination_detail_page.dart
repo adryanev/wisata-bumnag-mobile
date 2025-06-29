@@ -725,7 +725,7 @@ class DestinationDetailReviewAndRecommendationWidget extends StatelessWidget {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.destinationDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id': destinationDetail.recommendations[index].id
                             .toString(),
                       },

@@ -6,7 +6,7 @@ part 'order_response.model.freezed.dart';
 part 'order_response.model.g.dart';
 
 @freezed
-class OrderResponse with _$OrderResponse {
+abstract class OrderResponse with _$OrderResponse {
   const factory OrderResponse({
     required String number,
     required String note,
@@ -23,7 +23,7 @@ class OrderResponse with _$OrderResponse {
 }
 
 extension OrderResponseX on OrderResponse {
-  Order toDomain() => Order(
+  UserOrder toDomain() => UserOrder(
         number: number,
         note: note,
         status: OrderStatusMapper.fromResponse(status),
@@ -38,7 +38,7 @@ extension OrderResponseX on OrderResponse {
 }
 
 @freezed
-class OrderDetailResponse with _$OrderDetailResponse {
+abstract class OrderDetailResponse with _$OrderDetailResponse {
   const factory OrderDetailResponse({
     required int id,
     required String orderableType,
@@ -72,7 +72,7 @@ extension OrderDetailResponseX on OrderDetailResponse {
 }
 
 @freezed
-class OrderableDetailResponse with _$OrderableDetailResponse {
+abstract class OrderableDetailResponse with _$OrderableDetailResponse {
   const factory OrderableDetailResponse({
     required int id,
     required String name,

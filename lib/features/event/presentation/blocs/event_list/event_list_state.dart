@@ -1,7 +1,7 @@
 part of 'event_list_bloc.dart';
 
 @freezed
-class EventListState with _$EventListState {
+abstract class EventListState with _$EventListState {
   const factory EventListState({
     required EventListStatus status,
     required List<Event> events,

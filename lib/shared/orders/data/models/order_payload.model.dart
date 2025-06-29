@@ -7,7 +7,7 @@ part 'order_payload.model.freezed.dart';
 part 'order_payload.model.g.dart';
 
 @freezed
-class OrderPayload with _$OrderPayload {
+abstract class OrderPayload with _$OrderPayload {
   const factory OrderPayload({
     required double totalPrice,
     required String orderDate,
@@ -25,7 +25,7 @@ class OrderPayload with _$OrderPayload {
 }
 
 @freezed
-class OrderablePayload with _$OrderablePayload {
+abstract class OrderablePayload with _$OrderablePayload {
   const factory OrderablePayload({
     @JsonKey(name: 'orderable_type') required String type,
     @JsonKey(name: 'orderable_id') required int id,

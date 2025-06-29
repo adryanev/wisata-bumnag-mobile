@@ -1,7 +1,7 @@
 part of 'destination_order_bloc.dart';
 
 @freezed
-class DestinationOrderState with _$DestinationOrderState {
+abstract class DestinationOrderState with _$DestinationOrderState {
   const factory DestinationOrderState({
     required bool isLoading,
     required List<Ticketable> tickets,
@@ -11,7 +11,7 @@ class DestinationOrderState with _$DestinationOrderState {
     required List<Orderable> cart,
     required DateTime orderForDate,
     required bool isSubmitting,
-    required Option<Either<Failure, Order>> createOrderOfFailureOption,
+    required Option<Either<Failure, UserOrder>> createOrderOfFailureOption,
   }) = _DestinationOrderState;
   factory DestinationOrderState.initial() => DestinationOrderState(
         isLoading: false,

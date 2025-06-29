@@ -3,7 +3,7 @@ import 'package:wisatabumnag/features/destination/domain/entities/destination.en
 part 'recommendation.entity.freezed.dart';
 
 @freezed
-class Recommendation with _$Recommendation {
+abstract class Recommendation with _$Recommendation {
   const factory Recommendation({
     required int id,
     required String name,

@@ -3,7 +3,7 @@ part 'device_info_model.model.freezed.dart';
 part 'device_info_model.model.g.dart';
 
 @freezed
-class DeviceInfoModel with _$DeviceInfoModel {
+abstract class DeviceInfoModel with _$DeviceInfoModel {
   const factory DeviceInfoModel({
     required String operatingSystem,
     required String operatingSystemVersion,

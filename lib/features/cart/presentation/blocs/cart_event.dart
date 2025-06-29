@@ -1,7 +1,7 @@
 part of 'cart_bloc.dart';
 
 @freezed
-class CartEvent with _$CartEvent {
+abstract class CartEvent with _$CartEvent {
   const factory CartEvent.started() = _CartStarted;
   const factory CartEvent.decisionChecked(
     Pair<DestinationSouvenir, Souvenir> temporary,

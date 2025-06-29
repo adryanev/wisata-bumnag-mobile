@@ -1,5 +1,5 @@
 import 'package:alice/alice.dart';
-import 'package:dio/adapter.dart';
+import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -27,12 +27,13 @@ class PublicDio with DioMixin implements Dio {
       headers: {
         'Accept': 'application/json',
       },
-      connectTimeout: 120000,
-      sendTimeout: 120000,
-      receiveTimeout: 120001,
+      connectTimeout: const Duration(seconds: 120),
+      sendTimeout: const Duration(seconds: 120),
+      receiveTimeout: const Duration(seconds: 120),
     );
 
     options = newOptions;
+    httpClientAdapter = HttpClientAdapter();
     interceptors.addAll([
       _urlInterceptor,
       _apiKeyInterceptor,
@@ -41,16 +42,14 @@ class PublicDio with DioMixin implements Dio {
         requestHeader: true,
         requestBody: true,
       ),
-      if (kDebugMode || kProfileMode) _alice.getDioInterceptor(),
+      if (kDebugMode || kProfileMode) _alice,
     ]);
-
-    httpClientAdapter = DefaultHttpClientAdapter();
   }
 
   final ApiKeyInterceptor _apiKeyInterceptor;
   final UrlInterceptor _urlInterceptor;
   final SignatureInterceptor _signatureInterceptor;
-  final Alice _alice;
+  final AliceDioAdapter _alice;
 }
 
 @LazySingleton(as: Dio)
@@ -62,18 +61,20 @@ class PrivateDio with DioMixin implements Dio {
     this._tokenInterceptor,
     this._signatureInterceptor,
     this._alice,
+    this._aliceDioAdapter,
   ) {
     final newOptions = BaseOptions(
       contentType: 'application/json',
       headers: {
         'Accept': 'application/json',
       },
-      connectTimeout: 120000,
-      sendTimeout: 120000,
-      receiveTimeout: 120001,
+      connectTimeout: const Duration(seconds: 120),
+      sendTimeout: const Duration(seconds: 120),
+      receiveTimeout: const Duration(seconds: 120),
     );
 
     options = newOptions;
+    httpClientAdapter = HttpClientAdapter();
     interceptors.addAll([
       _urlInterceptor,
       _apiKeyInterceptor,
@@ -87,10 +88,8 @@ class PrivateDio with DioMixin implements Dio {
         requestHeader: true,
         requestBody: true,
       ),
-      if (kDebugMode || kProfileMode) _alice.getDioInterceptor(),
+      if (kDebugMode || kProfileMode) _aliceDioAdapter,
     ]);
-
-    httpClientAdapter = DefaultHttpClientAdapter();
   }
 
   final ApiKeyInterceptor _apiKeyInterceptor;
@@ -98,4 +97,5 @@ class PrivateDio with DioMixin implements Dio {
   final TokenInterceptor _tokenInterceptor;
   final SignatureInterceptor _signatureInterceptor;
   final Alice _alice;
+  final AliceDioAdapter _aliceDioAdapter;
 }

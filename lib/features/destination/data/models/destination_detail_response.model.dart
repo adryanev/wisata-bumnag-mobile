@@ -9,7 +9,7 @@ part 'destination_detail_response.model.freezed.dart';
 part 'destination_detail_response.model.g.dart';
 
 @freezed
-class DestinationDetailResponse with _$DestinationDetailResponse {
+abstract class DestinationDetailResponse with _$DestinationDetailResponse {
   const factory DestinationDetailResponse({
     required int id,
     required String name,

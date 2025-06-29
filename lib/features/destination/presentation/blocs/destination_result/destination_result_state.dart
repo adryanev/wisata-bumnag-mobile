@@ -1,7 +1,7 @@
 part of 'destination_result_bloc.dart';
 
 @freezed
-class DestinationResultState with _$DestinationResultState {
+abstract class DestinationResultState with _$DestinationResultState {
   const factory DestinationResultState({
     required DestinationResultStatus status,
     required List<Destination> destinations,

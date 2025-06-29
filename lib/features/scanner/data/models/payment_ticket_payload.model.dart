@@ -4,7 +4,7 @@ part 'payment_ticket_payload.model.freezed.dart';
 part 'payment_ticket_payload.model.g.dart';
 
 @freezed
-class PaymentTicketPayload with _$PaymentTicketPayload {
+abstract class PaymentTicketPayload with _$PaymentTicketPayload {
   const factory PaymentTicketPayload({
     required String orderNumber,
   }) = _PaymentTicketPayload;

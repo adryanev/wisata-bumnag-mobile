@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart' hide Order;
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wisatabumnag/core/domain/failures/failure.codegen.dart';
 import 'package:wisatabumnag/shared/data/models/pagination_response.model.dart';
@@ -19,7 +19,7 @@ class OrderRepositoryImpl implements OrderRepository {
   const OrderRepositoryImpl(this._remoteDataSource);
   final OrderRemoteDataSource _remoteDataSource;
   @override
-  Future<Either<Failure, Order>> createOrder(OrderForm form) =>
+  Future<Either<Failure, UserOrder>> createOrder(OrderForm form) =>
       _remoteDataSource.createOrder(OrderPayload.fromDomain(form)).then(
             (value) => value.map(
               (r) => r.toDomain(),
@@ -35,7 +35,7 @@ class OrderRepositoryImpl implements OrderRepository {
           );
 
   @override
-  Future<Either<Failure, Paginable<Order>>> orderHistories({
+  Future<Either<Failure, Paginable<UserOrder>>> orderHistories({
     required int page,
   }) =>
       _remoteDataSource.orderHistories(page: page).then(

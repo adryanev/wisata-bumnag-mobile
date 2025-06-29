@@ -1,7 +1,7 @@
 part of 'scan_detail_bloc.dart';
 
 @freezed
-class ScanDetailEvent with _$ScanDetailEvent {
+abstract class ScanDetailEvent with _$ScanDetailEvent {
   const factory ScanDetailEvent.started(OrderHistoryItem orderHistoryItem) =
       _ScanDetailStarted;
   const factory ScanDetailEvent.payNowButtonPressed() =

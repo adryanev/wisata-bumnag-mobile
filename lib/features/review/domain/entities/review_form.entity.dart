@@ -6,7 +6,7 @@ import 'package:wisatabumnag/shared/orders/domain/entities/order.entity.dart';
 part 'review_form.entity.freezed.dart';
 
 @freezed
-class ReviewForm with _$ReviewForm {
+abstract class ReviewForm with _$ReviewForm {
   const factory ReviewForm({
     required String title,
     required String description,

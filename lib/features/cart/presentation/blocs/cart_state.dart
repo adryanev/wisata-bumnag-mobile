@@ -1,7 +1,7 @@
 part of 'cart_bloc.dart';
 
 @freezed
-class CartState with _$CartState {
+abstract class CartState with _$CartState {
   const factory CartState({
     required Pair<DestinationSouvenir, Souvenir>? temporary,
     required List<CartSouvenir> cartSouvenir,

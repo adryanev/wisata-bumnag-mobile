@@ -1,7 +1,7 @@
 part of 'splash_bloc.dart';
 
 @freezed
-class SplashState with _$SplashState {
+abstract class SplashState with _$SplashState {
   const factory SplashState({
     required Option<Either<Failure, RemoteConfig<String, String>>>
         apiUrlOrFailureOption,

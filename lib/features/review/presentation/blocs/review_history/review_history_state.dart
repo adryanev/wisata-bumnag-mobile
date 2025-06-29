@@ -1,7 +1,7 @@
 part of 'review_history_bloc.dart';
 
 @freezed
-class ReviewHistoryState with _$ReviewHistoryState {
+abstract class ReviewHistoryState with _$ReviewHistoryState {
   const factory ReviewHistoryState({
     required ReviewHistory status,
     required bool hasReachedMax,

@@ -4,7 +4,7 @@ part 'ad_banner_response.model.freezed.dart';
 part 'ad_banner_response.model.g.dart';
 
 @freezed
-class AdBannerResponse with _$AdBannerResponse {
+abstract class AdBannerResponse with _$AdBannerResponse {
   const factory AdBannerResponse({
     required int? id,
     required String name,

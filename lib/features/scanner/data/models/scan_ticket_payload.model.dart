@@ -4,7 +4,7 @@ part 'scan_ticket_payload.model.freezed.dart';
 part 'scan_ticket_payload.model.g.dart';
 
 @freezed
-class ScanTicketPayload with _$ScanTicketPayload {
+abstract class ScanTicketPayload with _$ScanTicketPayload {
   const factory ScanTicketPayload({
     required String number,
     required DateTime orderDate,

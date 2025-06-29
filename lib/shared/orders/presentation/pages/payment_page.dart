@@ -18,7 +18,7 @@ class PaymentPage extends StatelessWidget with FailureMessageHandler {
     required this.order,
     super.key,
   });
-  final Order order;
+  final UserOrder order;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class PaymentPage extends StatelessWidget with FailureMessageHandler {
                 if (r.url.isEmpty) {
                   return context.goNamed(AppRouter.paymentDone, extra: true);
                 }
-                return context.pushNamed(AppRouter.onlinePayment, extra: r.url);
+                context.pushNamed(AppRouter.onlinePayment, extra: r.url);
               },
             ),
           );
@@ -147,7 +147,7 @@ class RincianBiayaWidget extends StatelessWidget {
     required this.order,
     super.key,
   });
-  final Order order;
+  final UserOrder order;
   @override
   Widget build(BuildContext context) {
     return Padding(

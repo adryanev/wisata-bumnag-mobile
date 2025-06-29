@@ -1,7 +1,7 @@
 part of 'review_form_bloc.dart';
 
 @freezed
-class ReviewFormState with _$ReviewFormState {
+abstract class ReviewFormState with _$ReviewFormState {
   const factory ReviewFormState({
     required String title,
     required String description,

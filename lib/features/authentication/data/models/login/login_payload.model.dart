@@ -8,7 +8,7 @@ part 'login_payload.model.freezed.dart';
 part 'login_payload.model.g.dart';
 
 @freezed
-class LoginPayload with _$LoginPayload {
+abstract class LoginPayload with _$LoginPayload {
   const factory LoginPayload({
     @JsonKey(name: 'email') required String emailAddress,
     @JsonKey(name: 'password') required String password,

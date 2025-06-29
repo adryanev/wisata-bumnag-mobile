@@ -59,30 +59,37 @@ class _PackageDetailPageState extends State<PackageDetailPage>
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              state.maybeWhen(
-                authenticated: (_) => context.pushNamed(
-                  AppRouter.packageOrder,
-                  extra: _packageDetail,
-                ),
-                unauthenticated: () => showDialog<void>(
-                  context: context,
-                  builder: (_) => ConfirmationDialog(
-                    title: 'Harus Masuk',
-                    description: 'Untuk memesan item ini anda harus masuk '
-                        'terlebih dahulu.',
-                    confirmText: 'Masuk',
-                    dismissText: 'Batal',
-                    onDismiss: () {
-                      Navigator.pop(context);
-                    },
-                    onConfirm: () {
-                      context.pushNamed(AppRouter.login);
-                    },
-                  ),
-                ),
-                failed: (failure) => handleFailure(context, failure),
-                orElse: () => null,
-              );
+              switch (state) {
+                case AuthenticationAuthenticated():
+                  context.pushNamed(
+                    AppRouter.packageOrder,
+                    extra: _packageDetail,
+                  );
+                  break;
+                case AuthenticationUnauthenticated():
+                  showDialog<void>(
+                    context: context,
+                    builder: (_) => ConfirmationDialog(
+                      title: 'Harus Masuk',
+                      description: 'Untuk memesan item ini anda harus masuk '
+                          'terlebih dahulu.',
+                      confirmText: 'Masuk',
+                      dismissText: 'Batal',
+                      onDismiss: () {
+                        Navigator.pop(context);
+                      },
+                      onConfirm: () {
+                        context.pushNamed(AppRouter.login);
+                      },
+                    ),
+                  );
+                  break;
+                case AuthenticationFailed(failure: final failure):
+                  handleFailure(context, failure);
+                  break;
+                case AuthenticationInitial():
+                  break;
+              }
             },
           ),
         ],
@@ -588,7 +595,7 @@ class PackageDetailReviewAndRecommendationWidget extends StatelessWidget {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.packageDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id':
                             packageDetail.recommendations[index].id.toString(),
                       },

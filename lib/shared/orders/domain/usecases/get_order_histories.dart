@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart' hide Order;
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -10,12 +10,12 @@ import 'package:wisatabumnag/shared/orders/domain/repositories/order_repository.
 
 @lazySingleton
 class GetOrderHistories
-    extends UseCase<Paginable<Order>, GetOrderHistoriesParams> {
+    extends UseCase<Paginable<UserOrder>, GetOrderHistoriesParams> {
   const GetOrderHistories(this._repository);
 
   final OrderRepository _repository;
   @override
-  Future<Either<Failure, Paginable<Order>>> call(
+  Future<Either<Failure, Paginable<UserOrder>>> call(
     GetOrderHistoriesParams params,
   ) =>
       _repository.orderHistories(page: params.page);

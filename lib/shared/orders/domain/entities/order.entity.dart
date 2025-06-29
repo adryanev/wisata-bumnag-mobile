@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'order.entity.freezed.dart';
 
 @freezed
-class Order with _$Order {
-  const factory Order({
+abstract class UserOrder with _$UserOrder {
+  const factory UserOrder({
     required String number,
     required String note,
     required OrderStatus status,
@@ -13,11 +13,11 @@ class Order with _$Order {
     required String? qrCode,
     required PaymentType? paymentType,
     required List<OrderDetail> orderDetails,
-  }) = _Order;
+  }) = _UserOrder;
 }
 
 @freezed
-class OrderDetail with _$OrderDetail {
+abstract class OrderDetail with _$OrderDetail {
   const factory OrderDetail({
     required int id,
     required String orderableType,
@@ -33,7 +33,7 @@ class OrderDetail with _$OrderDetail {
 }
 
 @freezed
-class OrderableDetail with _$OrderableDetail {
+abstract class OrderableDetail with _$OrderableDetail {
   const factory OrderableDetail({
     required int id,
     required String name,

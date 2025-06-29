@@ -1,7 +1,7 @@
 part of 'package_order_bloc.dart';
 
 @freezed
-class PackageOrderEvent with _$PackageOrderEvent {
+abstract class PackageOrderEvent with _$PackageOrderEvent {
   const factory PackageOrderEvent.started(
     PackageDetail packageDetail,
   ) = _PackageOrderStarted;

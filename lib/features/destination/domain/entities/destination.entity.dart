@@ -5,7 +5,7 @@ import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'destination.entity.freezed.dart';
 
 @freezed
-class Destination with _$Destination {
+abstract class Destination with _$Destination {
   const factory Destination({
     required int id,
     required String name,

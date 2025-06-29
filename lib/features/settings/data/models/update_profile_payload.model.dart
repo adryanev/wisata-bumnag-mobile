@@ -4,7 +4,7 @@ part 'update_profile_payload.model.freezed.dart';
 part 'update_profile_payload.model.g.dart';
 
 @freezed
-class UpdateProfilePayload with _$UpdateProfilePayload {
+abstract class UpdateProfilePayload with _$UpdateProfilePayload {
   const factory UpdateProfilePayload({
     required String name,
     required String? nik,

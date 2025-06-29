@@ -3,7 +3,7 @@ import 'package:wisatabumnag/shared/domain/entities/review_aggregate.entity.dart
 part 'souvenir.entity.freezed.dart';
 
 @freezed
-class Souvenir with _$Souvenir {
+abstract class Souvenir with _$Souvenir {
   const factory Souvenir({
     required int id,
     required String name,

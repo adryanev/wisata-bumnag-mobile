@@ -4,7 +4,7 @@ import 'package:wisatabumnag/shared/domain/entities/ticketable.entity.dart';
 part 'event.entity.freezed.dart';
 
 @freezed
-class Event with _$Event {
+abstract class Event with _$Event {
   const factory Event({
     required int id,
     required String name,

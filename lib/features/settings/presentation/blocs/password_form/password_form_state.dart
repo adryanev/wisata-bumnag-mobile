@@ -1,7 +1,7 @@
 part of 'password_form_bloc.dart';
 
 @freezed
-class PasswordFormState with _$PasswordFormState {
+abstract class PasswordFormState with _$PasswordFormState {
   const factory PasswordFormState({
     required bool isLoading,
     required PasswordInput oldPassword,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/alice.dart';
+import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:wisatabumnag/core/networks/models/base_response.model.dart';
@@ -19,13 +20,14 @@ class RefreshTokenInterceptor extends Interceptor {
   final Alice _alice;
 
   @override
-  Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+      DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == HttpStatus.unauthorized) {
       final url = await _localStorage.getBaseUrl();
 
       try {
         _dio.interceptors.clear();
-        _dio.interceptors.add(_alice.getDioInterceptor());
+        _dio.interceptors.add(AliceDioAdapter());
         final apiKey = await _localStorage.getApiKey();
         final token = await _localStorage.getAccessToken();
         final accessTime = DateTime.now().millisecondsSinceEpoch / 1000;

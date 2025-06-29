@@ -1,7 +1,7 @@
 part of 'souvenir_list_bloc.dart';
 
 @freezed
-class SouvenirListState with _$SouvenirListState {
+abstract class SouvenirListState with _$SouvenirListState {
   const factory SouvenirListState({
     required SouvenirListStatus status,
     required List<DestinationSouvenir> souvenirs,

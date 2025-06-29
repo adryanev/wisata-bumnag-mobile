@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ad_banner.entity.freezed.dart';
 
 @freezed
-class AdBanner with _$AdBanner {
+abstract class AdBanner with _$AdBanner {
   const factory AdBanner({
     required int? id,
     required String name,

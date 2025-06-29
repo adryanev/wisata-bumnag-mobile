@@ -1,7 +1,7 @@
 part of 'destination_detail_bloc.dart';
 
 @freezed
-class DestinationDetailState with _$DestinationDetailState {
+abstract class DestinationDetailState with _$DestinationDetailState {
   const factory DestinationDetailState({
     required bool isLoading,
     required Option<Either<Failure, DestinationDetail>>

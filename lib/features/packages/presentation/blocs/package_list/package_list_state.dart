@@ -1,7 +1,7 @@
 part of 'package_list_bloc.dart';
 
 @freezed
-class PackageListState with _$PackageListState {
+abstract class PackageListState with _$PackageListState {
   const factory PackageListState({
     required PackageListStatus status,
     required List<Package> packages,

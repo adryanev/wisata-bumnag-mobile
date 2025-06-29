@@ -1,7 +1,7 @@
 part of 'review_waiting_bloc.dart';
 
 @freezed
-class ReviewWaitingState with _$ReviewWaitingState {
+abstract class ReviewWaitingState with _$ReviewWaitingState {
   const factory ReviewWaitingState({
     required ReviewWaiting status,
     required bool hasReachedMax,

@@ -124,7 +124,7 @@ final appRouter = GoRouter(
           path: 'detail',
           name: AppRouter.destinationDetail,
           builder: (context, state) {
-            final id = state.queryParams['id'];
+            final id = state.uri.queryParameters['id'];
             return DestinationDetailPage(destinationId: id);
           },
         ),
@@ -145,7 +145,7 @@ final appRouter = GoRouter(
       path: '/payment',
       name: AppRouter.payment,
       builder: (context, state) {
-        final order = state.extra as Order?;
+        final order = state.extra as UserOrder?;
         if (order == null) {
           return const SizedBox();
         }
@@ -190,7 +190,7 @@ final appRouter = GoRouter(
           path: 'detail',
           name: AppRouter.packageDetail,
           builder: (context, state) {
-            final id = state.queryParams['id'];
+            final id = state.uri.queryParameters['id'];
             return PackageDetailPage(packageId: id);
           },
         ),
@@ -221,7 +221,7 @@ final appRouter = GoRouter(
           path: 'detail',
           name: AppRouter.eventDetail,
           builder: (context, state) {
-            final id = state.queryParams['id'];
+            final id = state.uri.queryParameters['id'];
             return EventDetailPage(
               eventId: id,
             );
@@ -356,7 +356,7 @@ final appRouter = GoRouter(
       path: '/webview',
       name: AppRouter.webview,
       builder: (context, state) {
-        final params = state.queryParams;
+        final params = state.uri.queryParameters;
         return WebViewPage(url: params['url']!, title: params['title']!);
       },
     ),

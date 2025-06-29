@@ -4,7 +4,7 @@ part 'explore_response.model.freezed.dart';
 part 'explore_response.model.g.dart';
 
 @freezed
-class ExploreResponse with _$ExploreResponse {
+abstract class ExploreResponse with _$ExploreResponse {
   const factory ExploreResponse({
     required int id,
     required double rating,
@@ -34,7 +34,7 @@ extension ExploreResponseX on ExploreResponse {
 }
 
 @freezed
-class ExploreUserResponse with _$ExploreUserResponse {
+abstract class ExploreUserResponse with _$ExploreUserResponse {
   const factory ExploreUserResponse({
     required int id,
     required String name,
@@ -55,7 +55,7 @@ extension ExploreUserResponseX on ExploreUserResponse {
 }
 
 @freezed
-class ExploreReviewableResponse with _$ExploreReviewableResponse {
+abstract class ExploreReviewableResponse with _$ExploreReviewableResponse {
   const factory ExploreReviewableResponse({
     required int id,
     required String? type,

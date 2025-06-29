@@ -1,7 +1,7 @@
 part of 'package_detail_bloc.dart';
 
 @freezed
-class PackageDetailState with _$PackageDetailState {
+abstract class PackageDetailState with _$PackageDetailState {
   const factory PackageDetailState({
     required bool isLoading,
     required Option<Either<Failure, PackageDetail>>

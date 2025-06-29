@@ -5,7 +5,7 @@ part 'ticketable_response.model.freezed.dart';
 part 'ticketable_response.model.g.dart';
 
 @freezed
-class TicketableResponse with _$TicketableResponse {
+abstract class TicketableResponse with _$TicketableResponse {
   const factory TicketableResponse({
     required int id,
     required String name,

@@ -83,9 +83,9 @@ class _SouvenirListPageState extends State<SouvenirListPage>
             },
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              state.maybeWhen(
-                authenticated: (_) async {
+            listener: (context, state) async {
+              switch (state) {
+                case AuthenticationAuthenticated():
                   final cartBloc = context.read<CartBloc>();
                   if (showBottomSheet.value) {
                     showBottomSheet.value = false;
@@ -122,8 +122,8 @@ class _SouvenirListPageState extends State<SouvenirListPage>
                     }
                     showBottomSheet.value = true;
                   }
-                },
-                unauthenticated: () {
+                  break;
+                case AuthenticationUnauthenticated():
                   showDialog<void>(
                     context: context,
                     builder: (_) => ConfirmationDialog(
@@ -140,10 +140,13 @@ class _SouvenirListPageState extends State<SouvenirListPage>
                       },
                     ),
                   );
-                },
-                failed: (l) => handleFailure(context, l),
-                orElse: () => null,
-              );
+                  break;
+                case AuthenticationFailed(failure: final l):
+                  handleFailure(context, l);
+                  break;
+                case AuthenticationInitial():
+                  break;
+              }
             },
           ),
           BlocListener<CartBloc, CartState>(

@@ -4,7 +4,7 @@ part 'ticket_setting_response.model.freezed.dart';
 part 'ticket_setting_response.model.g.dart';
 
 @freezed
-class TicketSettingResponse with _$TicketSettingResponse {
+abstract class TicketSettingResponse with _$TicketSettingResponse {
   const factory TicketSettingResponse({
     required int id,
     required int ticketId,

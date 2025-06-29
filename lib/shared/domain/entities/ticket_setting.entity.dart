@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ticket_setting.entity.freezed.dart';
 
 @freezed
-class TicketSetting with _$TicketSetting {
+abstract class TicketSetting with _$TicketSetting {
   const factory TicketSetting({
     required int id,
     required int ticketId,

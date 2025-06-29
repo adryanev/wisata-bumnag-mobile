@@ -1,7 +1,7 @@
 part of 'splash_bloc.dart';
 
 @freezed
-class SplashEvent with _$SplashEvent {
+abstract class SplashEvent with _$SplashEvent {
   const factory SplashEvent.fetchApiUrl() = _SplashFetchApiUrl;
   const factory SplashEvent.saveApiUrl(RemoteConfig<String, String> config) =
       _SplashSaveApiUrl;

@@ -7,7 +7,7 @@ part 'user_local_model.model.freezed.dart';
 part 'user_local_model.model.g.dart';
 
 @freezed
-class UserLocalModel with _$UserLocalModel {
+abstract class UserLocalModel with _$UserLocalModel {
   const factory UserLocalModel({
     required int id,
     required String email,

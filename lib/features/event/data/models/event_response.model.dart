@@ -6,7 +6,7 @@ part 'event_response.model.freezed.dart';
 part 'event_response.model.g.dart';
 
 @freezed
-class EventResponse with _$EventResponse {
+abstract class EventResponse with _$EventResponse {
   const factory EventResponse({
     required int id,
     required String name,

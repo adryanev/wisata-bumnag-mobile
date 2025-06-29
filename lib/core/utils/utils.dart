@@ -56,7 +56,7 @@ final appTheme = ThemeData(
   primarySwatch: createMaterialColor(AppColor.primary),
   scaffoldBackgroundColor: const Color(0xFFFFFFFF),
   fontFamily: GoogleFonts.poppins().fontFamily,
-  cardTheme: const CardTheme(shadowColor: Color(0xFFDFDFDF)),
+  cardTheme: const CardThemeData(shadowColor: Color(0xFFDFDFDF)),
   textTheme: Typography.englishLike2018.apply(
     fontSizeFactor: 1.sp,
     bodyColor: AppColor.black,

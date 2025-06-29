@@ -7,7 +7,7 @@ part 'package_response.model.freezed.dart';
 part 'package_response.model.g.dart';
 
 @freezed
-class PackageResponse with _$PackageResponse {
+abstract class PackageResponse with _$PackageResponse {
   const factory PackageResponse({
     required int id,
     required String name,

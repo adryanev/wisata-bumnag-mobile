@@ -240,7 +240,9 @@ class _ReviewFormPageState extends State<ReviewFormPage>
                                           borderRadius:
                                               BorderRadius.circular(4.r),
                                           child: DottedBorder(
-                                            color: AppColor.darkGrey,
+                                            options: RectDottedBorderOptions(
+                                              color: AppColor.darkGrey,
+                                            ),
                                             child: Container(
                                               height: 80.w,
                                               width: 75.w,

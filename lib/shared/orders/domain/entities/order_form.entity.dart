@@ -3,7 +3,7 @@ import 'package:wisatabumnag/shared/orders/domain/entities/orderable.entity.dart
 part 'order_form.entity.freezed.dart';
 
 @freezed
-class OrderForm with _$OrderForm {
+abstract class OrderForm with _$OrderForm {
   const factory OrderForm({
     required double totalPrice,
     required DateTime orderDate,

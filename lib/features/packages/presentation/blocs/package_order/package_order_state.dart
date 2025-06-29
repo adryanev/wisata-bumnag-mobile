@@ -1,7 +1,7 @@
 part of 'package_order_bloc.dart';
 
 @freezed
-class PackageOrderState with _$PackageOrderState {
+abstract class PackageOrderState with _$PackageOrderState {
   const factory PackageOrderState({
     required bool isLoading,
     required List<Ticketable> tickets,
@@ -10,7 +10,7 @@ class PackageOrderState with _$PackageOrderState {
     required List<Orderable> cart,
     required DateTime orderForDate,
     required bool isSubmitting,
-    required Option<Either<Failure, Order>> createOrderOfFailureOption,
+    required Option<Either<Failure, UserOrder>> createOrderOfFailureOption,
   }) = _PackageOrderState;
   factory PackageOrderState.initial() => PackageOrderState(
         isLoading: false,

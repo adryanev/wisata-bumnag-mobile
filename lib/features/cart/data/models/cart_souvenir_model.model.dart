@@ -5,7 +5,7 @@ part 'cart_souvenir_model.model.freezed.dart';
 part 'cart_souvenir_model.model.g.dart';
 
 @freezed
-class CartSouvenirModel with _$CartSouvenirModel {
+abstract class CartSouvenirModel with _$CartSouvenirModel {
   const factory CartSouvenirModel({
     required int destinationId,
     required String destinationName,

@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'notification.entity.freezed.dart';
 
 @freezed
-class Notification with _$Notification {
+abstract class Notification with _$Notification {
   const factory Notification({
     required String id,
     required String type,
@@ -14,7 +14,7 @@ class Notification with _$Notification {
 }
 
 @freezed
-class NotificationData with _$NotificationData {
+abstract class NotificationData with _$NotificationData {
   const factory NotificationData({
     required int id,
     required String body,

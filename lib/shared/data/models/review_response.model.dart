@@ -5,7 +5,7 @@ part 'review_response.model.freezed.dart';
 part 'review_response.model.g.dart';
 
 @freezed
-class ReviewResponse with _$ReviewResponse {
+abstract class ReviewResponse with _$ReviewResponse {
   const factory ReviewResponse({
     required int id,
     required String title,

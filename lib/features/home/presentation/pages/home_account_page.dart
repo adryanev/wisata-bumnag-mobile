@@ -42,61 +42,62 @@ class ProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox(),
-          unauthenticated: () => const SizedBox(),
-          authenticated: (user) => Center(
-            child: Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 60.r,
-                  backgroundImage: CachedNetworkImageProvider(
-                    user.avatar ?? 'https://source.unsplash.com/random',
-                  ),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Text(
-                  user.name.getOrCrash(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.black,
-                    fontSize: 16.sp,
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(user.emailAddress.getOrCrash()),
-                Text(
-                  user.phoneNumber?.getOrCrash() ?? '',
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                TextButton(
-                  onPressed: () {
-                    context
-                      ..read<AuthenticationBloc>()
-                          .add(const AuthenticationEvent.loggedOut())
-                      ..read<HomeBloc>()
-                          .add(const HomeEvent.bottomNavigatonChanged(0));
-                  },
-                  child: Text(
-                    'Logout',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14.sp,
+        return switch (state) {
+          AuthenticationInitial() => const SizedBox(),
+          AuthenticationUnauthenticated() => const SizedBox(),
+          AuthenticationAuthenticated(user: final user) => Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 60.r,
+                    backgroundImage: CachedNetworkImageProvider(
+                      user.avatar ?? 'https://source.unsplash.com/random',
                     ),
                   ),
-                )
-              ],
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Text(
+                    user.name.getOrCrash(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.black,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(user.emailAddress.getOrCrash()),
+                  Text(
+                    user.phoneNumber?.getOrCrash() ?? '',
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context
+                        ..read<AuthenticationBloc>()
+                            .add(const AuthenticationEvent.loggedOut())
+                        ..read<HomeBloc>()
+                            .add(const HomeEvent.bottomNavigatonChanged(0));
+                    },
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          failed: (failure) => const SizedBox(),
-        );
+          AuthenticationFailed() => const SizedBox(),
+          AuthenticationState() => const SizedBox(),
+        };
       },
     );
   }

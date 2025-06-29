@@ -6,11 +6,11 @@ part 'login_response.model.freezed.dart';
 part 'login_response.model.g.dart';
 
 @freezed
-class LoginResponse with _$LoginResponse {
+abstract class LoginResponse with _$LoginResponse {
   const factory LoginResponse({
     @JsonKey(name: 'user') required UserDataResponse user,
     @JsonKey(name: 'authorization')
-        required AuthorizationDataResponse authorization,
+    required AuthorizationDataResponse authorization,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
@@ -18,7 +18,7 @@ class LoginResponse with _$LoginResponse {
 }
 
 @freezed
-class UserDataResponse with _$UserDataResponse {
+abstract class UserDataResponse with _$UserDataResponse {
   const factory UserDataResponse({
     @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'email') required String? email,
@@ -46,7 +46,7 @@ extension UserDataResponseX on UserDataResponse {
 }
 
 @freezed
-class AuthorizationDataResponse with _$AuthorizationDataResponse {
+abstract class AuthorizationDataResponse with _$AuthorizationDataResponse {
   const factory AuthorizationDataResponse({
     @JsonKey(name: 'token') required String? accessToken,
   }) = _AuthorizationDataResponse;

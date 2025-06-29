@@ -5,7 +5,7 @@ part 'orderable_model.model.freezed.dart';
 part 'orderable_model.model.g.dart';
 
 @freezed
-class OrderableModel with _$OrderableModel {
+abstract class OrderableModel with _$OrderableModel {
   const factory OrderableModel({
     required String type,
     required int id,

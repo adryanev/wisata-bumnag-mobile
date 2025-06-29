@@ -64,30 +64,37 @@ class _EventDetailPageState extends State<EventDetailPage>
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              state.maybeWhen(
-                authenticated: (_) => context.pushNamed(
-                  AppRouter.eventOrder,
-                  extra: _eventDetail,
-                ),
-                unauthenticated: () => showDialog<void>(
-                  context: context,
-                  builder: (_) => ConfirmationDialog(
-                    title: 'Harus Masuk',
-                    description: 'Untuk memesan item ini anda harus masuk '
-                        'terlebih dahulu.',
-                    confirmText: 'Masuk',
-                    dismissText: 'Batal',
-                    onDismiss: () {
-                      Navigator.pop(context);
-                    },
-                    onConfirm: () {
-                      context.pushNamed(AppRouter.login);
-                    },
-                  ),
-                ),
-                failed: (failure) => handleFailure(context, failure),
-                orElse: () => null,
-              );
+              switch (state) {
+                case AuthenticationAuthenticated():
+                  context.pushNamed(
+                    AppRouter.eventOrder,
+                    extra: _eventDetail,
+                  );
+                  break;
+                case AuthenticationUnauthenticated():
+                  showDialog<void>(
+                    context: context,
+                    builder: (_) => ConfirmationDialog(
+                      title: 'Harus Masuk',
+                      description: 'Untuk memesan item ini anda harus masuk '
+                          'terlebih dahulu.',
+                      confirmText: 'Masuk',
+                      dismissText: 'Batal',
+                      onDismiss: () {
+                        Navigator.pop(context);
+                      },
+                      onConfirm: () {
+                        context.pushNamed(AppRouter.login);
+                      },
+                    ),
+                  );
+                  break;
+                case AuthenticationFailed(failure: final failure):
+                  handleFailure(context, failure);
+                  break;
+                case AuthenticationInitial():
+                  break;
+              }
             },
           ),
         ],
@@ -551,7 +558,7 @@ class EventDetailReviewAndRecommendationWidget extends StatelessWidget {
                   onTap: () {
                     context.pushNamed(
                       AppRouter.eventDetail,
-                      queryParams: {
+                      queryParameters: {
                         'id': eventDetail.recommendations[index].id.toString(),
                       },
                     );

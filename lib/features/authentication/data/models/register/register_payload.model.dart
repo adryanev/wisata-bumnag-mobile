@@ -6,7 +6,7 @@ part 'register_payload.model.freezed.dart';
 part 'register_payload.model.g.dart';
 
 @freezed
-class RegisterPayload with _$RegisterPayload {
+abstract class RegisterPayload with _$RegisterPayload {
   const factory RegisterPayload({
     @JsonKey(name: 'email') required String email,
     @JsonKey(name: 'password') required String password,
